@@ -1,0 +1,229 @@
+#!/usr/bin/env bash
+# Manual-only endpoint selection for the TimeWeb -> Cenuta wg-up-cenuta upstream.
+set -euo pipefail
+
+container=wg-relay
+interface=wg-up-cenuta
+native_endpoint=89.252.153.129:51840
+carrier_ip=89.252.153.129
+backup_endpoint=127.0.0.1:51922
+xray_native_endpoint=89.252.153.129:51840
+xray_backup_endpoint=127.0.0.1:51924
+xray_config=/opt/timeweb-reality/config.json
+xray_binary=/opt/timeweb-reality/xray
+xray_service=xray-timeweb-reality.service
+xray_fallback_service=wstunnel-timeweb-cenuta-xray-fallback.service
+peer_probe_ip=10.40.40.1
+lock=/run/timeweb-cenuta-wg-transport.lock
+state_lock=/run/timeweb-wg-transport-state.lock
+state_file=/var/lib/vpn-uplink-pilot/transport-state.json
+upstream=cenuta
+xray_work_dir=/var/lib/vpn-uplink-pilot/xray-config
+
+usage() { echo "usage: $0 {status|backup|native}" >&2; exit 64; }
+
+namespace_pid() {
+  local pid
+  pid=$(docker inspect -f '{{.State.Pid}}' "$container" 2>/dev/null || true)
+  [[ -n "$pid" && "$pid" != 0 ]] || { echo "$container is not running" >&2; exit 1; }
+  printf '%s\n' "$pid"
+}
+
+peer_key() {
+  local pid=$1 peers
+  peers=$(nsenter -t "$pid" -n -- wg show "$interface" peers)
+  [[ $(printf '%s\n' "$peers" | sed '/^$/d' | wc -l) -eq 1 ]] || {
+    echo "expected exactly one $interface peer" >&2
+    exit 1
+  }
+  printf '%s\n' "$peers"
+}
+
+endpoint_now() {
+  nsenter -t "$1" -n -- wg show "$interface" endpoints | awk 'NR == 1 { print $2 }'
+}
+
+xray_endpoint_now() {
+  jq -r '[.outbounds[] | select(.tag == "wg-cenuta") | .settings.peers[]?.endpoint] | if length == 1 then .[0] else error("expected exactly one wg-cenuta endpoint") end' "$xray_config"
+}
+
+xray_set_endpoint() {
+  local target=$1 staged rollback owner group mode actual
+  if [[ "$(xray_endpoint_now)" == "$target" ]] && systemctl is-active --quiet "$xray_service"; then
+    return 0
+  fi
+  install -d -m 700 "$xray_work_dir"
+  staged=$(mktemp "$xray_work_dir/config.XXXXXX.json")
+  rollback=$(mktemp "$xray_work_dir/rollback.XXXXXX.json")
+  owner=$(stat -c '%u' "$xray_config")
+  group=$(stat -c '%g' "$xray_config")
+  mode=$(stat -c '%a' "$xray_config")
+  cp --preserve=mode,ownership,timestamps "$xray_config" "$rollback"
+
+  jq --arg target "$target" '
+    [.outbounds[] | select(.tag == "wg-cenuta") | .settings.peers] as $peers
+    | if ($peers | length) != 1 or ($peers[0] | length) != 1 then
+        error("expected exactly one wg-cenuta peer")
+      else
+        (.outbounds[] | select(.tag == "wg-cenuta") | .settings.peers[0].endpoint) = $target
+      end
+  ' "$xray_config" > "$staged"
+  "$xray_binary" run -test -config "$staged" >/dev/null
+  install -o "$owner" -g "$group" -m "$mode" "$staged" "$xray_config"
+
+  if systemctl restart "$xray_service" && systemctl is-active --quiet "$xray_service"; then
+    actual=$(xray_endpoint_now)
+    if [[ "$actual" == "$target" ]]; then
+      rm -f "$staged" "$rollback"
+      return 0
+    fi
+  fi
+
+  install -o "$owner" -g "$group" -m "$mode" "$rollback" "$xray_config"
+  systemctl restart "$xray_service" || true
+  rm -f "$staged" "$rollback"
+  echo "Xray endpoint transition to $target failed and was rolled back" >&2
+  return 1
+}
+
+xray_fallback_ready() {
+  local attempt
+  for attempt in $(seq 1 30); do
+    if ss -lunH "sport = :51924" | grep -q . &&
+       ip route get "$carrier_ip" | grep -q 'dev eth0'; then
+      return 0
+    fi
+    sleep 0.2
+  done
+  return 1
+}
+
+fallback_ready() {
+  local pid=$1 attempt
+  for attempt in $(seq 1 30); do
+    if nsenter -t "$pid" -n -- ss -lunH "sport = :51922" | grep -q . &&
+       nsenter -t "$pid" -n -- ip route get "$carrier_ip" | grep -q 'dev eth0'; then
+      return 0
+    fi
+    sleep 0.2
+  done
+  return 1
+}
+
+record_mode() {
+  local mode=$1 tmp now
+  install -d -m 700 /var/lib/vpn-uplink-pilot
+  exec 8>"$state_lock"
+  flock 8
+  tmp=$(mktemp "${state_file}.XXXXXX")
+  now=$(date +%s)
+  if [[ -f "$state_file" ]]; then
+    jq --arg upstream "$upstream" --arg mode "$mode" --argjson now "$now" \
+      '.version = 1 | .updated_unix = $now | .upstreams = (.upstreams // {})
+       | .upstreams[$upstream] = {mode: $mode, updated_unix: $now}' \
+      "$state_file" > "$tmp"
+  else
+    jq -n --arg upstream "$upstream" --arg mode "$mode" --argjson now "$now" \
+      '{version: 1, updated_unix: $now, upstreams: {($upstream): {mode: $mode, updated_unix: $now}}}' > "$tmp"
+  fi
+  install -o root -g root -m 600 "$tmp" "$state_file"
+}
+
+status() {
+  local pid endpoint handshake now age relay_mode xray_endpoint xray_mode mode
+  pid=$(namespace_pid)
+  endpoint=$(endpoint_now "$pid")
+  handshake=$(nsenter -t "$pid" -n -- wg show "$interface" latest-handshakes | awk 'NR == 1 { print $2 }')
+  now=$(date +%s)
+  if [[ "$handshake" == 0 ]]; then age=never; else age="$((now - handshake))s"; fi
+  relay_mode="$([[ "$endpoint" == "$backup_endpoint" ]] && echo backup || ([[ "$endpoint" == "$native_endpoint" ]] && echo native || echo custom))"
+  xray_endpoint=$(xray_endpoint_now)
+  xray_mode="$([[ "$xray_endpoint" == "$xray_backup_endpoint" ]] && echo backup || ([[ "$xray_endpoint" == "$xray_native_endpoint" ]] && echo native || echo custom))"
+  mode=$([[ "$relay_mode" == "$xray_mode" && "$relay_mode" != custom ]] && echo "$relay_mode" || echo partial)
+  printf 'mode=%s relay_mode=%s endpoint=%s handshake_age=%s xray_mode=%s xray_endpoint=%s\n' \
+    "$mode" "$relay_mode" "$endpoint" "$age" "$xray_mode" "$xray_endpoint"
+}
+
+switch_to_backup() {
+  local pid peer attempt
+  systemctl start wstunnel-timeweb-cenuta-wg-fallback.service
+  systemctl is-active --quiet wstunnel-timeweb-cenuta-wg-fallback.service || {
+    echo 'fallback client service did not start' >&2; exit 1;
+  }
+  systemctl start "$xray_fallback_service"
+  systemctl is-active --quiet "$xray_fallback_service" || {
+    echo 'Xray fallback client service did not start' >&2
+    systemctl stop wstunnel-timeweb-cenuta-wg-fallback.service || true
+    exit 1
+  }
+  xray_fallback_ready || {
+    echo 'Xray fallback listener or Cenuta bypass route is unavailable' >&2
+    systemctl stop "$xray_fallback_service" wstunnel-timeweb-cenuta-wg-fallback.service || true
+    exit 1
+  }
+  pid=$(namespace_pid)
+  fallback_ready "$pid" || {
+    echo 'fallback listener or Cenuta bypass route is unavailable in wg-relay namespace' >&2
+    systemctl stop "$xray_fallback_service" wstunnel-timeweb-cenuta-wg-fallback.service || true
+    exit 1
+  }
+  xray_set_endpoint "$xray_backup_endpoint" || {
+    systemctl stop "$xray_fallback_service" wstunnel-timeweb-cenuta-wg-fallback.service || true
+    exit 1
+  }
+  peer=$(peer_key "$pid")
+  # WireGuard learns its peer endpoint from authenticated packets.  A direct
+  # UDP packet in flight can immediately overwrite the local WSS endpoint, so
+  # force a control packet through WSS and accept the switch only after the
+  # local endpoint remains selected and the peer answers.  A fresh handshake
+  # is not required: WireGuard can carry this probe in an existing session.
+  for attempt in $(seq 1 5); do
+    nsenter -t "$pid" -n -- wg set "$interface" peer "$peer" endpoint "$backup_endpoint"
+    if ! nsenter -t "$pid" -n -- ping -n -I "$interface" -c 1 -W 2 "$peer_probe_ip" >/dev/null 2>&1; then
+      sleep 1
+      continue
+    fi
+    sleep 1
+    if [[ "$(endpoint_now "$pid")" == "$backup_endpoint" ]]; then
+      record_mode backup
+      status
+      return 0
+    fi
+  done
+
+  nsenter -t "$pid" -n -- wg set "$interface" peer "$peer" endpoint "$native_endpoint"
+  xray_set_endpoint "$xray_native_endpoint" || true
+  systemctl stop "$xray_fallback_service" || true
+  systemctl stop wstunnel-timeweb-cenuta-wg-fallback.service
+  record_mode native
+  echo 'WSS backup handshake was not established; restored native UDP' >&2
+  exit 1
+}
+
+switch_to_native() {
+  local pid peer
+  xray_set_endpoint "$xray_native_endpoint" || exit 1
+  systemctl stop "$xray_fallback_service" || true
+  systemctl stop wstunnel-timeweb-cenuta-wg-fallback.service
+  pid=$(namespace_pid)
+  peer=$(peer_key "$pid")
+  nsenter -t "$pid" -n -- wg set "$interface" peer "$peer" endpoint "$native_endpoint"
+  [[ "$(endpoint_now "$pid")" == "$native_endpoint" ]] || {
+    echo 'native endpoint was not applied' >&2; exit 1;
+  }
+  record_mode native
+  status
+}
+
+[[ $# -eq 1 ]] || usage
+if [[ "$1" == status ]]; then
+  status
+  exit 0
+fi
+exec 9>"$lock"
+flock -n 9 || { echo 'another endpoint switch is in progress' >&2; exit 1; }
+case "$1" in
+  backup) switch_to_backup ;;
+  native) switch_to_native ;;
+  *) usage ;;
+esac

@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+# Console-safe dispatcher. Mutating actions execute in a dedicated root unit.
+set -euo pipefail
+
+controller=/usr/local/sbin/timeweb-cenuta-wg-transport
+
+case "${1:-}" in
+  status)
+    exec "$controller" status
+    ;;
+  backup|native)
+    systemctl start --wait "timeweb-cenuta-wg-transport@${1}.service"
+    exec "$controller" status
+    ;;
+  *)
+    echo "usage: $0 {status|backup|native}" >&2
+    exit 64
+    ;;
+esac

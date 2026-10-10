@@ -1,0 +1,79 @@
+{
+  "cenuta": {
+    "assessment": {
+      "kind": "healthy",
+      "reason": "ok",
+      "scope": "https_available",
+      "available": true,
+      "transport_alive": null,
+      "signals": []
+    },
+    "probes": [
+      {
+        "target": "gstatic",
+        "family": "google",
+        "valid": true,
+        "success": true,
+        "reason": "ok",
+        "phase": "http",
+        "tcp_success": true,
+        "tls_success": true,
+        "http": 204,
+        "seconds": 0.470666,
+        "generation": 5
+      },
+      {
+        "target": "cloudflare",
+        "family": "cloudflare",
+        "valid": true,
+        "success": true,
+        "reason": "ok",
+        "phase": "http",
+        "tcp_success": true,
+        "tls_success": true,
+        "http": 200,
+        "seconds": 0.490434,
+        "generation": 5
+      }
+    ]
+  },
+  "fornex": {
+    "assessment": {
+      "kind": "healthy",
+      "reason": "ok",
+      "scope": "https_available",
+      "available": true,
+      "transport_alive": null,
+      "signals": []
+    },
+    "probes": [
+      {
+        "target": "gstatic",
+        "family": "google",
+        "valid": true,
+        "success": true,
+        "reason": "ok",
+        "phase": "http",
+        "tcp_success": true,
+        "tls_success": true,
+        "http": 204,
+        "seconds": 0.20555,
+        "generation": 5
+      },
+      {
+        "target": "cloudflare",
+        "family": "cloudflare",
+        "valid": true,
+        "success": true,
+        "reason": "ok",
+        "phase": "http",
+        "tcp_success": true,
+        "tls_success": true,
+        "http": 200,
+        "seconds": 0.213386,
+        "generation": 5
+      }
+    ]
+  },
+  "limitations": "Sequential one-shot probes, not a 10-second scheduler baseline or client application regression."
+}

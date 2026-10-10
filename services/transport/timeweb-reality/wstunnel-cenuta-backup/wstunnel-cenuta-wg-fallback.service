@@ -1,0 +1,17 @@
+[Unit]
+Description=WSS fallback transport for TimeWeb to Cenuta WireGuard exit
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+ExecStart=/usr/local/lib/wstunnel/wstunnel server --tls-certificate /etc/wstunnel/cenuta-wg-fallback/server.crt --tls-private-key /etc/wstunnel/cenuta-wg-fallback/server.key --tls-client-ca-certs /etc/wstunnel/cenuta-wg-fallback/ca.crt --restrict-to 127.0.0.1:51840 wss://0.0.0.0:8443
+Restart=on-failure
+RestartSec=5
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectHome=true
+ProtectSystem=strict
+
+[Install]
+WantedBy=multi-user.target

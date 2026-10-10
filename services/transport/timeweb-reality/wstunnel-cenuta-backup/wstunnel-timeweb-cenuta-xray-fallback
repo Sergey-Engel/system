@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+# Provide the local WSS-backed UDP endpoint consumed by xray-timeweb-reality.
+set -euo pipefail
+
+cenuta_ip=89.252.153.129
+local_port=51924
+remote_port=51840
+certificate_dir=/etc/wstunnel/timeweb-cenuta-wg-fallback
+
+while true; do
+  # This process must never follow the wg-up-cenuta overlay to its carrier.
+  if ! ip route get "$cenuta_ip" | grep -q 'dev eth0'; then
+    sleep 5
+    continue
+  fi
+
+  /usr/local/lib/wstunnel/wstunnel client \
+    --tls-verify-certificate \
+    --tls-certificate "$certificate_dir/client.crt" \
+    --tls-private-key "$certificate_dir/client.key" \
+    --websocket-ping-frequency 20s \
+    -L "udp://127.0.0.1:${local_port}:127.0.0.1:${remote_port}?timeout_sec=0" \
+    "wss://${cenuta_ip}:8443" || true
+  sleep 2
+done

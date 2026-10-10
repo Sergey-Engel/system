@@ -1,0 +1,21 @@
+[Unit]
+Description=TimeWeb uplink pilot (limited generation coverage)
+After=network-online.target docker.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/vpn-monitoring/pilot/collector
+ExecStart=/opt/vpn-monitoring/pilot/.venv/bin/python -m uplink_monitor.daemon --pilot --config /opt/vpn-monitoring/pilot/config.json --state-dir /var/lib/vpn-uplink-pilot
+Restart=on-failure
+RestartSec=30
+TimeoutStopSec=50
+KillMode=control-group
+UMask=0077
+Nice=10
+MemoryMax=160M
+CPUQuota=30%
+TasksMax=64
+
+[Install]
+WantedBy=multi-user.target

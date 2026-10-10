@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+# Provide the local WSS-backed UDP endpoint consumed by xray-timeweb-reality.
+set -euo pipefail
+
+fornex_ip=103.75.126.143
+local_port=51923
+remote_port=51821
+certificate_dir=/etc/wstunnel/timeweb-fornex-wg-fallback
+
+while true; do
+  # This process must never follow an overlay route to the carrier itself.
+  if ! ip route get "$fornex_ip" | grep -q 'dev eth0'; then
+    sleep 5
+    continue
+  fi
+
+  /usr/local/lib/wstunnel/wstunnel client \
+    --tls-verify-certificate \
+    --tls-certificate "$certificate_dir/client.crt" \
+    --tls-private-key "$certificate_dir/client.key" \
+    --websocket-ping-frequency 20s \
+    -L "udp://127.0.0.1:${local_port}:127.0.0.1:${remote_port}?timeout_sec=0" \
+    "wss://${fornex_ip}:8443" || true
+  sleep 2
+done

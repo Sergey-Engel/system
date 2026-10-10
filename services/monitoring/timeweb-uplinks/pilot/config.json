@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "retention_days": 7,
+  "helper": "/opt/vpn-monitoring/pilot/candidate/guardctl-batch.sh",
+  "manifest": "/opt/vpn-monitoring/guards/guard-manifest.json",
+  "helper_sha256": {
+    "guardctl-batch.sh": "630ec550a9287747e2f0caf210a746b2410072582bd7a7bf101b9b6a53edfc10",
+    "batch_probe.sh": "55076dafc5badab6e9e72b4e26f0d10ba418137e475d543026a7fc56d5e411f0"
+  },
+  "allow_snapshot_scope": true,
+  "deployment_mode": "pilot",
+  "cenuta_auto_failover": {
+    "enabled": true,
+    "controller": "/usr/local/sbin/timeweb-cenuta-wg-console-transport",
+    "required_consecutive_failures": 2,
+    "handshake_stale_seconds": 180,
+    "cooldown_seconds": 900
+  },
+  "fornex_auto_failover": {
+    "enabled": true,
+    "controller": "/usr/local/sbin/timeweb-fornex-wg-console-transport",
+    "required_consecutive_failures": 2,
+    "handshake_stale_seconds": 180,
+    "cooldown_seconds": 900
+  }
+}

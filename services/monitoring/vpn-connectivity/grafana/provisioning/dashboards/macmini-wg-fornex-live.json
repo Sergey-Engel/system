@@ -1,0 +1,415 @@
+{
+  "uid": "macmini-wg-fornex-live",
+  "title": "Mac Mini WireGuard-Fornex",
+  "schemaVersion": 39,
+  "version": 1,
+  "refresh": "10s",
+  "timepicker": {
+    "refresh_intervals": [
+      "5s",
+      "10s",
+      "15s",
+      "30s",
+      "1m",
+      "5m"
+    ]
+  },
+  "time": {
+    "from": "now-1h",
+    "to": "now"
+  },
+  "panels": [
+    {
+      "id": 1,
+      "title": "Активность",
+      "description": "",
+      "type": "stat",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 0,
+        "w": 6,
+        "h": 4
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "(vpn_macmini_wg_activity) and on(job,instance) (up{job=\"macbook-wg-peer\"} == 1)",
+          "instant": true
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "noValue": "Нет данных",
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "text"
+          },
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "0": {
+                  "text": "Нет данных",
+                  "color": "gray"
+                },
+                "1": {
+                  "text": "Активен",
+                  "color": "green"
+                },
+                "2": {
+                  "text": "Нет свежей связи",
+                  "color": "yellow"
+                }
+              }
+            }
+          ]
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "value",
+        "graphMode": "none"
+      }
+    },
+    {
+      "id": 2,
+      "title": "IN",
+      "description": "",
+      "type": "stat",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "gridPos": {
+        "x": 6,
+        "y": 0,
+        "w": 6,
+        "h": 4
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "(vpn_macmini_wg_client_in_bps) and on(job,instance) (up{job=\"macbook-wg-peer\"} == 1) and on(job,instance) (vpn_macmini_wg_observation_fresh == 1) and on(job,instance) (vpn_macmini_wg_rate_valid == 1)",
+          "instant": true
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "bps",
+          "noValue": "Нет данных",
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "text"
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "value",
+        "graphMode": "none"
+      }
+    },
+    {
+      "id": 3,
+      "title": "OUT",
+      "description": "",
+      "type": "stat",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "gridPos": {
+        "x": 12,
+        "y": 0,
+        "w": 6,
+        "h": 4
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "(vpn_macmini_wg_client_out_bps) and on(job,instance) (up{job=\"macbook-wg-peer\"} == 1) and on(job,instance) (vpn_macmini_wg_observation_fresh == 1) and on(job,instance) (vpn_macmini_wg_rate_valid == 1)",
+          "instant": true
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "bps",
+          "noValue": "Нет данных",
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "text"
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "value",
+        "graphMode": "none"
+      }
+    },
+    {
+      "id": 4,
+      "title": "Handshake: возраст",
+      "description": "",
+      "type": "stat",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "gridPos": {
+        "x": 18,
+        "y": 0,
+        "w": 6,
+        "h": 4
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "(vpn_macmini_wg_handshake_age_seconds) and on(job,instance) (up{job=\"macbook-wg-peer\"} == 1) and on(job,instance) (vpn_macmini_wg_observation_fresh == 1)",
+          "instant": true
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s",
+          "noValue": "Нет данных",
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "text"
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "value",
+        "graphMode": "none"
+      }
+    },
+    {
+      "id": 5,
+      "title": "IN за период ≈",
+      "description": "Оценка Prometheus по доступным отсчётам; при пропусках или сбросах полнота не гарантирована.",
+      "type": "stat",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 4,
+        "w": 6,
+        "h": 4
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "increase(vpn_macmini_wg_client_in_bytes_total[$__range])",
+          "instant": true
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "bytes",
+          "noValue": "Нет данных",
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "text"
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "value",
+        "graphMode": "none"
+      }
+    },
+    {
+      "id": 6,
+      "title": "OUT за период ≈",
+      "description": "Оценка Prometheus по доступным отсчётам; при пропусках или сбросах полнота не гарантирована.",
+      "type": "stat",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "gridPos": {
+        "x": 6,
+        "y": 4,
+        "w": 6,
+        "h": 4
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "increase(vpn_macmini_wg_client_out_bytes_total[$__range])",
+          "instant": true
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "bytes",
+          "noValue": "Нет данных",
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "text"
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "value",
+        "graphMode": "none"
+      }
+    },
+    {
+      "id": 7,
+      "title": "Возраст данных",
+      "description": "",
+      "type": "stat",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "gridPos": {
+        "x": 12,
+        "y": 4,
+        "w": 6,
+        "h": 4
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "time() - ((vpn_macmini_wg_last_observed_seconds) and on(job,instance) (up{job=\"macbook-wg-peer\"} == 1) and on(job,instance) (vpn_macmini_wg_observation_fresh == 1))",
+          "instant": true
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s",
+          "noValue": "Нет данных",
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "text"
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "value",
+        "graphMode": "none"
+      }
+    },
+    {
+      "id": 10,
+      "title": "IN / OUT относительно Mac Mini",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 8,
+        "w": 24,
+        "h": 8
+      },
+      "targets": [
+        {
+          "refId": "IN",
+          "expr": "(vpn_macmini_wg_client_in_bps) and on(job,instance) (up{job=\"macbook-wg-peer\"} == 1) and on(job,instance) (vpn_macmini_wg_observation_fresh == 1) and on(job,instance) (vpn_macmini_wg_rate_valid == 1)",
+          "legendFormat": "IN"
+        },
+        {
+          "refId": "OUT",
+          "expr": "(vpn_macmini_wg_client_out_bps) and on(job,instance) (up{job=\"macbook-wg-peer\"} == 1) and on(job,instance) (vpn_macmini_wg_observation_fresh == 1) and on(job,instance) (vpn_macmini_wg_rate_valid == 1)",
+          "legendFormat": "OUT"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "bps",
+          "custom": {
+            "spanNulls": false
+          }
+        },
+        "overrides": []
+      }
+    },
+    {
+      "id": 11,
+      "title": "Источник и ограничения",
+      "type": "text",
+      "gridPos": {
+        "x": 0,
+        "y": 16,
+        "w": 24,
+        "h": 5
+      },
+      "options": {
+        "mode": "markdown",
+        "content": "Peer **10.10.10.20**, wg0 на TimeWeb; профиль **mac-mini-m4-fornex.conf**. Не AWG и не REALITY. Чтение SSH каждые 15 с, история в локальном Prometheus 30 дней. Сбор этого peer работает только при включённом Mac Mini. Скорости: разница WG-счётчиков / фактический интервал; IN = server TX, OUT = server RX. Клиентские агенты не используются. Отображается серверная телеметрия peer, не проверка полного клиентского пути. Нет свежей связи может означать выключенный профиль, а не неисправность. После ошибки, сброса или длинного пропуска скорость отсутствует до следующей пары наблюдений.\n\nОбъём за период ≈: increase по доступной истории Prometheus, не точный счётчик сессии. История до запуска сборщика отсутствует; пропуски могут влиять на оценку. Возраст данных относится к последнему успешному SSH-опросу, не к handshake."
+      }
+    }
+  ],
+  "links": [
+    {
+      "type": "link",
+      "title": "К тоннелям",
+      "url": "/d/timeweb-uplink-pilot/timeweb-uplinks-pilot?from=now-1h&to=now&refresh=10s"
+    }
+  ]
+}

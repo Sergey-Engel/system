@@ -1,0 +1,9 @@
+[Unit]
+Description=Reconcile isolated SOCKS-TW-FLEX iPhone 12 route
+After=docker.service
+Wants=docker.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/python3 /usr/local/sbin/timeweb-flex-macbook --device iphone12 reconcile
+TimeoutStartSec=30

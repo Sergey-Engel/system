@@ -1,0 +1,14 @@
+[
+  {
+    "path": "incident-failed.json",
+    "source": "monitoring/timeweb-uplinks/evidence/20260911-guards/production-captures.json",
+    "sha256": "44d6f9f37e3be7106ba4a3b7354a4c727ead0c8b1bb4b51c90221ca1e6f3a287",
+    "role": "Minimal recorded probe fixture; not a host backup or current runtime evidence"
+  },
+  {
+    "path": "incident-recovered.json",
+    "source": "monitoring/timeweb-uplinks/evidence/20260911T114146Z-collector-live-verification/classification.json",
+    "sha256": "c78ed573992bfb7cdad1e88b217bd97d413c160e10715161e4ca5194b681b2a7",
+    "role": "Minimal recorded probe fixture; not a host backup or current runtime evidence"
+  }
+]

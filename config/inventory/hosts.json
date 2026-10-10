@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "verified_utc": "2026-10-10",
+  "hosts": [
+    {"id": "timeweb", "alias": "timeweb", "hostname": "94.241.171.65", "user": "root", "key": "codex_timeweb_audit_20260628", "trust": "known_hosts", "backup": "VERIFIED"},
+    {"id": "fornex", "alias": "fornex", "hostname": "103.75.126.143", "user": "root", "key": "codex_fornex_audit_20260628", "trust": "known_hosts", "backup": "VERIFIED"},
+    {"id": "cenuta", "alias": "cenuta", "hostname": "89.252.153.129", "user": "ubuntu", "key": "codex_cenuta_audit_20260628", "trust": "known_hosts_cenuta", "backup": "VERIFIED"},
+    {"id": "nakhimova", "alias": "mikrotik-nakhimova", "hostname": "10.30.30.2", "user": "codex", "key": "codex_mikrotik_20260704", "trust": "known_hosts", "backup": "VERIFIED_TRANSFER", "serial": "HKM0BDXYG74", "proxy": "timeweb wg-relay wg-home"},
+    {"id": "orekhovo", "alias": "mikrotik-orekhovo", "hostname": "192.168.88.1", "user": "codex_audit", "key": "codex_mikrotik_orekhovo_audit_rsa", "trust": "known_hosts_orekhovo", "backup": "BLOCKED", "serial": "8AFF0A501C19", "permissions": "ssh,read", "reachability": "Requires confirmed Orekhovo network route; not the Nakhimova LAN. Historical identity only."}
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "retention_days": 7,
+  "helper": "/opt/vpn-monitoring/candidate/guardctl-batch.sh",
+  "manifest": "/opt/vpn-monitoring/guards/guard-manifest.json",
+  "helper_sha256": {
+    "guardctl-batch.sh": "0b00dfebbc149c6856ac978cfd421893413b05ecbeb88cb2502478c11d71bcbb",
+    "batch_probe.sh": "55076dafc5badab6e9e72b4e26f0d10ba418137e475d543026a7fc56d5e411f0"
+  },
+  "allow_snapshot_scope": false
+}

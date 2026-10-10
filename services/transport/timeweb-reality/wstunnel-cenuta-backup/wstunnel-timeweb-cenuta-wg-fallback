@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+# Keep the Cenuta WSS listener in wg-relay's network namespace across restarts.
+set -euo pipefail
+
+container=wg-relay
+cenuta_ip=89.252.153.129
+local_port=51922
+remote_port=51840
+
+container_pid() {
+  docker inspect -f '{{.State.Pid}}' "$container" 2>/dev/null || true
+}
+
+while true; do
+  pid=$(container_pid)
+  if [[ -z "$pid" || "$pid" == 0 ]]; then
+    sleep 5
+    continue
+  fi
+
+  gateway=$(nsenter -t "$pid" -n -- sh -c "ip route show default dev eth0 | awk 'NR == 1 { print \$3 }'")
+  if [[ -z "$gateway" ]]; then
+    sleep 5
+    continue
+  fi
+
+  # The WSS connection must not follow wg-up-cenuta after endpoint switching.
+  nsenter -t "$pid" -n -- ip route replace "$cenuta_ip/32" via "$gateway" dev eth0
+  nsenter -t "$pid" -n -- /usr/local/lib/wstunnel/wstunnel client \
+    --tls-verify-certificate \
+    --tls-certificate /etc/wstunnel/timeweb-cenuta-wg-fallback/client.crt \
+    --tls-private-key /etc/wstunnel/timeweb-cenuta-wg-fallback/client.key \
+    --websocket-ping-frequency 20s \
+    -L "udp://127.0.0.1:${local_port}:127.0.0.1:${remote_port}?timeout_sec=0" \
+    "wss://${cenuta_ip}:8443" &
+  child=$!
+
+  while kill -0 "$child" 2>/dev/null; do
+    current_pid=$(container_pid)
+    if [[ "$current_pid" != "$pid" ]]; then
+      kill "$child" 2>/dev/null || true
+      break
+    fi
+    sleep 5
+  done
+  wait "$child" || true
+  sleep 2
+done

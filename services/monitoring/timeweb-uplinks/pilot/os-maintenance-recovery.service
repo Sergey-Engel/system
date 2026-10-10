@@ -1,0 +1,15 @@
+[Unit]
+Description=One-time validated VPN recovery for OS maintenance 2026-09-27
+After=docker.service network-online.target
+Requires=docker.service
+Before=bth-recovery.service timeweb-flex-macbook.service timeweb-flex-iphone12.service timeweb-flex-macmini.service vpn-uplink-pilot.service vpn-uplink-exporter.service vpn-uplink-console.service
+ConditionPathExists=/var/lib/os-maintenance-recovery-20260927.pending
+
+[Service]
+Type=oneshot
+ExecStart=/bin/bash /root/os-maintenance-recovery.sh
+TimeoutStartSec=300
+UMask=0077
+
+[Install]
+WantedBy=multi-user.target

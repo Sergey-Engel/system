@@ -1,0 +1,17 @@
+table inet reality_fornex {
+ chain guard {
+  ip daddr 172.19.0.2 udp dport 51850 counter accept
+  ip daddr 172.19.0.2 udp dport 51830 counter accept
+  ip daddr 89.252.153.129 udp dport 51840 counter accept
+  ip daddr 103.75.126.143 udp dport 51821 counter accept
+  ip daddr 23.12.156.37 tcp dport 443 counter accept
+  ip daddr 127.0.0.1 udp dport 51923 counter accept
+  ip daddr 127.0.0.1 udp dport 51924 counter accept
+  tcp sport 443 ct state established ct direction reply counter accept
+  counter drop
+ }
+ chain output {
+  type filter hook output priority 0; policy accept;
+  meta skuid 10001 jump guard
+ }
+}

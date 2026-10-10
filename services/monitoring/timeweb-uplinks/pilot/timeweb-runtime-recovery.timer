@@ -1,0 +1,11 @@
+[Unit]
+Description=Detect wg-relay namespace replacement
+
+[Timer]
+OnBootSec=20
+OnUnitInactiveSec=15
+AccuracySec=1
+Unit=timeweb-runtime-recovery.service
+
+[Install]
+WantedBy=timers.target

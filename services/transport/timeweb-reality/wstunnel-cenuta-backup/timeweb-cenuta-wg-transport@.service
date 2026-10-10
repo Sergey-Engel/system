@@ -1,0 +1,8 @@
+[Unit]
+Description=Apply TimeWeb Cenuta transport mode %i
+Wants=network-online.target
+After=network-online.target docker.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/sbin/timeweb-cenuta-wg-transport %i

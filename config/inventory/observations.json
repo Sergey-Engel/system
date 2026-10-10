@@ -1,0 +1,568 @@
+{
+  "schema_version": 3,
+  "description": "Observed server-side VPN telemetry. WireGuard and AWG31 use peer handshakes and counters; TimeWeb Xray/REALITY uses its signed client access events from journald. Xray access events establish recent activity but do not expose per-client byte counters.",
+  "devices": [
+    {
+      "id": "macbook",
+      "name": "MacBook Sergey",
+      "peers": [
+        {
+          "id": "macbook-wg-tw-fx",
+          "tunnel": "WG-TW-FX",
+          "tunnel_code": 1,
+          "interface": "wg0",
+          "address": "10.10.10.25/32"
+        },
+        {
+          "id": "macbook-wg-tw-cen-ruhome",
+          "tunnel": "WG-TW-CEN-RUHOME",
+          "tunnel_code": 2,
+          "interface": "wg-clients",
+          "address": "10.50.50.22/32"
+        },
+        {
+          "id": "macbook-wg-tw-bth",
+          "tunnel": "WG-TW-BTH",
+          "tunnel_code": 3,
+          "interface": "wg-home",
+          "address": "10.30.30.6/32"
+        },
+        {
+          "id": "macbook-awg31-fx",
+          "tunnel": "AWG31-FX",
+          "tunnel_code": 4,
+          "source": "fornex-awg31",
+          "interface": "awg0",
+          "address": "10.83.1.1/32"
+        }
+      ],
+      "xray_clients": [
+        {
+          "id": "macbook-xray-tw-fx",
+          "tunnel": "XRAY-TW-FX",
+          "tunnel_code": 5,
+          "email": "macbook-reality-fornex"
+        },
+        {
+          "id": "macbook-xray-tw-cen",
+          "tunnel": "XRAY-TW-CEN",
+          "tunnel_code": 6,
+          "email": "macbook-reality-cenuta"
+        },
+        {
+          "id": "macbook-xray-tw-bth",
+          "tunnel": "XRAY-TW-BTH",
+          "tunnel_code": 7,
+          "email": "macbook-reality-bth"
+        },
+        {
+          "id": "macbook-socks-tw-flex",
+          "tunnel": "SOCKS-TW-FLEX",
+          "tunnel_code": 8,
+          "email": "macbook-socks-flex"
+        },
+        {
+          "id": "macbook-socks-tw-cen",
+          "tunnel": "SOCKS-TW-CEN",
+          "tunnel_code": 9,
+          "email": "macbook-socks-cenuta"
+        }
+      ]
+    },
+    {
+      "id": "iphone",
+      "name": "iPhone Sergey",
+      "peers": [
+        {
+          "id": "iphone-sergey-wg-tw-fx",
+          "tunnel": "WG-TW-FX",
+          "tunnel_code": 1,
+          "interface": "wg0",
+          "address": "10.10.10.7/32"
+        },
+        {
+          "id": "iphone-sergey-wg-tw-cen-ruhome",
+          "tunnel": "WG-TW-CEN-RUHOME",
+          "tunnel_code": 2,
+          "interface": "wg-clients",
+          "address": "10.50.50.20/32"
+        },
+        {
+          "id": "iphone-awg31-fx",
+          "tunnel": "AWG31-FX",
+          "tunnel_code": 3,
+          "source": "fornex-awg31",
+          "interface": "awg0",
+          "address": "10.83.1.2/32"
+        }
+      ],
+      "xray_clients": [
+        {
+          "id": "iphone-xray-tw-fx",
+          "tunnel": "XRAY-TW-FX",
+          "tunnel_code": 4,
+          "email": "iphone-reality-fornex"
+        },
+        {
+          "id": "iphone-xray-tw-cen",
+          "tunnel": "XRAY-TW-CEN",
+          "tunnel_code": 5,
+          "email": "iphone-reality-cenuta"
+        },
+        {
+          "id": "iphone-xray-tw-bth",
+          "tunnel": "XRAY-TW-BTH",
+          "tunnel_code": 6,
+          "email": "iphone-reality-bth"
+        },
+        {
+          "id": "iphone-socks-tw-cen",
+          "tunnel": "SOCKS-TW-CEN",
+          "tunnel_code": 7,
+          "email": "iphone12-socks-cenuta"
+        },
+        {
+          "id": "iphone-socks-tw-flex",
+          "tunnel": "SOCKS-TW-FLEX",
+          "tunnel_code": 8,
+          "email": "iphone12-socks-flex"
+        }
+      ]
+    },
+    {
+      "id": "macmini",
+      "name": "Mac Mini M4 Sergey",
+      "peers": [
+        {
+          "id": "macmini-wg-tw-fx",
+          "tunnel": "WG-TW-FX",
+          "tunnel_code": 1,
+          "interface": "wg0",
+          "address": "10.10.10.20/32"
+        },
+        {
+          "id": "macmini-wg-tw-cen-ruhome",
+          "tunnel": "WG-TW-CEN-RUHOME",
+          "tunnel_code": 2,
+          "interface": "wg-clients",
+          "address": "10.50.50.31/32"
+        },
+        {
+          "id": "macmini-wg-tw-fx-ruhome",
+          "tunnel": "WG-TW-FX-RUHOME",
+          "tunnel_code": 3,
+          "interface": "wg-clients",
+          "address": "10.50.50.32/32"
+        },
+        {
+          "id": "macmini-awg31-fx",
+          "tunnel": "AWG31-FX",
+          "tunnel_code": 4,
+          "source": "fornex-awg31",
+          "interface": "awg0",
+          "address": "10.83.1.4/32"
+        }
+      ],
+      "xray_clients": [
+        {
+          "id": "macmini-xray-tw-fx",
+          "tunnel": "XRAY-TW-FX",
+          "tunnel_code": 5,
+          "email": "macmini-reality-fornex"
+        },
+        {
+          "id": "macmini-xray-tw-cen",
+          "tunnel": "XRAY-TW-CEN",
+          "tunnel_code": 6,
+          "email": "macmini-reality-cenuta"
+        },
+        {
+          "id": "macmini-xray-tw-bth",
+          "tunnel": "XRAY-TW-BTH",
+          "tunnel_code": 7,
+          "email": "macmini-reality-bth"
+        },
+        {
+          "id": "macmini-socks-tw-cen",
+          "tunnel": "SOCKS-TW-CEN",
+          "tunnel_code": 8,
+          "email": "macmini-socks-cenuta"
+        },
+        {
+          "id": "macmini-socks-tw-flex",
+          "tunnel": "SOCKS-TW-FLEX",
+          "tunnel_code": 9,
+          "email": "macmini-socks-flex"
+        }
+      ]
+    },
+    {
+      "id": "ipad-pro-sergey",
+      "name": "iPad Pro Sergey",
+      "peers": [
+        {
+          "id": "ipad-pro-sergey-wg-tw-fx",
+          "tunnel": "WG-TW-FX",
+          "tunnel_code": 1,
+          "interface": "wg0",
+          "address": "10.10.10.10/32"
+        },
+        {
+          "id": "ipad-pro-sergey-wg-tw-cen-ruhome",
+          "tunnel": "WG-TW-CEN-RUHOME",
+          "tunnel_code": 2,
+          "interface": "wg-clients",
+          "address": "10.50.50.23/32"
+        },
+        {
+          "id": "ipad-pro-sergey-awg31-fx",
+          "tunnel": "AWG31-FX",
+          "tunnel_code": 3,
+          "source": "fornex-awg31",
+          "interface": "awg0",
+          "address": "10.83.1.5/32"
+        }
+      ]
+    },
+    {
+      "id": "ipad-97-sergey",
+      "name": "iPad 9.7 Sergey",
+      "peers": [
+        {
+          "id": "ipad-97-sergey-wg-tw-fx-ruhome",
+          "tunnel": "WG-TW-FX-RUHOME",
+          "tunnel_code": 1,
+          "interface": "wg-clients",
+          "address": "10.50.50.37/32"
+        },
+        {
+          "id": "ipad-97-sergey-wg-tw-cen-ruhome",
+          "tunnel": "WG-TW-CEN-RUHOME",
+          "tunnel_code": 2,
+          "interface": "wg-clients",
+          "address": "10.50.50.36/32"
+        },
+        {
+          "id": "ipad-97-sergey-awg31-fx",
+          "tunnel": "AWG31-FX",
+          "tunnel_code": 3,
+          "source": "fornex-awg31",
+          "interface": "awg0",
+          "address": "10.83.1.6/32"
+        }
+      ]
+    },
+    {
+      "id": "macbook-m3-sveta",
+      "name": "MacBook M3 Sveta",
+      "peers": [
+        {
+          "id": "macbook-m3-sveta-wg-tw-fx-ruhome",
+          "tunnel": "WG-TW-FX-RUHOME",
+          "tunnel_code": 1,
+          "interface": "wg-clients",
+          "address": "10.50.50.27/32"
+        },
+        {
+          "id": "macbook-m3-sveta-wg-tw-cen-ruhome",
+          "tunnel": "WG-TW-CEN-RUHOME",
+          "tunnel_code": 2,
+          "interface": "wg-clients",
+          "address": "10.50.50.26/32"
+        },
+        {
+          "id": "macbook-m3-sveta-awg31-fx",
+          "tunnel": "AWG31-FX",
+          "tunnel_code": 3,
+          "source": "fornex-awg31",
+          "interface": "awg0",
+          "address": "10.83.1.7/32"
+        }
+      ]
+    },
+    {
+      "id": "iphone-16-sveta",
+      "name": "iPhone 16 Sveta",
+      "peers": [
+        {
+          "id": "iphone-16-sveta-wg-tw-fx-ruhome",
+          "tunnel": "WG-TW-FX-RUHOME",
+          "tunnel_code": 1,
+          "interface": "wg-clients",
+          "address": "10.50.50.28/32"
+        },
+        {
+          "id": "iphone-16-sveta-wg-tw-cen-ruhome",
+          "tunnel": "WG-TW-CEN-RUHOME",
+          "tunnel_code": 2,
+          "interface": "wg-clients",
+          "address": "10.50.50.21/32"
+        },
+        {
+          "id": "iphone-16-sveta-awg31-fx",
+          "tunnel": "AWG31-FX",
+          "tunnel_code": 3,
+          "source": "fornex-awg31",
+          "interface": "awg0",
+          "address": "10.83.1.8/32"
+        }
+      ]
+    },
+    {
+      "id": "ipad-97-sveta",
+      "name": "iPad 9.7 Sveta",
+      "peers": [
+        {
+          "id": "ipad-97-sveta-wg-tw-fx-ruhome",
+          "tunnel": "WG-TW-FX-RUHOME",
+          "tunnel_code": 1,
+          "interface": "wg-clients",
+          "address": "10.50.50.30/32"
+        },
+        {
+          "id": "ipad-97-sveta-wg-tw-cen-ruhome",
+          "tunnel": "WG-TW-CEN-RUHOME",
+          "tunnel_code": 2,
+          "interface": "wg-clients",
+          "address": "10.50.50.29/32"
+        },
+        {
+          "id": "ipad-97-sveta-awg31-fx",
+          "tunnel": "AWG31-FX",
+          "tunnel_code": 3,
+          "source": "fornex-awg31",
+          "interface": "awg0",
+          "address": "10.83.1.9/32"
+        }
+      ]
+    },
+    {
+      "id": "digitalrazor",
+      "name": "DigitalRazor PC",
+      "peers": [
+        {
+          "id": "digitalrazor-wg-tw-fx",
+          "tunnel": "WG-TW-FX",
+          "tunnel_code": 1,
+          "interface": "wg0",
+          "address": "10.10.10.6/32"
+        },
+        {
+          "id": "digitalrazor-wg-tw-cen",
+          "tunnel": "WG-TW-CEN",
+          "tunnel_code": 2,
+          "interface": "wg-clients",
+          "address": "10.50.50.25/32"
+        },
+        {
+          "id": "digitalrazor-awg31-fx",
+          "tunnel": "AWG31-FX",
+          "tunnel_code": 3,
+          "source": "fornex-awg31",
+          "interface": "awg0",
+          "address": "10.83.1.10/32"
+        }
+      ]
+    },
+    {
+      "id": "samsung-pad",
+      "name": "Engel Samsung Pad",
+      "peers": [
+        {
+          "id": "samsung-pad-wg-tw-fx",
+          "tunnel": "WG-TW-FX",
+          "tunnel_code": 1,
+          "interface": "wg0",
+          "address": "10.10.10.13/32"
+        },
+        {
+          "id": "samsung-pad-wg-tw-cen-ruhome",
+          "tunnel": "WG-TW-CEN-RUHOME",
+          "tunnel_code": 2,
+          "interface": "wg-clients",
+          "address": "10.50.50.35/32"
+        },
+        {
+          "id": "samsung-pad-awg31-fx",
+          "tunnel": "AWG31-FX",
+          "tunnel_code": 3,
+          "source": "fornex-awg31",
+          "interface": "awg0",
+          "address": "10.83.1.11/32"
+        }
+      ]
+    },
+    {
+      "id": "win-orekhovo",
+      "name": "Win Orekhovo",
+      "peers": [
+        {
+          "id": "win-orekhovo-wg-tw-fx",
+          "tunnel": "WG-TW-FX",
+          "tunnel_code": 1,
+          "interface": "wg0",
+          "address": "10.10.10.17/32"
+        },
+        {
+          "id": "win-orekhovo-wg-tw-fx-ruhome",
+          "tunnel": "WG-TW-FX-RUHOME",
+          "tunnel_code": 2,
+          "interface": "wg-clients",
+          "address": "10.50.50.34/32"
+        },
+        {
+          "id": "win-orekhovo-wg-tw-cen-ruhome",
+          "tunnel": "WG-TW-CEN-RUHOME",
+          "tunnel_code": 3,
+          "interface": "wg-clients",
+          "address": "10.50.50.33/32"
+        },
+        {
+          "id": "win-orekhovo-awg31-fx",
+          "tunnel": "AWG31-FX",
+          "tunnel_code": 4,
+          "source": "fornex-awg31",
+          "interface": "awg0",
+          "address": "10.83.1.12/32"
+        }
+      ]
+    },
+    {
+      "id": "apple-tv-1",
+      "name": "Apple TV 1",
+      "peers": [
+        {
+          "id": "apple-tv-1-wg-tw-fx",
+          "tunnel": "WG-TW-FX",
+          "tunnel_code": 1,
+          "interface": "wg0",
+          "address": "10.10.10.14/32"
+        }
+      ]
+    },
+    {
+      "id": "apple-tv-fethiye",
+      "name": "Apple TV (Fethiye)",
+      "peers": [
+        {
+          "id": "apple-tv-fethiye-wg-tw-fx",
+          "tunnel": "WG-TW-FX",
+          "tunnel_code": 1,
+          "interface": "wg0",
+          "address": "10.10.10.15/32"
+        },
+        {
+          "id": "apple-tv-fethiye-wg-tw-bth",
+          "tunnel": "WG-TW-BTH",
+          "tunnel_code": 2,
+          "interface": "wg-home",
+          "address": "10.30.30.3/32"
+        }
+      ]
+    },
+    {
+      "id": "apple-tv-4k",
+      "name": "Apple TV 4K",
+      "peers": [
+        {
+          "id": "apple-tv-4k-wg-tw-fx",
+          "tunnel": "WG-TW-FX",
+          "tunnel_code": 1,
+          "interface": "wg0",
+          "address": "10.10.10.18/32"
+        }
+      ]
+    },
+    {
+      "id": "apple-tv-orekhovo",
+      "name": "Apple TV Orekhovo",
+      "peers": [
+        {
+          "id": "apple-tv-orekhovo-wg-tw-cen",
+          "tunnel": "WG-TW-CEN",
+          "tunnel_code": 1,
+          "interface": "wg-clients",
+          "address": "10.50.50.38/32"
+        }
+      ]
+    },
+    {
+      "id": "avg-redmi",
+      "name": "avg-redmi",
+      "peers": [
+        {
+          "id": "avg-redmi-wg-tw-fx",
+          "tunnel": "WG-TW-FX",
+          "tunnel_code": 1,
+          "interface": "wg0",
+          "address": "10.10.10.21/32"
+        }
+      ]
+    },
+    {
+      "id": "anv-samsung",
+      "name": "anv-samsung",
+      "peers": [
+        {
+          "id": "anv-samsung-wg-tw-fx",
+          "tunnel": "WG-TW-FX",
+          "tunnel_code": 1,
+          "interface": "wg0",
+          "address": "10.10.10.22/32"
+        }
+      ]
+    },
+    {
+      "id": "honor-lana-turk",
+      "name": "honor-lana-turk",
+      "peers": [
+        {
+          "id": "honor-lana-turk-wg-tw-fx",
+          "tunnel": "WG-TW-FX",
+          "tunnel_code": 1,
+          "interface": "wg0",
+          "address": "10.10.10.23/32"
+        }
+      ]
+    },
+    {
+      "id": "mariia-mac",
+      "name": "mariia-mac",
+      "peers": [
+        {
+          "id": "mariia-mac-wg-tw-fx",
+          "tunnel": "WG-TW-FX",
+          "tunnel_code": 1,
+          "interface": "wg0",
+          "address": "10.10.10.26/32"
+        }
+      ]
+    },
+    {
+      "id": "mikrotik-n11",
+      "name": "MikroTik N11 (клиентский экспорт)",
+      "peers": [
+        {
+          "id": "mikrotik-n11-wg-tw-fx",
+          "tunnel": "WG-TW-FX",
+          "tunnel_code": 1,
+          "interface": "wg0",
+          "address": "10.10.10.24/32"
+        }
+      ]
+    },
+    {
+      "id": "igor-unassigned",
+      "name": "Igor: устройство не определено",
+      "peers": [
+        {
+          "id": "igor-unassigned-wg-tw-bth",
+          "tunnel": "WG-TW-BTH",
+          "tunnel_code": 1,
+          "interface": "wg-home",
+          "address": "10.30.30.4/32"
+        }
+      ]
+    }
+  ]
+}

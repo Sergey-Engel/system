@@ -1,0 +1,14 @@
+[Unit]
+Description=Recover approved TimeWeb VPN namespace after restart
+After=network-online.target docker.service
+Wants=network-online.target docker.service
+Before=vpn-uplink-pilot.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/python3 /opt/vpn-runtime-recovery/runtime_recovery.py recover
+TimeoutStartSec=300
+UMask=0077
+
+[Install]
+WantedBy=multi-user.target

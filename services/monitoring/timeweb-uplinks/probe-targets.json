@@ -1,0 +1,24 @@
+{
+  "resolved_unix": 1789119067,
+  "expires_unix": 1789122667,
+  "targets": {
+    "gstatic": {
+      "url": "https://www.gstatic.com/generate_204",
+      "host": "www.gstatic.com",
+      "ip": "172.217.23.227",
+      "port": 443
+    },
+    "cloudflare": {
+      "url": "https://www.cloudflare.com/cdn-cgi/trace",
+      "host": "www.cloudflare.com",
+      "ip": "104.16.123.96",
+      "port": 443
+    },
+    "ipify": {
+      "url": "https://api.ipify.org/",
+      "host": "api.ipify.org",
+      "ip": "172.67.74.152",
+      "port": 443
+    }
+  }
+}

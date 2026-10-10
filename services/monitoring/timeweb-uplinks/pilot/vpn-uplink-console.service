@@ -1,0 +1,22 @@
+[Unit]
+Description=TimeWeb uplink loopback operator console
+After=vpn-uplink-pilot.service
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/vpn-monitoring/pilot/collector
+ExecStart=/opt/vpn-monitoring/pilot/.venv/bin/python -m uplink_monitor.console --database /var/lib/vpn-uplink-pilot/history.sqlite --state-dir /var/lib/vpn-uplink-pilot --port 19108
+Restart=on-failure
+RestartSec=10
+UMask=0077
+NoNewPrivileges=yes
+ProtectSystem=strict
+ReadWritePaths=/var/lib/vpn-uplink-pilot /run/timeweb-cenuta-wg-transport.lock /run/timeweb-fornex-wg-transport.lock /run/timeweb-wg-transport-state.lock /run/lock/timeweb-flex-macbook.lock /run/lock/timeweb-flex-iphone12.lock /run/lock/timeweb-flex-macmini.lock /run/lock/timeweb-flex-fleet.lock
+ProtectHome=yes
+PrivateTmp=yes
+MemoryMax=128M
+CPUQuota=50%
+TasksMax=64
+
+[Install]
+WantedBy=multi-user.target

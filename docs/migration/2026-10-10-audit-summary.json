@@ -1,0 +1,4275 @@
+{
+  "status": "proposed_not_executed",
+  "source_files": 3711,
+  "source_bytes": 1168465376,
+  "actions": {
+    "merge_index": 5,
+    "skip_scaffold": 6,
+    "skip_legacy": 13,
+    "review_image": 16,
+    "copy_docs_adapt": 111,
+    "review_duplicate_code": 4,
+    "merge_agent_instructions": 1,
+    "copy_asset_review": 7,
+    "skip_generated_qa": 36,
+    "skip_out_of_scope": 4,
+    "skip_completed_migration": 4,
+    "skip_old_config_backup": 1230,
+    "copy_private_current": 65,
+    "copy_code_adapt": 197,
+    "skip_historical_evidence": 134,
+    "review_retired_code": 13,
+    "skip_runtime_output": 87,
+    "review_private_config": 3,
+    "skip_historical_snapshot": 349,
+    "relocate_runtime_data": 1134,
+    "skip_duplicate_history": 168,
+    "skip_duplicate_profile": 11,
+    "extract_private_material": 24,
+    "review_code_credentials": 5,
+    "review_test_fixture": 80,
+    "skip_vendor_binary": 4
+  },
+  "source_root_paths_relative_to": "repository_root",
+  "source_roots": {
+    "vault": "../../../Library/CloudStorage/Dropbox/Obsidian/Personal/RESOURCE/IT/MIKROTIK",
+    "system": "../../../Library/CloudStorage/Dropbox/System"
+  },
+  "credential_candidate_files": 333,
+  "credential_findings": [
+    {
+      "root": "vault",
+      "path": "docs/Cenuta_hosts_2026-06-22.md",
+      "line": 321,
+      "kind": "localized_credential_candidate"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-094252/clients/anv-samsung/anv-samsung.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-094252/clients/anv-samsung/anv-samsung.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-094252/clients/apple-tv-1/apple-tv-1.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-094252/clients/apple-tv-1/apple-tv-1.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-094252/clients/apple-tv-2/apple-tv-2.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-094252/clients/apple-tv-2/apple-tv-2.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-094252/clients/apple-tv-4k/apple-tv-4k.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-094252/clients/apple-tv-4k/apple-tv-4k.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-094252/clients/avg-redmi/avg-redmi.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-094252/clients/avg-redmi/avg-redmi.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-094252/clients/digital-razor/digital-razor.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-094252/clients/digital-razor/digital-razor.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-094252/clients/engel-samsung-pad/engel-samsung-pad.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-094252/clients/engel-samsung-pad/engel-samsung-pad.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-094252/clients/honor-lana-turk/honor-lana-turk.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-094252/clients/honor-lana-turk/honor-lana-turk.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-094252/clients/macmini-m4/macmini-m4.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-094252/clients/macmini-m4/macmini-m4.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-094252/clients/mikrotik-n11/mikrotik-n11.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-094252/clients/mikrotik-n11/mikrotik-n11.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-094252/clients/sergey-ipad97/sergey-ipad97.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-094252/clients/sergey-ipad97/sergey-ipad97.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-094252/clients/sergey-ipadair97/sergey-ipadair97.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-094252/clients/sergey-ipadair97/sergey-ipadair97.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-094252/clients/sergey-iphone12/sergey-iphone12.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-094252/clients/sergey-iphone12/sergey-iphone12.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-094252/clients/sergey-mac/sergey-mac.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-094252/clients/sergey-mac/sergey-mac.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-094252/clients/sergey-macbook-ru/sergey-macbook-ru.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-094252/clients/sergey-macbook-ru/sergey-macbook-ru.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-094252/clients/sveta-ipad97/sveta-ipad97.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-094252/clients/sveta-ipad97/sveta-ipad97.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-094252/clients/sveta-iphone16/sveta-iphone16.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-094252/clients/sveta-iphone16/sveta-iphone16.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-094252/clients/win-orekhovo/win-orekhovo.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-094252/clients/win-orekhovo/win-orekhovo.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-094252/clients_bth/sergey-bth/sergey-bth.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-094252/clients_bth/sergey-bth/sergey-bth.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-094252/config/wg_confs/wg-home.conf",
+      "line": 5,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-094252/config/wg_confs/wg-home.conf",
+      "line": 26,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-094252/config/wg_confs/wg0.conf",
+      "line": 4,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-094252/config/wg_confs/wg0.conf",
+      "line": 18,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-094252/config/wg_confs/wg0.conf",
+      "line": 23,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-094252/config/wg_confs/wg0.conf",
+      "line": 28,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-094252/config/wg_confs/wg0.conf",
+      "line": 33,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-094252/config/wg_confs/wg0.conf",
+      "line": 38,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-094252/config/wg_confs/wg0.conf",
+      "line": 44,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-094252/config/wg_confs/wg0.conf",
+      "line": 50,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-094252/config/wg_confs/wg0.conf",
+      "line": 56,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-094252/config/wg_confs/wg0.conf",
+      "line": 62,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-094252/config/wg_confs/wg0.conf",
+      "line": 68,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-094252/config/wg_confs/wg0.conf",
+      "line": 74,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-094252/config/wg_confs/wg0.conf",
+      "line": 80,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-094252/config/wg_confs/wg0.conf",
+      "line": 87,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-094252/config/wg_confs/wg0.conf",
+      "line": 93,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-094252/config/wg_confs/wg0.conf",
+      "line": 100,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-094252/config/wg_confs/wg0.conf",
+      "line": 106,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-094252/config/wg_confs/wg0.conf",
+      "line": 112,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-094252/config/wg_confs/wg0.conf",
+      "line": 118,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-094252/config/wg_confs/wg0.conf",
+      "line": 124,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-094252/config/wg_confs/wg1.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-094252/config/wg_confs/wg1.conf",
+      "line": 17,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-095924/clients/anv-samsung/anv-samsung.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-095924/clients/anv-samsung/anv-samsung.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-095924/clients/apple-tv-1/apple-tv-1.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-095924/clients/apple-tv-1/apple-tv-1.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-095924/clients/apple-tv-2/apple-tv-2.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-095924/clients/apple-tv-2/apple-tv-2.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-095924/clients/apple-tv-4k/apple-tv-4k.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-095924/clients/apple-tv-4k/apple-tv-4k.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-095924/clients/avg-redmi/avg-redmi.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-095924/clients/avg-redmi/avg-redmi.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-095924/clients/digital-razor/digital-razor.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-095924/clients/digital-razor/digital-razor.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-095924/clients/engel-samsung-pad/engel-samsung-pad.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-095924/clients/engel-samsung-pad/engel-samsung-pad.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-095924/clients/honor-lana-turk/honor-lana-turk.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-095924/clients/honor-lana-turk/honor-lana-turk.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-095924/clients/macmini-m4/macmini-m4.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-095924/clients/macmini-m4/macmini-m4.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-095924/clients/mikrotik-n11/mikrotik-n11.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-095924/clients/mikrotik-n11/mikrotik-n11.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-095924/clients/sergey-ipad97/sergey-ipad97.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-095924/clients/sergey-ipad97/sergey-ipad97.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-095924/clients/sergey-ipadair97/sergey-ipadair97.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-095924/clients/sergey-ipadair97/sergey-ipadair97.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-095924/clients/sergey-iphone12/sergey-iphone12.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-095924/clients/sergey-iphone12/sergey-iphone12.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-095924/clients/sergey-mac/sergey-mac.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-095924/clients/sergey-mac/sergey-mac.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-095924/clients/sergey-macbook-ru/sergey-macbook-ru.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-095924/clients/sergey-macbook-ru/sergey-macbook-ru.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-095924/clients/sveta-ipad97/sveta-ipad97.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-095924/clients/sveta-ipad97/sveta-ipad97.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-095924/clients/sveta-iphone16/sveta-iphone16.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-095924/clients/sveta-iphone16/sveta-iphone16.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-095924/clients/win-orekhovo/win-orekhovo.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-095924/clients/win-orekhovo/win-orekhovo.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-095924/clients_bth/sergey-bth/sergey-bth.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-095924/clients_bth/sergey-bth/sergey-bth.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-095924/config/wg_confs/wg-home.conf",
+      "line": 5,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-095924/config/wg_confs/wg-home.conf",
+      "line": 26,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-095924/config/wg_confs/wg0.conf",
+      "line": 4,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-095924/config/wg_confs/wg0.conf",
+      "line": 18,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-095924/config/wg_confs/wg0.conf",
+      "line": 23,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-095924/config/wg_confs/wg0.conf",
+      "line": 28,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-095924/config/wg_confs/wg0.conf",
+      "line": 33,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-095924/config/wg_confs/wg0.conf",
+      "line": 38,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-095924/config/wg_confs/wg0.conf",
+      "line": 44,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-095924/config/wg_confs/wg0.conf",
+      "line": 50,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-095924/config/wg_confs/wg0.conf",
+      "line": 56,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-095924/config/wg_confs/wg0.conf",
+      "line": 62,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-095924/config/wg_confs/wg0.conf",
+      "line": 68,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-095924/config/wg_confs/wg0.conf",
+      "line": 74,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-095924/config/wg_confs/wg0.conf",
+      "line": 80,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-095924/config/wg_confs/wg0.conf",
+      "line": 87,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-095924/config/wg_confs/wg0.conf",
+      "line": 93,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-095924/config/wg_confs/wg0.conf",
+      "line": 100,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-095924/config/wg_confs/wg0.conf",
+      "line": 106,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-095924/config/wg_confs/wg0.conf",
+      "line": 112,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-095924/config/wg_confs/wg0.conf",
+      "line": 118,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-095924/config/wg_confs/wg0.conf",
+      "line": 124,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-095924/config/wg_confs/wg1.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-095924/config/wg_confs/wg1.conf",
+      "line": 17,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-101054/clients/anv-samsung/anv-samsung.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-101054/clients/anv-samsung/anv-samsung.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-101054/clients/apple-tv-1/apple-tv-1.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-101054/clients/apple-tv-1/apple-tv-1.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-101054/clients/apple-tv-2/apple-tv-2.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-101054/clients/apple-tv-2/apple-tv-2.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-101054/clients/apple-tv-4k/apple-tv-4k.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-101054/clients/apple-tv-4k/apple-tv-4k.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-101054/clients/avg-redmi/avg-redmi.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-101054/clients/avg-redmi/avg-redmi.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-101054/clients/digital-razor/digital-razor.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-101054/clients/digital-razor/digital-razor.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-101054/clients/engel-samsung-pad/engel-samsung-pad.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-101054/clients/engel-samsung-pad/engel-samsung-pad.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-101054/clients/honor-lana-turk/honor-lana-turk.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-101054/clients/honor-lana-turk/honor-lana-turk.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-101054/clients/macmini-m4/macmini-m4.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-101054/clients/macmini-m4/macmini-m4.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-101054/clients/mikrotik-n11/mikrotik-n11.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-101054/clients/mikrotik-n11/mikrotik-n11.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-101054/clients/sergey-ipad97/sergey-ipad97.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-101054/clients/sergey-ipad97/sergey-ipad97.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-101054/clients/sergey-ipadair97/sergey-ipadair97.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-101054/clients/sergey-ipadair97/sergey-ipadair97.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-101054/clients/sergey-iphone12/sergey-iphone12.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-101054/clients/sergey-iphone12/sergey-iphone12.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-101054/clients/sergey-mac/sergey-mac.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-101054/clients/sergey-mac/sergey-mac.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-101054/clients/sergey-macbook-ru/sergey-macbook-ru.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-101054/clients/sergey-macbook-ru/sergey-macbook-ru.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-101054/clients/sveta-ipad97/sveta-ipad97.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-101054/clients/sveta-ipad97/sveta-ipad97.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-101054/clients/sveta-iphone16/sveta-iphone16.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-101054/clients/sveta-iphone16/sveta-iphone16.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-101054/clients/win-orekhovo/win-orekhovo.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-101054/clients/win-orekhovo/win-orekhovo.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-101054/clients_bth/sergey-bth/sergey-bth.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-101054/clients_bth/sergey-bth/sergey-bth.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-101054/config/wg_confs/wg-home.conf",
+      "line": 5,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-101054/config/wg_confs/wg-home.conf",
+      "line": 21,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-101054/config/wg_confs/wg0.conf",
+      "line": 4,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-101054/config/wg_confs/wg0.conf",
+      "line": 18,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-101054/config/wg_confs/wg0.conf",
+      "line": 23,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-101054/config/wg_confs/wg0.conf",
+      "line": 28,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-101054/config/wg_confs/wg0.conf",
+      "line": 33,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-101054/config/wg_confs/wg0.conf",
+      "line": 38,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-101054/config/wg_confs/wg0.conf",
+      "line": 44,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-101054/config/wg_confs/wg0.conf",
+      "line": 50,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-101054/config/wg_confs/wg0.conf",
+      "line": 56,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-101054/config/wg_confs/wg0.conf",
+      "line": 62,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-101054/config/wg_confs/wg0.conf",
+      "line": 68,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-101054/config/wg_confs/wg0.conf",
+      "line": 74,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-101054/config/wg_confs/wg0.conf",
+      "line": 80,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-101054/config/wg_confs/wg0.conf",
+      "line": 87,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-101054/config/wg_confs/wg0.conf",
+      "line": 93,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-101054/config/wg_confs/wg0.conf",
+      "line": 100,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-101054/config/wg_confs/wg0.conf",
+      "line": 106,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-101054/config/wg_confs/wg0.conf",
+      "line": 112,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-101054/config/wg_confs/wg0.conf",
+      "line": 118,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-101054/config/wg_confs/wg0.conf",
+      "line": 124,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-101054/config/wg_confs/wg1.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-101054/config/wg_confs/wg1.conf",
+      "line": 17,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-130848/clients/anv-samsung/anv-samsung.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-130848/clients/anv-samsung/anv-samsung.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-130848/clients/apple-tv-1/apple-tv-1.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-130848/clients/apple-tv-1/apple-tv-1.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-130848/clients/apple-tv-2/apple-tv-2.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-130848/clients/apple-tv-2/apple-tv-2.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-130848/clients/apple-tv-4k/apple-tv-4k.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-130848/clients/apple-tv-4k/apple-tv-4k.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-130848/clients/avg-redmi/avg-redmi.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-130848/clients/avg-redmi/avg-redmi.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-130848/clients/digital-razor/digital-razor.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-130848/clients/digital-razor/digital-razor.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-130848/clients/engel-samsung-pad/engel-samsung-pad.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-130848/clients/engel-samsung-pad/engel-samsung-pad.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-130848/clients/honor-lana-turk/honor-lana-turk.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-130848/clients/honor-lana-turk/honor-lana-turk.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-130848/clients/macmini-m4/macmini-m4.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-130848/clients/macmini-m4/macmini-m4.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-130848/clients/mikrotik-n11/mikrotik-n11.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-130848/clients/mikrotik-n11/mikrotik-n11.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-130848/clients/sergey-ipad97/sergey-ipad97.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-130848/clients/sergey-ipad97/sergey-ipad97.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-130848/clients/sergey-ipadair97/sergey-ipadair97.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-130848/clients/sergey-ipadair97/sergey-ipadair97.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-130848/clients/sergey-iphone12/sergey-iphone12.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-130848/clients/sergey-iphone12/sergey-iphone12.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-130848/clients/sergey-mac/sergey-mac.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-130848/clients/sergey-mac/sergey-mac.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-130848/clients/sergey-macbook-air/sergey-macbook-air.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-130848/clients/sergey-macbook-air/sergey-macbook-air.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-130848/clients/sergey-macbook-ru/sergey-macbook-ru.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-130848/clients/sergey-macbook-ru/sergey-macbook-ru.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-130848/clients/sveta-ipad97/sveta-ipad97.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-130848/clients/sveta-ipad97/sveta-ipad97.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-130848/clients/sveta-iphone16/sveta-iphone16.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-130848/clients/sveta-iphone16/sveta-iphone16.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-130848/clients/sveta-mac/sveta-mac.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-130848/clients/sveta-mac/sveta-mac.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-130848/clients/win-orekhovo/win-orekhovo.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-130848/clients/win-orekhovo/win-orekhovo.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-130848/clients_bth/sergey-bth/sergey-bth.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-130848/clients_bth/sergey-bth/sergey-bth.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-130848/config/wg_confs/wg-home.conf",
+      "line": 5,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-130848/config/wg_confs/wg-home.conf",
+      "line": 21,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-130848/config/wg_confs/wg0.conf",
+      "line": 4,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-130848/config/wg_confs/wg0.conf",
+      "line": 18,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-130848/config/wg_confs/wg0.conf",
+      "line": 23,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-130848/config/wg_confs/wg0.conf",
+      "line": 28,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-130848/config/wg_confs/wg0.conf",
+      "line": 33,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-130848/config/wg_confs/wg0.conf",
+      "line": 38,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-130848/config/wg_confs/wg0.conf",
+      "line": 44,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-130848/config/wg_confs/wg0.conf",
+      "line": 50,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-130848/config/wg_confs/wg0.conf",
+      "line": 56,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-130848/config/wg_confs/wg0.conf",
+      "line": 62,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-130848/config/wg_confs/wg0.conf",
+      "line": 68,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-130848/config/wg_confs/wg0.conf",
+      "line": 74,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-130848/config/wg_confs/wg0.conf",
+      "line": 80,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-130848/config/wg_confs/wg0.conf",
+      "line": 87,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-130848/config/wg_confs/wg0.conf",
+      "line": 93,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-130848/config/wg_confs/wg0.conf",
+      "line": 100,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-130848/config/wg_confs/wg0.conf",
+      "line": 106,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-130848/config/wg_confs/wg0.conf",
+      "line": 112,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-130848/config/wg_confs/wg0.conf",
+      "line": 118,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-130848/config/wg_confs/wg0.conf",
+      "line": 124,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-130848/config/wg_confs/wg0.conf",
+      "line": 130,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-130848/config/wg_confs/wg1.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wg_backup/wg_backup/wg_backup_20260426-130848/config/wg_confs/wg1.conf",
+      "line": 17,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wireguard_tree/WireGuard/apple-tv-1.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wireguard_tree/WireGuard/apple-tv-1.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wireguard_tree/WireGuard/apple-tv-2.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wireguard_tree/WireGuard/apple-tv-2.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wireguard_tree/WireGuard/apple-tv-4k-okko.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wireguard_tree/WireGuard/apple-tv-4k-okko.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wireguard_tree/WireGuard/digital-razor-okko.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wireguard_tree/WireGuard/digital-razor-okko.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wireguard_tree/WireGuard/digital-razor.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wireguard_tree/WireGuard/digital-razor.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wireguard_tree/WireGuard/vpn-configs/clients/anv-samsung/anv-samsung.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wireguard_tree/WireGuard/vpn-configs/clients/anv-samsung/anv-samsung.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wireguard_tree/WireGuard/vpn-configs/clients/apple-tv-1/apple-tv-1.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wireguard_tree/WireGuard/vpn-configs/clients/apple-tv-1/apple-tv-1.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wireguard_tree/WireGuard/vpn-configs/clients/apple-tv-2/apple-tv-2.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wireguard_tree/WireGuard/vpn-configs/clients/apple-tv-2/apple-tv-2.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wireguard_tree/WireGuard/vpn-configs/clients/apple-tv-4k/apple-tv-4k.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wireguard_tree/WireGuard/vpn-configs/clients/apple-tv-4k/apple-tv-4k.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wireguard_tree/WireGuard/vpn-configs/clients/avg-redmi/avg-redmi.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wireguard_tree/WireGuard/vpn-configs/clients/avg-redmi/avg-redmi.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wireguard_tree/WireGuard/vpn-configs/clients/digital-razor/digital-razor.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wireguard_tree/WireGuard/vpn-configs/clients/digital-razor/digital-razor.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wireguard_tree/WireGuard/vpn-configs/clients/engel-samsung-pad/engel-samsung-pad.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wireguard_tree/WireGuard/vpn-configs/clients/engel-samsung-pad/engel-samsung-pad.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wireguard_tree/WireGuard/vpn-configs/clients/honor-lana-turk/honor-lana-turk.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wireguard_tree/WireGuard/vpn-configs/clients/honor-lana-turk/honor-lana-turk.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wireguard_tree/WireGuard/vpn-configs/clients/macmini-m4/macmini-m4.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wireguard_tree/WireGuard/vpn-configs/clients/macmini-m4/macmini-m4.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wireguard_tree/WireGuard/vpn-configs/clients/sergey-ipad97/sergey-ipad97.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wireguard_tree/WireGuard/vpn-configs/clients/sergey-ipad97/sergey-ipad97.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wireguard_tree/WireGuard/vpn-configs/clients/sergey-ipadair97/sergey-ipadair97.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wireguard_tree/WireGuard/vpn-configs/clients/sergey-ipadair97/sergey-ipadair97.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wireguard_tree/WireGuard/vpn-configs/clients/sergey-iphone12/sergey-iphone12.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wireguard_tree/WireGuard/vpn-configs/clients/sergey-iphone12/sergey-iphone12.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wireguard_tree/WireGuard/vpn-configs/clients/sergey-mac/sergey-mac.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wireguard_tree/WireGuard/vpn-configs/clients/sergey-mac/sergey-mac.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wireguard_tree/WireGuard/vpn-configs/clients/sergey-macbook-ru/sergey-macbook-ru.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wireguard_tree/WireGuard/vpn-configs/clients/sergey-macbook-ru/sergey-macbook-ru.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wireguard_tree/WireGuard/vpn-configs/clients/sveta-ipad97/sveta-ipad97.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wireguard_tree/WireGuard/vpn-configs/clients/sveta-ipad97/sveta-ipad97.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wireguard_tree/WireGuard/vpn-configs/clients/sveta-iphone16/sveta-iphone16.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wireguard_tree/WireGuard/vpn-configs/clients/sveta-iphone16/sveta-iphone16.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wireguard_tree/WireGuard/vpn-configs/clients/win-orekhovo/win-orekhovo.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_legacy_wireguard_tree/WireGuard/vpn-configs/clients/win-orekhovo/win-orekhovo.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/Deprecated/2026-07-09_root_system_loose_files/wireguard1.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/local/2026-09-13T155624868766Z_current-config/hashes-before.json",
+      "line": 136,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/local/2026-09-13T155624868766Z_current-config/hashes-before.json",
+      "line": 351,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/local/2026-09-13T155624868766Z_current-config/hashes-before.json",
+      "line": 364,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/local/2026-09-13T155624868766Z_current-config/hashes-before.json",
+      "line": 402,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/local/2026-09-13T155624868766Z_current-config/hashes-before.json",
+      "line": 494,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/local/2026-09-13T160248153221Z_current-config/hashes-after.json",
+      "line": 136,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/local/2026-09-13T160248153221Z_current-config/hashes-after.json",
+      "line": 352,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/local/2026-09-13T160248153221Z_current-config/hashes-after.json",
+      "line": 365,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/local/2026-09-13T160248153221Z_current-config/hashes-after.json",
+      "line": 403,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/local/2026-09-13T160248153221Z_current-config/hashes-after.json",
+      "line": 495,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/local/2026-09-13T160248153221Z_current-config/hashes-before.json",
+      "line": 136,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/local/2026-09-13T160248153221Z_current-config/hashes-before.json",
+      "line": 352,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/local/2026-09-13T160248153221Z_current-config/hashes-before.json",
+      "line": 365,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/local/2026-09-13T160248153221Z_current-config/hashes-before.json",
+      "line": 403,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/local/2026-09-13T160248153221Z_current-config/hashes-before.json",
+      "line": 495,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/nakhimova/2026-09-27_os-maintenance/after.rsc",
+      "line": 12,
+      "kind": "credential_assignment"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/nakhimova/2026-09-27_os-maintenance/after.rsc",
+      "line": 12,
+      "kind": "routeros_sensitive"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/nakhimova/2026-09-27_os-maintenance/after.rsc",
+      "line": 16,
+      "kind": "credential_assignment"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/nakhimova/2026-09-27_os-maintenance/after.rsc",
+      "line": 16,
+      "kind": "routeros_sensitive"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/nakhimova/2026-09-27_os-maintenance/after.rsc",
+      "line": 21,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/nakhimova/2026-09-27_os-maintenance/after.rsc",
+      "line": 21,
+      "kind": "routeros_sensitive"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/nakhimova/2026-09-27_os-maintenance/before.rsc",
+      "line": 12,
+      "kind": "credential_assignment"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/nakhimova/2026-09-27_os-maintenance/before.rsc",
+      "line": 12,
+      "kind": "routeros_sensitive"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/nakhimova/2026-09-27_os-maintenance/before.rsc",
+      "line": 16,
+      "kind": "credential_assignment"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/nakhimova/2026-09-27_os-maintenance/before.rsc",
+      "line": 16,
+      "kind": "routeros_sensitive"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/nakhimova/2026-09-27_os-maintenance/before.rsc",
+      "line": 21,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/nakhimova/2026-09-27_os-maintenance/before.rsc",
+      "line": 21,
+      "kind": "routeros_sensitive"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/timeweb/20260709T173537Z-fresh-host-backup/native-backup/wg-clients.conf",
+      "line": 4,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/timeweb/20260709T173537Z-fresh-host-backup/native-backup/wg-home.conf",
+      "line": 5,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/timeweb/20260709T173537Z-fresh-host-backup/native-backup/wg-home.conf",
+      "line": 21,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/timeweb/20260709T173537Z-fresh-host-backup/native-backup/wg-home.conf",
+      "line": 27,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/timeweb/20260709T173537Z-fresh-host-backup/native-backup/wg-up-cenuta.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/timeweb/20260709T173537Z-fresh-host-backup/native-backup/wg0.conf",
+      "line": 4,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/timeweb/20260709T173537Z-fresh-host-backup/native-backup/wg0.conf",
+      "line": 18,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/timeweb/20260709T173537Z-fresh-host-backup/native-backup/wg0.conf",
+      "line": 23,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/timeweb/20260709T173537Z-fresh-host-backup/native-backup/wg0.conf",
+      "line": 28,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/timeweb/20260709T173537Z-fresh-host-backup/native-backup/wg0.conf",
+      "line": 34,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/timeweb/20260709T173537Z-fresh-host-backup/native-backup/wg0.conf",
+      "line": 40,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/timeweb/20260709T173537Z-fresh-host-backup/native-backup/wg0.conf",
+      "line": 46,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/timeweb/20260709T173537Z-fresh-host-backup/native-backup/wg0.conf",
+      "line": 52,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/timeweb/20260709T173537Z-fresh-host-backup/native-backup/wg0.conf",
+      "line": 58,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/timeweb/20260709T173537Z-fresh-host-backup/native-backup/wg0.conf",
+      "line": 65,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/timeweb/20260709T173537Z-fresh-host-backup/native-backup/wg0.conf",
+      "line": 71,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/timeweb/20260709T173537Z-fresh-host-backup/native-backup/wg0.conf",
+      "line": 77,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/timeweb/20260709T173537Z-fresh-host-backup/native-backup/wg0.conf",
+      "line": 83,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/timeweb/20260709T173537Z-fresh-host-backup/native-backup/wg0.conf",
+      "line": 89,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/timeweb/20260709T173537Z-fresh-host-backup/native-backup/wg0.conf",
+      "line": 95,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/timeweb/20260709T173537Z-fresh-host-backup/native-backup/wg0.conf",
+      "line": 101,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/timeweb/20260709T173537Z-fresh-host-backup/native-backup/wg1.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/timeweb/20260709T173537Z-fresh-host-backup/native-backup/wg1.conf",
+      "line": 17,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/timeweb/20260709T173537Z-fresh-host-backup/native-backup/client-configs/digitalrazor-pc-cenuta.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/timeweb/20260709T173537Z-fresh-host-backup/native-backup/client-configs/mac-mini-m4-cenuta-domru.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/timeweb/20260709T173537Z-fresh-host-backup/native-backup/client-configs/mac-mini-m4-fornex-domru.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/timeweb/20260709T173537Z-fresh-host-backup/native-backup/client-configs/mikrotik-hap-ax3-cenuta.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/timeweb/20260709T173537Z-fresh-host-backup/native-backup/client-configs/sergey-ipad-pro-cenuta-domru.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/timeweb/20260709T173537Z-fresh-host-backup/native-backup/client-configs/sergey-iphone-12-cenuta-domru.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/timeweb/20260709T173537Z-fresh-host-backup/native-backup/client-configs/sergey-macbook-m1-cenuta-domru.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/timeweb/20260709T173537Z-fresh-host-backup/native-backup/client-configs/sveta-ipad-9.7-cenuta-domru.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/timeweb/20260709T173537Z-fresh-host-backup/native-backup/client-configs/sveta-ipad-9.7-fornex-domru.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/timeweb/20260709T173537Z-fresh-host-backup/native-backup/client-configs/sveta-iphone-16-cenuta-domru.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/timeweb/20260709T173537Z-fresh-host-backup/native-backup/client-configs/sveta-iphone-16-fornex-domru.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/timeweb/20260709T173537Z-fresh-host-backup/native-backup/client-configs/sveta-macbook-m3-cenuta-domru.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/timeweb/20260709T173537Z-fresh-host-backup/native-backup/client-configs/sveta-macbook-m3-fornex-domru.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/timeweb/20260709T173537Z-fresh-host-backup/native-backup/client-configs/win-orekhovo-cenuta-domru.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/timeweb/20260709T173537Z-fresh-host-backup/native-backup/client-configs/win-orekhovo-fornex-domru.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/timeweb/20260709T173537Z-fresh-host-backup/native-backup/clients/anv-samsung-fornex/anv-samsung-fornex.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/timeweb/20260709T173537Z-fresh-host-backup/native-backup/clients/anv-samsung-fornex/anv-samsung-fornex.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/timeweb/20260709T173537Z-fresh-host-backup/native-backup/clients/apple-tv-1-fornex/apple-tv-1-fornex.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/timeweb/20260709T173537Z-fresh-host-backup/native-backup/clients/apple-tv-1-fornex/apple-tv-1-fornex.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/timeweb/20260709T173537Z-fresh-host-backup/native-backup/clients/apple-tv-2-fornex/apple-tv-2-fornex.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/timeweb/20260709T173537Z-fresh-host-backup/native-backup/clients/apple-tv-2-fornex/apple-tv-2-fornex.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/timeweb/20260709T173537Z-fresh-host-backup/native-backup/clients/apple-tv-4k-fornex/apple-tv-4k-fornex.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/timeweb/20260709T173537Z-fresh-host-backup/native-backup/clients/apple-tv-4k-fornex/apple-tv-4k-fornex.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/timeweb/20260709T173537Z-fresh-host-backup/native-backup/clients/avg-redmi-fornex/avg-redmi-fornex.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/timeweb/20260709T173537Z-fresh-host-backup/native-backup/clients/avg-redmi-fornex/avg-redmi-fornex.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/timeweb/20260709T173537Z-fresh-host-backup/native-backup/clients/digitalrazor-pc-fornex/digitalrazor-pc-fornex.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/timeweb/20260709T173537Z-fresh-host-backup/native-backup/clients/digitalrazor-pc-fornex/digitalrazor-pc-fornex.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/timeweb/20260709T173537Z-fresh-host-backup/native-backup/clients/engel-samsung-pad-fornex/engel-samsung-pad-fornex.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/timeweb/20260709T173537Z-fresh-host-backup/native-backup/clients/engel-samsung-pad-fornex/engel-samsung-pad-fornex.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/timeweb/20260709T173537Z-fresh-host-backup/native-backup/clients/honor-lana-turk-fornex/honor-lana-turk-fornex.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/timeweb/20260709T173537Z-fresh-host-backup/native-backup/clients/honor-lana-turk-fornex/honor-lana-turk-fornex.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/timeweb/20260709T173537Z-fresh-host-backup/native-backup/clients/mac-mini-m4-fornex/mac-mini-m4-fornex.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/timeweb/20260709T173537Z-fresh-host-backup/native-backup/clients/mac-mini-m4-fornex/mac-mini-m4-fornex.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/timeweb/20260709T173537Z-fresh-host-backup/native-backup/clients/mariia-mac-fornex/mariia-mac-fornex.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/timeweb/20260709T173537Z-fresh-host-backup/native-backup/clients/mariia-mac-fornex/mariia-mac-fornex.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/timeweb/20260709T173537Z-fresh-host-backup/native-backup/clients/mikrotik-n11-fornex/mikrotik-n11-fornex.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/timeweb/20260709T173537Z-fresh-host-backup/native-backup/clients/mikrotik-n11-fornex/mikrotik-n11-fornex.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/timeweb/20260709T173537Z-fresh-host-backup/native-backup/clients/sergey-ipad-pro-fornex/sergey-ipad-pro-fornex.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/timeweb/20260709T173537Z-fresh-host-backup/native-backup/clients/sergey-ipad-pro-fornex/sergey-ipad-pro-fornex.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/timeweb/20260709T173537Z-fresh-host-backup/native-backup/clients/sergey-iphone-12-fornex/sergey-iphone-12-fornex.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/timeweb/20260709T173537Z-fresh-host-backup/native-backup/clients/sergey-iphone-12-fornex/sergey-iphone-12-fornex.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/timeweb/20260709T173537Z-fresh-host-backup/native-backup/clients/sergey-macbook-m1-fornex/sergey-macbook-m1-fornex.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/timeweb/20260709T173537Z-fresh-host-backup/native-backup/clients/sergey-macbook-m1-fornex/sergey-macbook-m1-fornex.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/timeweb/20260709T173537Z-fresh-host-backup/native-backup/clients/win-orekhovo-fornex/win-orekhovo-fornex.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/timeweb/20260709T173537Z-fresh-host-backup/native-backup/clients/win-orekhovo-fornex/win-orekhovo-fornex.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/timeweb/20260709T173537Z-fresh-host-backup/native-backup/clients_bth/igor-engel-bth-domru/igor-engel-bth-domru.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/timeweb/20260709T173537Z-fresh-host-backup/native-backup/clients_bth/igor-engel-bth-domru/igor-engel-bth-domru.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/timeweb/20260709T173537Z-fresh-host-backup/native-backup/clients_bth/sergey-bth-domru/sergey-bth-domru.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/timeweb/20260709T173537Z-fresh-host-backup/native-backup/clients_bth/sergey-bth-domru/sergey-bth-domru.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/timeweb/20260709T173537Z-fresh-host-backup/native-backup/configs/server/wg-clients.conf",
+      "line": 4,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/backups/timeweb/20260709T173537Z-fresh-host-backup/native-backup/configs/server/wg-up-cenuta.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/current/router/exports/mikrotik-hap-ax3-20260709T172450Z-verbose.rsc",
+      "line": 386,
+      "kind": "credential_assignment"
+    },
+    {
+      "root": "system",
+      "path": "Mikrotik/current/router/exports/mikrotik-hap-ax3-20260709T172450Z-verbose.rsc",
+      "line": 386,
+      "kind": "routeros_sensitive"
+    },
+    {
+      "root": "system",
+      "path": "clients/Other/DigitalRazor/AWG31-FX-DigitalRazor.conf",
+      "line": 5,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "clients/Other/DigitalRazor/AWG31-FX-DigitalRazor.conf",
+      "line": 30,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "clients/Other/DigitalRazor/WG-TW-CEN-DigitalRazor.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "clients/Other/DigitalRazor/WG-TW-FX-DigitalRazor.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "clients/Other/DigitalRazor/WG-TW-FX-DigitalRazor.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "clients/Other/Igor-Unassigned/WG-TW-BTH-Igor-Unassigned.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "clients/Other/Igor-Unassigned/WG-TW-BTH-Igor-Unassigned.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "clients/Other/Samsung-Pad/AWG31-FX-SamsungPad.conf",
+      "line": 5,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "clients/Other/Samsung-Pad/AWG31-FX-SamsungPad.conf",
+      "line": 30,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "clients/Other/Samsung-Pad/WG-TW-CEN-RUHOME-SamsungPad.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "clients/Other/Samsung-Pad/WG-TW-FX-SamsungPad.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "clients/Other/Samsung-Pad/WG-TW-FX-SamsungPad.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "clients/Other/Win-Orekhovo/AWG31-FX-WinOrekhovo.conf",
+      "line": 5,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "clients/Other/Win-Orekhovo/AWG31-FX-WinOrekhovo.conf",
+      "line": 30,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "clients/Other/Win-Orekhovo/WG-TW-CEN-RUHOME-WinOrekhovo.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "clients/Other/Win-Orekhovo/WG-TW-FX-RUHOME-WinOrekhovo.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "clients/Other/Win-Orekhovo/WG-TW-FX-WinOrekhovo.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "clients/Other/Win-Orekhovo/WG-TW-FX-WinOrekhovo.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "clients/Other/anv-samsung/WG-TW-FX-anv-samsung.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "clients/Other/anv-samsung/WG-TW-FX-anv-samsung.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "clients/Other/apple-tv-1/WG-TW-FX-apple-tv-1.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "clients/Other/apple-tv-1/WG-TW-FX-apple-tv-1.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "clients/Other/apple-tv-4k/WG-TW-FX-apple-tv-4k.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "clients/Other/apple-tv-4k/WG-TW-FX-apple-tv-4k.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "clients/Other/apple-tv-fethiye/WG-TW-BTH-apple-tv-fethiye.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "clients/Other/apple-tv-fethiye/WG-TW-BTH-apple-tv-fethiye.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "clients/Other/apple-tv-fethiye/WG-TW-FX-apple-tv-fethiye.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "clients/Other/apple-tv-fethiye/WG-TW-FX-apple-tv-fethiye.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "clients/Other/apple-tv-orekhovo/WG-TW-CEN-apple-tv-orekhovo.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "clients/Other/avg-redmi/WG-TW-FX-avg-redmi.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "clients/Other/avg-redmi/WG-TW-FX-avg-redmi.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "clients/Other/honor-lana-turk/WG-TW-FX-honor-lana-turk.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "clients/Other/honor-lana-turk/WG-TW-FX-honor-lana-turk.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "clients/Other/mariia-mac/WG-TW-FX-mariia-mac.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "clients/Other/mariia-mac/WG-TW-FX-mariia-mac.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "clients/Other/mikrotik-n11/WG-TW-FX-mikrotik-n11.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "clients/Other/mikrotik-n11/WG-TW-FX-mikrotik-n11.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "clients/Sergey/MacBook/AWG31-FX-S-MacBook.conf",
+      "line": 5,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "clients/Sergey/MacBook/AWG31-FX-S-MacBook.conf",
+      "line": 30,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "clients/Sergey/MacBook/SOCKS-TW-CEN-MacBook.json",
+      "line": 28,
+      "kind": "proxy_identity"
+    },
+    {
+      "root": "system",
+      "path": "clients/Sergey/MacBook/SOCKS-TW-FLEX-S-MacBook.json",
+      "line": 28,
+      "kind": "proxy_identity"
+    },
+    {
+      "root": "system",
+      "path": "clients/Sergey/MacBook/SOCKS-TW-FX-MacBook.json",
+      "line": 28,
+      "kind": "proxy_identity"
+    },
+    {
+      "root": "system",
+      "path": "clients/Sergey/MacBook/WG-TW-BTH-S-MacBook.conf",
+      "line": 2,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "clients/Sergey/MacBook/WG-TW-BTH-S-MacBook.conf",
+      "line": 8,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "clients/Sergey/MacBook/WG-TW-CEN-RUHOME-S-MacBook.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "clients/Sergey/MacBook/WG-TW-FX-S-MacBook.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "clients/Sergey/MacBook/WG-TW-FX-S-MacBook.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "clients/Sergey/MacBook/XRAY-TW-BTH-S-MacBook.json",
+      "line": 28,
+      "kind": "proxy_identity"
+    },
+    {
+      "root": "system",
+      "path": "clients/Sergey/MacBook/XRAY-TW-CEN-S-MacBook.json",
+      "line": 28,
+      "kind": "proxy_identity"
+    },
+    {
+      "root": "system",
+      "path": "clients/Sergey/MacBook/XRAY-TW-FX-TUN-S-MacBook.json",
+      "line": 43,
+      "kind": "proxy_identity"
+    },
+    {
+      "root": "system",
+      "path": "clients/Sergey/MacMini/AWG31-FX-S-Mini.conf",
+      "line": 5,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "clients/Sergey/MacMini/AWG31-FX-S-Mini.conf",
+      "line": 30,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "clients/Sergey/MacMini/SOCKS-TW-CEN-Mini.json",
+      "line": 28,
+      "kind": "proxy_identity"
+    },
+    {
+      "root": "system",
+      "path": "clients/Sergey/MacMini/SOCKS-TW-FLEX-S-Mini.json",
+      "line": 28,
+      "kind": "proxy_identity"
+    },
+    {
+      "root": "system",
+      "path": "clients/Sergey/MacMini/SOCKS-TW-FX-Mini.json",
+      "line": 28,
+      "kind": "proxy_identity"
+    },
+    {
+      "root": "system",
+      "path": "clients/Sergey/MacMini/WG-TW-CEN-RUHOME-S-Mini.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "clients/Sergey/MacMini/WG-TW-FX-RUHOME-S-Mini.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "clients/Sergey/MacMini/WG-TW-FX-S-Mini.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "clients/Sergey/MacMini/WG-TW-FX-S-Mini.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "clients/Sergey/MacMini/XRAY-TW-BTH-S-Mini.json",
+      "line": 28,
+      "kind": "proxy_identity"
+    },
+    {
+      "root": "system",
+      "path": "clients/Sergey/MacMini/XRAY-TW-CEN-S-Mini.json",
+      "line": 28,
+      "kind": "proxy_identity"
+    },
+    {
+      "root": "system",
+      "path": "clients/Sergey/MacMini/XRAY-TW-FX-S-Mini.json",
+      "line": 28,
+      "kind": "proxy_identity"
+    },
+    {
+      "root": "system",
+      "path": "clients/Sergey/iPad-97/AWG31-FX-S-iPad97.conf",
+      "line": 5,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "clients/Sergey/iPad-97/AWG31-FX-S-iPad97.conf",
+      "line": 30,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "clients/Sergey/iPad-97/WG-TW-CEN-RUHOME-S-iPad97.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "clients/Sergey/iPad-97/WG-TW-FX-RUHOME-S-iPad97.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "clients/Sergey/iPad-Pro/AWG31-FX-S-iPadPro.conf",
+      "line": 5,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "clients/Sergey/iPad-Pro/AWG31-FX-S-iPadPro.conf",
+      "line": 30,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "clients/Sergey/iPad-Pro/WG-TW-CEN-RUHOME-S-iPadPro.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "clients/Sergey/iPad-Pro/WG-TW-FX-S-iPadPro.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "clients/Sergey/iPad-Pro/WG-TW-FX-S-iPadPro.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "clients/Sergey/iPhone/AWG31-FX-S-iPhone.conf",
+      "line": 5,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "clients/Sergey/iPhone/AWG31-FX-S-iPhone.conf",
+      "line": 30,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "clients/Sergey/iPhone/SOCKS-TW-CEN-iPhone12.json",
+      "line": 28,
+      "kind": "proxy_identity"
+    },
+    {
+      "root": "system",
+      "path": "clients/Sergey/iPhone/SOCKS-TW-FLEX-iPhone12.json",
+      "line": 28,
+      "kind": "proxy_identity"
+    },
+    {
+      "root": "system",
+      "path": "clients/Sergey/iPhone/SOCKS-TW-FX-iPhone12.json",
+      "line": 28,
+      "kind": "proxy_identity"
+    },
+    {
+      "root": "system",
+      "path": "clients/Sergey/iPhone/WG-TW-CEN-RUHOME-S-iPhone.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "clients/Sergey/iPhone/WG-TW-FX-S-iPhone.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "clients/Sergey/iPhone/WG-TW-FX-S-iPhone.conf",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "clients/Sergey/iPhone/XRAY-TW-BTH-S-iPhone.json",
+      "line": 28,
+      "kind": "proxy_identity"
+    },
+    {
+      "root": "system",
+      "path": "clients/Sergey/iPhone/XRAY-TW-CEN-S-iPhone.json",
+      "line": 28,
+      "kind": "proxy_identity"
+    },
+    {
+      "root": "system",
+      "path": "clients/Sergey/iPhone/XRAY-TW-FX-S-iPhone.json",
+      "line": 28,
+      "kind": "proxy_identity"
+    },
+    {
+      "root": "system",
+      "path": "clients/Sveta/MacBook-M3/AWG31-FX-V-MacBook.conf",
+      "line": 5,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "clients/Sveta/MacBook-M3/AWG31-FX-V-MacBook.conf",
+      "line": 30,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "clients/Sveta/MacBook-M3/WG-TW-CEN-RUHOME-V-MacBook.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "clients/Sveta/MacBook-M3/WG-TW-FX-RUHOME-V-MacBook.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "clients/Sveta/iPad-97/AWG31-FX-V-iPad97.conf",
+      "line": 5,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "clients/Sveta/iPad-97/AWG31-FX-V-iPad97.conf",
+      "line": 30,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "clients/Sveta/iPad-97/WG-TW-CEN-RUHOME-V-iPad97.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "clients/Sveta/iPad-97/WG-TW-FX-RUHOME-V-iPad97.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "clients/Sveta/iPhone-16/AWG31-FX-V-iPhone.conf",
+      "line": 5,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "clients/Sveta/iPhone-16/AWG31-FX-V-iPhone.conf",
+      "line": 30,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "clients/Sveta/iPhone-16/WG-TW-CEN-RUHOME-V-iPhone.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "clients/Sveta/iPhone-16/WG-TW-FX-RUHOME-V-iPhone.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "monitoring/timeweb-uplinks/resume-20260914/audit.json",
+      "line": 1609,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "monitoring/timeweb-uplinks/resume-20260914/bth.before.contract.json",
+      "line": 14,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "monitoring/timeweb-uplinks/resume-20260914/contract.next.json",
+      "line": 14,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "monitoring/vpn-connectivity/evidence/dashboard-ui-20260914/user-export.json",
+      "line": 7,
+      "kind": "proxy_identity"
+    },
+    {
+      "root": "system",
+      "path": "transport/documentation-audit-20260913/before/Obsidian/Personal/RESOURCE/IT/MIKROTIK/docs/Cenuta_hosts_2026-06-22.md",
+      "line": 321,
+      "kind": "localized_credential_candidate"
+    },
+    {
+      "root": "system",
+      "path": "transport/documentation-audit-20260913/before/Obsidian/Personal/RESOURCE/IT/MIKROTIK/docs/Mikrotik_to_VPS_WireGuard.md",
+      "line": 89,
+      "kind": "routeros_sensitive"
+    },
+    {
+      "root": "system",
+      "path": "transport/documentation-audit-20260913/before/Obsidian/Personal/RESOURCE/IT/MIKROTIK/docs/Setup_Guide_hAP_ax3.md",
+      "line": 24,
+      "kind": "credential_assignment"
+    },
+    {
+      "root": "system",
+      "path": "transport/documentation-audit-20260913/before/Obsidian/Personal/RESOURCE/IT/MIKROTIK/docs/Setup_Guide_hAP_ax3.md",
+      "line": 24,
+      "kind": "routeros_sensitive"
+    },
+    {
+      "root": "system",
+      "path": "transport/documentation-audit-20260913/before/Obsidian/Personal/RESOURCE/IT/MIKROTIK/docs/Setup_Guide_hAP_ax3.md",
+      "line": 62,
+      "kind": "credential_assignment"
+    },
+    {
+      "root": "system",
+      "path": "transport/documentation-audit-20260913/before/Obsidian/Personal/RESOURCE/IT/MIKROTIK/docs/Setup_Guide_hAP_ax3.md",
+      "line": 62,
+      "kind": "routeros_sensitive"
+    },
+    {
+      "root": "system",
+      "path": "transport/fornex-awg31/Fornex-AWG31-DigitalRazor-PC.conf",
+      "line": 5,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/fornex-awg31/Fornex-AWG31-DigitalRazor-PC.conf",
+      "line": 30,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/fornex-awg31/Fornex-AWG31-Engel-Samsung-Pad.conf",
+      "line": 5,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/fornex-awg31/Fornex-AWG31-Engel-Samsung-Pad.conf",
+      "line": 30,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/fornex-awg31/Fornex-AWG31-Mac-Mini-M4.conf",
+      "line": 5,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/fornex-awg31/Fornex-AWG31-Mac-Mini-M4.conf",
+      "line": 30,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/fornex-awg31/Fornex-AWG31-MacBook-M3-Sveta.conf",
+      "line": 5,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/fornex-awg31/Fornex-AWG31-MacBook-M3-Sveta.conf",
+      "line": 30,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/fornex-awg31/Fornex-AWG31-MacBook-Sergey.conf",
+      "line": 5,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/fornex-awg31/Fornex-AWG31-MacBook-Sergey.conf",
+      "line": 30,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/fornex-awg31/Fornex-AWG31-Win-Orekhovo.conf",
+      "line": 5,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/fornex-awg31/Fornex-AWG31-Win-Orekhovo.conf",
+      "line": 30,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/fornex-awg31/Fornex-AWG31-iPad-9.7-Sergey.conf",
+      "line": 5,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/fornex-awg31/Fornex-AWG31-iPad-9.7-Sergey.conf",
+      "line": 30,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/fornex-awg31/Fornex-AWG31-iPad-9.7-Sveta.conf",
+      "line": 5,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/fornex-awg31/Fornex-AWG31-iPad-9.7-Sveta.conf",
+      "line": 30,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/fornex-awg31/Fornex-AWG31-iPad-Pro-Sergey.conf",
+      "line": 5,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/fornex-awg31/Fornex-AWG31-iPad-Pro-Sergey.conf",
+      "line": 30,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/fornex-awg31/Fornex-AWG31-iPhone-16-Sveta.conf",
+      "line": 5,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/fornex-awg31/Fornex-AWG31-iPhone-16-Sveta.conf",
+      "line": 30,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/fornex-awg31/Fornex-AWG31-iPhone-Sergey.conf",
+      "line": 5,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/fornex-awg31/Fornex-AWG31-iPhone-Sergey.conf",
+      "line": 30,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/fornex-awg31/credentials.json",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/fornex-awg31/credentials.json",
+      "line": 9,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/fornex-awg31/credentials.json",
+      "line": 11,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/fornex-awg31/credentials.json",
+      "line": 14,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/fornex-awg31/credentials.json",
+      "line": 16,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/fornex-awg31/credentials.json",
+      "line": 19,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/fornex-awg31/credentials.json",
+      "line": 21,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/fornex-awg31/credentials.json",
+      "line": 24,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/fornex-awg31/credentials.json",
+      "line": 26,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/fornex-awg31/credentials.json",
+      "line": 29,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/fornex-awg31/credentials.json",
+      "line": 31,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/fornex-awg31/credentials.json",
+      "line": 34,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/fornex-awg31/credentials.json",
+      "line": 36,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/fornex-awg31/credentials.json",
+      "line": 39,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/fornex-awg31/credentials.json",
+      "line": 41,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/fornex-awg31/credentials.json",
+      "line": 44,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/fornex-awg31/credentials.json",
+      "line": 46,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/fornex-awg31/credentials.json",
+      "line": 49,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/fornex-awg31/credentials.json",
+      "line": 51,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/fornex-awg31/credentials.json",
+      "line": 54,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/fornex-awg31/credentials.json",
+      "line": 56,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/fornex-awg31/credentials.json",
+      "line": 59,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/fornex-awg31/credentials.json",
+      "line": 61,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/fornex-awg31/release/awg0.conf",
+      "line": 5,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/fornex-awg31/release/awg0.conf",
+      "line": 29,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/fornex-awg31/release/awg0.conf",
+      "line": 34,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/fornex-awg31/release/awg0.conf",
+      "line": 39,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/fornex-awg31/release/awg0.conf",
+      "line": 44,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/fornex-awg31/release/awg0.conf",
+      "line": 49,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/fornex-awg31/release/awg0.conf",
+      "line": 54,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/fornex-awg31/release/awg0.conf",
+      "line": 59,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/fornex-awg31/release/awg0.conf",
+      "line": 64,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/fornex-awg31/release/awg0.conf",
+      "line": 69,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/fornex-awg31/release/awg0.conf",
+      "line": 74,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/fornex-awg31/release/awg0.conf",
+      "line": 79,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/fornex-awg31/retirement-backup/Fornex-AWG31-test.conf",
+      "line": 5,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/fornex-awg31/retirement-backup/Fornex-AWG31-test.conf",
+      "line": 30,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/fornex-awg31/retirement-backup/awg31.before.conf",
+      "line": 5,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/fornex-awg31/retirement-backup/awg31.before.conf",
+      "line": 29,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/fornex-awg31/retirement-backup/awg31.before.conf",
+      "line": 34,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/fornex-awg31/retirement-backup/credentials.before.json",
+      "line": 1,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/prepare_stage3.py",
+      "line": 69,
+      "kind": "credential_assignment"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/stage8_cenuta.py",
+      "line": 86,
+      "kind": "credential_assignment"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/stage9_bth.py",
+      "line": 54,
+      "kind": "credential_assignment"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/bth-recovery-release/contract.json",
+      "line": 7,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/bth-recovery-release/manifest.json",
+      "line": 4,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/changesets/20260917T130829Z-macbook-wg-tw-bth/client.conf",
+      "line": 2,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/changesets/20260917T130829Z-macbook-wg-tw-bth/client.conf",
+      "line": 8,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/changesets/20260917T130829Z-macbook-wg-tw-bth/contract.after.json",
+      "line": 7,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/changesets/20260917T130829Z-macbook-wg-tw-bth/contract.before.json",
+      "line": 14,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/changesets/20260917T130829Z-macbook-wg-tw-bth/contract.transition.json",
+      "line": 7,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/changesets/20260917T130829Z-macbook-wg-tw-bth/manifest.json",
+      "line": 12,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/changesets/20260917T131008Z-macbook-wg-tw-bth/client.conf",
+      "line": 2,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/changesets/20260917T131008Z-macbook-wg-tw-bth/client.conf",
+      "line": 8,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/changesets/20260917T131008Z-macbook-wg-tw-bth/contract.after.json",
+      "line": 7,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/changesets/20260917T131008Z-macbook-wg-tw-bth/contract.before.json",
+      "line": 14,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/changesets/20260917T131008Z-macbook-wg-tw-bth/contract.transition.json",
+      "line": 7,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/changesets/20260917T131008Z-macbook-wg-tw-bth/manifest.json",
+      "line": 12,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/changesets/20260917T131304Z-macbook-wg-tw-bth/client.conf",
+      "line": 2,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/changesets/20260917T131304Z-macbook-wg-tw-bth/client.conf",
+      "line": 8,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/changesets/20260917T131304Z-macbook-wg-tw-bth/contract.after.json",
+      "line": 7,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/changesets/20260917T131304Z-macbook-wg-tw-bth/contract.before.json",
+      "line": 14,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/changesets/20260917T131304Z-macbook-wg-tw-bth/contract.transition.json",
+      "line": 7,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/changesets/20260917T131304Z-macbook-wg-tw-bth/manifest.json",
+      "line": 12,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/changesets/20260917T131417Z-macbook-wg-tw-bth/client.conf",
+      "line": 2,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/changesets/20260917T131417Z-macbook-wg-tw-bth/client.conf",
+      "line": 8,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/changesets/20260917T131417Z-macbook-wg-tw-bth/contract.after.json",
+      "line": 7,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/changesets/20260917T131417Z-macbook-wg-tw-bth/contract.before.json",
+      "line": 14,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/changesets/20260917T131417Z-macbook-wg-tw-bth/contract.transition.json",
+      "line": 7,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/changesets/20260917T131417Z-macbook-wg-tw-bth/manifest.json",
+      "line": 12,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/cli-diagnostic-20260913T112146/client.json",
+      "line": 1,
+      "kind": "proxy_identity"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/cli-diagnostic-20260913T112659/client.json",
+      "line": 1,
+      "kind": "proxy_identity"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/lab/input/bad-client.json",
+      "line": 32,
+      "kind": "proxy_identity"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/lab/input/client.json",
+      "line": 32,
+      "kind": "proxy_identity"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/lab/input/secrets.json",
+      "line": 7,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/lab/input/secrets.json",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/lab/input/secrets.json",
+      "line": 12,
+      "kind": "proxy_identity"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/lab/input/secrets.json",
+      "line": 13,
+      "kind": "proxy_identity"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/lab/input/secrets.json",
+      "line": 15,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/lab/input/secrets.json",
+      "line": 18,
+      "kind": "proxy_identity"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/lab/input/server.json",
+      "line": 22,
+      "kind": "proxy_identity"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/lab/input/server.json",
+      "line": 27,
+      "kind": "proxy_identity"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/lab/input/server.json",
+      "line": 61,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/lab/input/server.json",
+      "line": 61,
+      "kind": "credential_assignment"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/lab/input/server.json",
+      "line": 71,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/lab/input/wg-server.conf",
+      "line": 2,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/lab/input/wg-server.conf",
+      "line": 7,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/stage4-fornex/after.conf",
+      "line": 6,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/stage4-fornex/after.conf",
+      "line": 18,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/stage4-fornex/after.conf",
+      "line": 28,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/stage4-fornex/before.conf",
+      "line": 5,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/stage4-fornex/before.conf",
+      "line": 17,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/stage4-fornex/manifest.json",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/stage4-fornex-draft/after.conf",
+      "line": 6,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/stage4-fornex-draft/after.conf",
+      "line": 18,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/stage4-fornex-draft/after.conf",
+      "line": 28,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/stage4-fornex-draft/before.conf",
+      "line": 5,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/stage4-fornex-draft/before.conf",
+      "line": 17,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/stage4-fornex-draft/manifest.json",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/stage56-timeweb/TimeWeb-REALITY-Fornex-MacBook-Sergey.json",
+      "line": 28,
+      "kind": "proxy_identity"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/stage56-timeweb/TimeWeb-REALITY-Fornex-iPhone.json",
+      "line": 28,
+      "kind": "proxy_identity"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/stage56-timeweb/external-client.json",
+      "line": 28,
+      "kind": "proxy_identity"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/stage56-timeweb/loopback.json",
+      "line": 22,
+      "kind": "proxy_identity"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/stage56-timeweb/loopback.json",
+      "line": 27,
+      "kind": "proxy_identity"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/stage56-timeweb/loopback.json",
+      "line": 61,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/stage56-timeweb/loopback.json",
+      "line": 61,
+      "kind": "credential_assignment"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/stage56-timeweb/loopback.json",
+      "line": 71,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/stage56-timeweb/public.json",
+      "line": 22,
+      "kind": "proxy_identity"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/stage56-timeweb/public.json",
+      "line": 27,
+      "kind": "proxy_identity"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/stage56-timeweb/public.json",
+      "line": 61,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/stage56-timeweb/public.json",
+      "line": 61,
+      "kind": "credential_assignment"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/stage56-timeweb/public.json",
+      "line": 71,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/stage56-timeweb/test-client.json",
+      "line": 32,
+      "kind": "proxy_identity"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/stage56-timeweb/unknown-uuid-client.json",
+      "line": 1,
+      "kind": "proxy_identity"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/stage8-cenuta/TimeWeb-REALITY-Cenuta-MacBook-Sergey.json",
+      "line": 28,
+      "kind": "proxy_identity"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/stage8-cenuta/TimeWeb-REALITY-Cenuta-iPhone.json",
+      "line": 28,
+      "kind": "proxy_identity"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/stage8-cenuta/manifest.json",
+      "line": 16,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/stage8-test-20260913T114501/Cenuta.json",
+      "line": 1,
+      "kind": "proxy_identity"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/stage8-test-20260913T114501/Fornex.json",
+      "line": 1,
+      "kind": "proxy_identity"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/stage8-test-20260913T114521/Cenuta.json",
+      "line": 1,
+      "kind": "proxy_identity"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/stage8-test-20260913T114521/Fornex.json",
+      "line": 1,
+      "kind": "proxy_identity"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/stage8-test-20260913T135418/Cenuta.json",
+      "line": 1,
+      "kind": "proxy_identity"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/stage8-test-20260913T135418/Fornex.json",
+      "line": 1,
+      "kind": "proxy_identity"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/stage8-test-20260913T135604/Cenuta.json",
+      "line": 1,
+      "kind": "proxy_identity"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/stage8-test-20260913T135604/Fornex.json",
+      "line": 1,
+      "kind": "proxy_identity"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/stage8-test-20260913T160337/Cenuta.json",
+      "line": 1,
+      "kind": "proxy_identity"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/stage8-test-20260913T160337/Fornex.json",
+      "line": 1,
+      "kind": "proxy_identity"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/stage9-audit-20260913T104220Z/wg-home.conf",
+      "line": 5,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/stage9-audit-20260913T104220Z/wg-home.conf",
+      "line": 21,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/stage9-audit-20260913T104220Z/wg-home.conf",
+      "line": 27,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/stage9-audit-20260913T104259Z/wg-home.conf",
+      "line": 5,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/stage9-audit-20260913T104259Z/wg-home.conf",
+      "line": 21,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/stage9-audit-20260913T104259Z/wg-home.conf",
+      "line": 27,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/stage9-bth/TimeWeb-REALITY-BTH-MacBook-Sergey.json",
+      "line": 28,
+      "kind": "proxy_identity"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/stage9-bth/TimeWeb-REALITY-BTH-iPhone.json",
+      "line": 28,
+      "kind": "proxy_identity"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/stage9-bth/manifest.json",
+      "line": 9,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/stage9-bth/router.before.rsc",
+      "line": 7,
+      "kind": "credential_assignment"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/stage9-bth/router.before.rsc",
+      "line": 7,
+      "kind": "routeros_sensitive"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/stage9-bth/router.before.rsc",
+      "line": 8,
+      "kind": "credential_assignment"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/stage9-bth/router.before.rsc",
+      "line": 8,
+      "kind": "routeros_sensitive"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/stage9-bth/router.before.rsc",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/stage9-bth/router.before.rsc",
+      "line": 10,
+      "kind": "routeros_sensitive"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/stage9-bth/router.before.rsc",
+      "line": 11,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/stage9-bth/router.before.rsc",
+      "line": 11,
+      "kind": "routeros_sensitive"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/stage9-bth/router.before.rsc",
+      "line": 12,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/stage9-bth/router.before.rsc",
+      "line": 12,
+      "kind": "routeros_sensitive"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/stage9-bth/router.before.rsc",
+      "line": 43,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/stage9-bth/router.before.rsc",
+      "line": 43,
+      "kind": "routeros_sensitive"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/stage9-test-20260913T135412/client.json",
+      "line": 1,
+      "kind": "proxy_identity"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/stage9-test-20260913T135434/client.json",
+      "line": 1,
+      "kind": "proxy_identity"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/stage9-test-20260913T135500/client.json",
+      "line": 1,
+      "kind": "proxy_identity"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/stage9-test-20260913T135514/client.json",
+      "line": 1,
+      "kind": "proxy_identity"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/stage9-test-20260913T135557/client.json",
+      "line": 1,
+      "kind": "proxy_identity"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/stage9-test-20260913T135623/client.json",
+      "line": 1,
+      "kind": "proxy_identity"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/stage9-test-20260913T160336/client.json",
+      "line": 1,
+      "kind": "proxy_identity"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/stage9-test-20260914T170306/client.json",
+      "line": 1,
+      "kind": "proxy_identity"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/stage9-test-20260914T170730/client.json",
+      "line": 1,
+      "kind": "proxy_identity"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/staging/fornex/client-iphone.json",
+      "line": 32,
+      "kind": "proxy_identity"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/staging/fornex/client-macbook.json",
+      "line": 32,
+      "kind": "proxy_identity"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/staging/fornex/new-peer.fragment.conf",
+      "line": 3,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/staging/fornex/secrets.json",
+      "line": 7,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/staging/fornex/secrets.json",
+      "line": 10,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/staging/fornex/secrets.json",
+      "line": 12,
+      "kind": "proxy_identity"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/staging/fornex/secrets.json",
+      "line": 13,
+      "kind": "proxy_identity"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/staging/fornex/server.loopback.json",
+      "line": 22,
+      "kind": "proxy_identity"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/staging/fornex/server.loopback.json",
+      "line": 27,
+      "kind": "proxy_identity"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/staging/fornex/server.loopback.json",
+      "line": 61,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/staging/fornex/server.loopback.json",
+      "line": 61,
+      "kind": "credential_assignment"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/staging/fornex/server.loopback.json",
+      "line": 71,
+      "kind": "wg_private_key"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/tests/test_backup_local.py",
+      "line": 26,
+      "kind": "credential_assignment"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/tests/test_maintenance_preflight.py",
+      "line": 22,
+      "kind": "credential_assignment"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/wstunnel-cenuta-backup/pki/ca.key",
+      "line": 1,
+      "kind": "private_key_block"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/wstunnel-cenuta-backup/pki/cenuta-server.key",
+      "line": 1,
+      "kind": "private_key_block"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/wstunnel-cenuta-backup/pki/timeweb-client.key",
+      "line": 1,
+      "kind": "private_key_block"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/wstunnel-fornex-backup/pki/ca.key",
+      "line": 1,
+      "kind": "private_key_block"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/wstunnel-fornex-backup/pki/fornex-server.key",
+      "line": 1,
+      "kind": "private_key_block"
+    },
+    {
+      "root": "system",
+      "path": "transport/timeweb-reality/wstunnel-fornex-backup/pki/timeweb-client.key",
+      "line": 1,
+      "kind": "private_key_block"
+    }
+  ],
+  "path_reference_files": 289,
+  "duplicate_groups": 344,
+  "read_errors": [],
+  "map_sha256": "6d0f00cc089a08d14f33fcf61b504adb4d80eaf30cc050f01d5f6c930f8eb2d2"
+}

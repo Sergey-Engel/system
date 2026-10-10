@@ -1,0 +1,13 @@
+[Unit]
+Description=Validate and recover only the REALITY BTH peer
+After=docker.service network-online.target
+
+[Service]
+Type=oneshot
+User=root
+ExecStart=/bin/bash /opt/timeweb-reality/bth-recovery/bth_recover.sh
+TimeoutStartSec=30
+MemoryMax=96M
+CPUQuota=20%
+TasksMax=32
+UMask=0077

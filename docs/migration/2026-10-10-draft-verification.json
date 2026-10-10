@@ -1,0 +1,18 @@
+{
+  "status": "proposal_only",
+  "migration_executed": false,
+  "remote_changes": false,
+  "source_file_map_rows": 3711,
+  "copy_destination_collisions": 0,
+  "draft_secret_scan_findings": 0,
+  "relative_file_links_checked": 3,
+  "local_private_paths_ignored": true,
+  "files_staged": 0,
+  "template_reference_unchanged": true,
+  "template_preserve_only_parts_unchanged": true,
+  "template_body_properties_preserved": true,
+  "reference_pages": 7,
+  "proposal_pages": 7,
+  "rendered_pages_visually_checked": true,
+  "secrets_scope_limitation": "Text scan only; source binaries, pictures and candidates require further review"
+}

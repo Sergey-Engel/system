@@ -1,0 +1,533 @@
+{
+  "schema_version": 1,
+  "generated_utc": "2026-10-10T14:57:30.632067+00:00",
+  "profiles": [
+    {
+      "path": "Other/DigitalRazor/AWG31-FX-DigitalRazor.conf",
+      "owner": "Other",
+      "device": "DigitalRazor",
+      "name": "AWG31-FX-DigitalRazor.conf",
+      "type": "AWG31",
+      "sha256": "72b376488c16e037c57e11fb3cc1a0110c5bee8665fde8e782d94d35e10770fe"
+    },
+    {
+      "path": "Other/DigitalRazor/WG-TW-CEN-DigitalRazor.conf",
+      "owner": "Other",
+      "device": "DigitalRazor",
+      "name": "WG-TW-CEN-DigitalRazor.conf",
+      "type": "WG",
+      "sha256": "49ded9edb352d61e84ba7a9d5ad2a5e9892bfe210b9c2283ea303ba403b1dc4a"
+    },
+    {
+      "path": "Other/DigitalRazor/WG-TW-FX-DigitalRazor.conf",
+      "owner": "Other",
+      "device": "DigitalRazor",
+      "name": "WG-TW-FX-DigitalRazor.conf",
+      "type": "WG",
+      "sha256": "96cbd9229865872836deec115878832ae5a94401f2456555723ba030e3236f2b"
+    },
+    {
+      "path": "Other/Igor-Unassigned/WG-TW-BTH-Igor-Unassigned.conf",
+      "owner": "Other",
+      "device": "Igor-Unassigned",
+      "name": "WG-TW-BTH-Igor-Unassigned.conf",
+      "type": "WG",
+      "sha256": "467b1bd797ef1d2f51870c6668bcdbe7a282584cc26be7f4d2941fcf28c2bf36"
+    },
+    {
+      "path": "Other/Samsung-Pad/AWG31-FX-SamsungPad.conf",
+      "owner": "Other",
+      "device": "Samsung-Pad",
+      "name": "AWG31-FX-SamsungPad.conf",
+      "type": "AWG31",
+      "sha256": "1aa393915ac8ae3538d8e6992489536e2cce3ef63dd3f41941a505bb3bd04f93"
+    },
+    {
+      "path": "Other/Samsung-Pad/WG-TW-CEN-RUHOME-SamsungPad.conf",
+      "owner": "Other",
+      "device": "Samsung-Pad",
+      "name": "WG-TW-CEN-RUHOME-SamsungPad.conf",
+      "type": "WG",
+      "sha256": "4b5bc4476be4287aa702486647043d824b8a2825d3c5c55987f0265d29e4845c"
+    },
+    {
+      "path": "Other/Samsung-Pad/WG-TW-FX-SamsungPad.conf",
+      "owner": "Other",
+      "device": "Samsung-Pad",
+      "name": "WG-TW-FX-SamsungPad.conf",
+      "type": "WG",
+      "sha256": "425fafa52347e73dba05f7d611fe78bf5ac280185023f333a065527d651e9d74"
+    },
+    {
+      "path": "Other/Win-Orekhovo/AWG31-FX-WinOrekhovo.conf",
+      "owner": "Other",
+      "device": "Win-Orekhovo",
+      "name": "AWG31-FX-WinOrekhovo.conf",
+      "type": "AWG31",
+      "sha256": "94df1fa236fd04d1fba97f02dfe07b8d2320a8d671df2c8eca12d4885d72476a"
+    },
+    {
+      "path": "Other/Win-Orekhovo/WG-TW-CEN-RUHOME-WinOrekhovo.conf",
+      "owner": "Other",
+      "device": "Win-Orekhovo",
+      "name": "WG-TW-CEN-RUHOME-WinOrekhovo.conf",
+      "type": "WG",
+      "sha256": "aa2a790bbbe24a6fd268f60683f5f812e42483fcda51455ce41cfc37a05f0bcb"
+    },
+    {
+      "path": "Other/Win-Orekhovo/WG-TW-FX-RUHOME-WinOrekhovo.conf",
+      "owner": "Other",
+      "device": "Win-Orekhovo",
+      "name": "WG-TW-FX-RUHOME-WinOrekhovo.conf",
+      "type": "WG",
+      "sha256": "7623b93e39a7e26f7832e87c11965eeca80a2c97e218292b30b9fdcf1c164bd5"
+    },
+    {
+      "path": "Other/Win-Orekhovo/WG-TW-FX-WinOrekhovo.conf",
+      "owner": "Other",
+      "device": "Win-Orekhovo",
+      "name": "WG-TW-FX-WinOrekhovo.conf",
+      "type": "WG",
+      "sha256": "85d08c20613fef5d6464d15c56fdcd1b5ec1eab3ef4a8bb201f75a073202485c"
+    },
+    {
+      "path": "Other/anv-samsung/WG-TW-FX-anv-samsung.conf",
+      "owner": "Other",
+      "device": "anv-samsung",
+      "name": "WG-TW-FX-anv-samsung.conf",
+      "type": "WG",
+      "sha256": "0548f5eb59a8c3e4a3088a40704685c887eb25a251d586fe2ae67250352c2af1"
+    },
+    {
+      "path": "Other/apple-tv-1/WG-TW-FX-apple-tv-1.conf",
+      "owner": "Other",
+      "device": "apple-tv-1",
+      "name": "WG-TW-FX-apple-tv-1.conf",
+      "type": "WG",
+      "sha256": "8ca8b66b65b2b11b58873710595c94150c0d14127bdbb1aad95aea0462ef0ea2"
+    },
+    {
+      "path": "Other/apple-tv-4k/WG-TW-FX-apple-tv-4k.conf",
+      "owner": "Other",
+      "device": "apple-tv-4k",
+      "name": "WG-TW-FX-apple-tv-4k.conf",
+      "type": "WG",
+      "sha256": "939e26ac31eba5c4f406e4a57ae1fa8ccd6a2b39e407a0e11c4c21cef8691e4b"
+    },
+    {
+      "path": "Other/apple-tv-fethiye/WG-TW-BTH-apple-tv-fethiye.conf",
+      "owner": "Other",
+      "device": "apple-tv-fethiye",
+      "name": "WG-TW-BTH-apple-tv-fethiye.conf",
+      "type": "WG",
+      "sha256": "8c59aeb037fae5cdb2ecaef1f48e93b11d8ab7879a5e85c37f660eedd19c957f"
+    },
+    {
+      "path": "Other/apple-tv-fethiye/WG-TW-FX-apple-tv-fethiye.conf",
+      "owner": "Other",
+      "device": "apple-tv-fethiye",
+      "name": "WG-TW-FX-apple-tv-fethiye.conf",
+      "type": "WG",
+      "sha256": "6262507966584a4f7d98fbda31d6b6a24a80525b411bf051104c6e51b5fbddee"
+    },
+    {
+      "path": "Other/apple-tv-orekhovo/WG-TW-CEN-apple-tv-orekhovo.conf",
+      "owner": "Other",
+      "device": "apple-tv-orekhovo",
+      "name": "WG-TW-CEN-apple-tv-orekhovo.conf",
+      "type": "WG",
+      "sha256": "a6a447dcf3b094629c9577aa8255441f08543fa0d0ab8aa655dbdbd1d2cd1363"
+    },
+    {
+      "path": "Other/avg-redmi/WG-TW-FX-avg-redmi.conf",
+      "owner": "Other",
+      "device": "avg-redmi",
+      "name": "WG-TW-FX-avg-redmi.conf",
+      "type": "WG",
+      "sha256": "95a5b678c6bd828aac38f4a039d5e7c6071fbf7a250e283414fa64858b3ee12d"
+    },
+    {
+      "path": "Other/honor-lana-turk/WG-TW-FX-honor-lana-turk.conf",
+      "owner": "Other",
+      "device": "honor-lana-turk",
+      "name": "WG-TW-FX-honor-lana-turk.conf",
+      "type": "WG",
+      "sha256": "5f5485009024f3ae5bf755277f30cb95b2b000e6486051d71b344ca9ff9a5276"
+    },
+    {
+      "path": "Other/mariia-mac/WG-TW-FX-mariia-mac.conf",
+      "owner": "Other",
+      "device": "mariia-mac",
+      "name": "WG-TW-FX-mariia-mac.conf",
+      "type": "WG",
+      "sha256": "428483c057276e42f94f7c17bac8db0d4c1f6d899fd934285213eb1f930139a3"
+    },
+    {
+      "path": "Other/mikrotik-n11/WG-TW-FX-mikrotik-n11.conf",
+      "owner": "Other",
+      "device": "mikrotik-n11",
+      "name": "WG-TW-FX-mikrotik-n11.conf",
+      "type": "WG",
+      "sha256": "6530079e40f1e738158d00332033200bbbbfbe42cf9f5d248b92c1533447dcc4"
+    },
+    {
+      "path": "Sergey/MacBook/AWG31-FX-S-MacBook.conf",
+      "owner": "Sergey",
+      "device": "MacBook",
+      "name": "AWG31-FX-S-MacBook.conf",
+      "type": "AWG31",
+      "sha256": "8bdefc135dd3133683782eea17c5aa21f132d0332784aae1ab5b5effbbbf8d63"
+    },
+    {
+      "path": "Sergey/MacBook/SOCKS-TW-CEN-MacBook.json",
+      "owner": "Sergey",
+      "device": "MacBook",
+      "name": "SOCKS-TW-CEN-MacBook.json",
+      "type": "SOCKS",
+      "sha256": "f76d88602f1c1f7157023fadca54ed6524c393dfa3dce6d16b4a9f8ce4fa3509"
+    },
+    {
+      "path": "Sergey/MacBook/SOCKS-TW-FLEX-S-MacBook.json",
+      "owner": "Sergey",
+      "device": "MacBook",
+      "name": "SOCKS-TW-FLEX-S-MacBook.json",
+      "type": "SOCKS",
+      "sha256": "a4b4a0419896d1fb7787cd736d2227ad3bd0eec15c39c06ec94e87653d315f63"
+    },
+    {
+      "path": "Sergey/MacBook/SOCKS-TW-FX-MacBook.json",
+      "owner": "Sergey",
+      "device": "MacBook",
+      "name": "SOCKS-TW-FX-MacBook.json",
+      "type": "SOCKS",
+      "sha256": "aab7bab1b9237e039f876dd0004dfeda516f9b4cd4a79562d53828b30e111bb2"
+    },
+    {
+      "path": "Sergey/MacBook/WG-TW-BTH-S-MacBook.conf",
+      "owner": "Sergey",
+      "device": "MacBook",
+      "name": "WG-TW-BTH-S-MacBook.conf",
+      "type": "WG",
+      "sha256": "156e49f2ede3c316ea3c8b827eb78cbf5d7f3204cae9d5efada0e8feca71efd2"
+    },
+    {
+      "path": "Sergey/MacBook/WG-TW-CEN-RUHOME-S-MacBook.conf",
+      "owner": "Sergey",
+      "device": "MacBook",
+      "name": "WG-TW-CEN-RUHOME-S-MacBook.conf",
+      "type": "WG",
+      "sha256": "8aeb81d5aaae9d741dacc7630bf46dea5ce013377b720c44c49432cda282ab2a"
+    },
+    {
+      "path": "Sergey/MacBook/WG-TW-FX-S-MacBook.conf",
+      "owner": "Sergey",
+      "device": "MacBook",
+      "name": "WG-TW-FX-S-MacBook.conf",
+      "type": "WG",
+      "sha256": "132ce6ad6959699be3fe550133d3e384b1623795b7507543645471fa7af317b8"
+    },
+    {
+      "path": "Sergey/MacBook/XRAY-TW-BTH-S-MacBook.json",
+      "owner": "Sergey",
+      "device": "MacBook",
+      "name": "XRAY-TW-BTH-S-MacBook.json",
+      "type": "XRAY",
+      "sha256": "e8c4a3290255673f0d4e36ade157843e52f75e579e78b9a5c0a8e206e2909be5"
+    },
+    {
+      "path": "Sergey/MacBook/XRAY-TW-CEN-S-MacBook.json",
+      "owner": "Sergey",
+      "device": "MacBook",
+      "name": "XRAY-TW-CEN-S-MacBook.json",
+      "type": "XRAY",
+      "sha256": "b05bfefc47738a07e6a9df7df3452bc4184b8ade37ae136f4e94dee921b9af70"
+    },
+    {
+      "path": "Sergey/MacBook/XRAY-TW-FX-TUN-S-MacBook.json",
+      "owner": "Sergey",
+      "device": "MacBook",
+      "name": "XRAY-TW-FX-TUN-S-MacBook.json",
+      "type": "XRAY",
+      "sha256": "6e6139d7ef1729788309062beb9f8d5f2c2331049fcea5b9afe08f3bed327afa"
+    },
+    {
+      "path": "Sergey/MacMini/AWG31-FX-S-Mini.conf",
+      "owner": "Sergey",
+      "device": "MacMini",
+      "name": "AWG31-FX-S-Mini.conf",
+      "type": "AWG31",
+      "sha256": "6e4bb9d294330c452db1b5c852c63a3c28292dfd10dcacd523af0554c1b1fc96"
+    },
+    {
+      "path": "Sergey/MacMini/SOCKS-TW-CEN-Mini.json",
+      "owner": "Sergey",
+      "device": "MacMini",
+      "name": "SOCKS-TW-CEN-Mini.json",
+      "type": "SOCKS",
+      "sha256": "4097af50a97b11ee9fa05dca472d232b8146da8c49e62126b204767d8ba1f876"
+    },
+    {
+      "path": "Sergey/MacMini/SOCKS-TW-FLEX-S-Mini.json",
+      "owner": "Sergey",
+      "device": "MacMini",
+      "name": "SOCKS-TW-FLEX-S-Mini.json",
+      "type": "SOCKS",
+      "sha256": "0f7d644300dfa634920325e32eb38892f21b15505a614309696f97b2d623d6c6"
+    },
+    {
+      "path": "Sergey/MacMini/SOCKS-TW-FX-Mini.json",
+      "owner": "Sergey",
+      "device": "MacMini",
+      "name": "SOCKS-TW-FX-Mini.json",
+      "type": "SOCKS",
+      "sha256": "c4b0a64e488c7df96d39edeb58cca8599e14d5a468b6faf93bf61d1d04b49aa1"
+    },
+    {
+      "path": "Sergey/MacMini/WG-TW-CEN-RUHOME-S-Mini.conf",
+      "owner": "Sergey",
+      "device": "MacMini",
+      "name": "WG-TW-CEN-RUHOME-S-Mini.conf",
+      "type": "WG",
+      "sha256": "081ee1520b2c548524911c0526a9d56f93c3e2a4635c298feb11dbf138e03876"
+    },
+    {
+      "path": "Sergey/MacMini/WG-TW-FX-RUHOME-S-Mini.conf",
+      "owner": "Sergey",
+      "device": "MacMini",
+      "name": "WG-TW-FX-RUHOME-S-Mini.conf",
+      "type": "WG",
+      "sha256": "fdbd6c95e183316aea417a7fb8f3145a1dd9b0082aa2268943f99912440d6952"
+    },
+    {
+      "path": "Sergey/MacMini/WG-TW-FX-S-Mini.conf",
+      "owner": "Sergey",
+      "device": "MacMini",
+      "name": "WG-TW-FX-S-Mini.conf",
+      "type": "WG",
+      "sha256": "8ed69af296e13931e97cce6157429389eea94f68aa47e3b8dbe695596cb7a5b6"
+    },
+    {
+      "path": "Sergey/MacMini/XRAY-TW-BTH-S-Mini.json",
+      "owner": "Sergey",
+      "device": "MacMini",
+      "name": "XRAY-TW-BTH-S-Mini.json",
+      "type": "XRAY",
+      "sha256": "7dff1c62ec9afc0dbbd551eb3a9b09c13f93f043437b1dfa013e521373627945"
+    },
+    {
+      "path": "Sergey/MacMini/XRAY-TW-CEN-S-Mini.json",
+      "owner": "Sergey",
+      "device": "MacMini",
+      "name": "XRAY-TW-CEN-S-Mini.json",
+      "type": "XRAY",
+      "sha256": "37f60463d5a77633d99da2aeb47da5f38bfa37147765f27dfc04e01f0662a382"
+    },
+    {
+      "path": "Sergey/MacMini/XRAY-TW-FX-S-Mini.json",
+      "owner": "Sergey",
+      "device": "MacMini",
+      "name": "XRAY-TW-FX-S-Mini.json",
+      "type": "XRAY",
+      "sha256": "c4b0a64e488c7df96d39edeb58cca8599e14d5a468b6faf93bf61d1d04b49aa1"
+    },
+    {
+      "path": "Sergey/iPad-97/AWG31-FX-S-iPad97.conf",
+      "owner": "Sergey",
+      "device": "iPad-97",
+      "name": "AWG31-FX-S-iPad97.conf",
+      "type": "AWG31",
+      "sha256": "3526109dacad4117f5bc0dffacdad4d7f8cc3934bd7f0046ab0ddf676f4e406e"
+    },
+    {
+      "path": "Sergey/iPad-97/WG-TW-CEN-RUHOME-S-iPad97.conf",
+      "owner": "Sergey",
+      "device": "iPad-97",
+      "name": "WG-TW-CEN-RUHOME-S-iPad97.conf",
+      "type": "WG",
+      "sha256": "94becf15844db5cb54176def603bb7865660c8f0b06948a8199f3a20a16ed289"
+    },
+    {
+      "path": "Sergey/iPad-97/WG-TW-FX-RUHOME-S-iPad97.conf",
+      "owner": "Sergey",
+      "device": "iPad-97",
+      "name": "WG-TW-FX-RUHOME-S-iPad97.conf",
+      "type": "WG",
+      "sha256": "10e2a734678ebe9f726e0eddb7aa7ccf4cb32bd98b89935d32654600ee738191"
+    },
+    {
+      "path": "Sergey/iPad-Pro/AWG31-FX-S-iPadPro.conf",
+      "owner": "Sergey",
+      "device": "iPad-Pro",
+      "name": "AWG31-FX-S-iPadPro.conf",
+      "type": "AWG31",
+      "sha256": "3fff5e6f4a90f6708e012a6ddc5c097a05169fd528fad8501c151a7c8aa3a9e3"
+    },
+    {
+      "path": "Sergey/iPad-Pro/WG-TW-CEN-RUHOME-S-iPadPro.conf",
+      "owner": "Sergey",
+      "device": "iPad-Pro",
+      "name": "WG-TW-CEN-RUHOME-S-iPadPro.conf",
+      "type": "WG",
+      "sha256": "27358ae27c3c803a6eadec23647bf680da222fe606b380d61af3750015c5ff0d"
+    },
+    {
+      "path": "Sergey/iPad-Pro/WG-TW-FX-S-iPadPro.conf",
+      "owner": "Sergey",
+      "device": "iPad-Pro",
+      "name": "WG-TW-FX-S-iPadPro.conf",
+      "type": "WG",
+      "sha256": "b318717b4969ba6ae845d7a76a56734b83e788859243f2599ad1e9d86ef7fda0"
+    },
+    {
+      "path": "Sergey/iPhone/AWG31-FX-S-iPhone.conf",
+      "owner": "Sergey",
+      "device": "iPhone",
+      "name": "AWG31-FX-S-iPhone.conf",
+      "type": "AWG31",
+      "sha256": "03e2bcd1f1d2a3702b506905adcaeb9af2a23ed2c801fac805d2bb1efc299db9"
+    },
+    {
+      "path": "Sergey/iPhone/SOCKS-TW-CEN-iPhone12.json",
+      "owner": "Sergey",
+      "device": "iPhone",
+      "name": "SOCKS-TW-CEN-iPhone12.json",
+      "type": "SOCKS",
+      "sha256": "4fa15fb7a57cec8e01449933c81747124747207aaa482565ffe7b07ea090c318"
+    },
+    {
+      "path": "Sergey/iPhone/SOCKS-TW-FLEX-iPhone12.json",
+      "owner": "Sergey",
+      "device": "iPhone",
+      "name": "SOCKS-TW-FLEX-iPhone12.json",
+      "type": "SOCKS",
+      "sha256": "7319611cf59dbc5dd3960654bd527a618330fa7eb0232ceb5526002b082e875a"
+    },
+    {
+      "path": "Sergey/iPhone/SOCKS-TW-FX-iPhone12.json",
+      "owner": "Sergey",
+      "device": "iPhone",
+      "name": "SOCKS-TW-FX-iPhone12.json",
+      "type": "SOCKS",
+      "sha256": "c6affafc0b3bc12c4510869b9ccfc370420dde8aa156c3ea2e4403e06778c580"
+    },
+    {
+      "path": "Sergey/iPhone/WG-TW-CEN-RUHOME-S-iPhone.conf",
+      "owner": "Sergey",
+      "device": "iPhone",
+      "name": "WG-TW-CEN-RUHOME-S-iPhone.conf",
+      "type": "WG",
+      "sha256": "761894dd7deb6a02303d381b762221356364abad5abcfdec37211c58a2fc5538"
+    },
+    {
+      "path": "Sergey/iPhone/WG-TW-FX-S-iPhone.conf",
+      "owner": "Sergey",
+      "device": "iPhone",
+      "name": "WG-TW-FX-S-iPhone.conf",
+      "type": "WG",
+      "sha256": "1bd6e2d276bc6c3399a80b7be1b69220e42ec2229d791510dc8335d2fdb8a739"
+    },
+    {
+      "path": "Sergey/iPhone/XRAY-TW-BTH-S-iPhone.json",
+      "owner": "Sergey",
+      "device": "iPhone",
+      "name": "XRAY-TW-BTH-S-iPhone.json",
+      "type": "XRAY",
+      "sha256": "682b443d336999178fded38e20773c9fc11e53c0dc6fb54bc51ea44d3628e577"
+    },
+    {
+      "path": "Sergey/iPhone/XRAY-TW-CEN-S-iPhone.json",
+      "owner": "Sergey",
+      "device": "iPhone",
+      "name": "XRAY-TW-CEN-S-iPhone.json",
+      "type": "XRAY",
+      "sha256": "ec2025a50341b4948dfadf27709b0508bda5f645264492e208ba063288f1e04a"
+    },
+    {
+      "path": "Sergey/iPhone/XRAY-TW-FX-S-iPhone.json",
+      "owner": "Sergey",
+      "device": "iPhone",
+      "name": "XRAY-TW-FX-S-iPhone.json",
+      "type": "XRAY",
+      "sha256": "c6affafc0b3bc12c4510869b9ccfc370420dde8aa156c3ea2e4403e06778c580"
+    },
+    {
+      "path": "Sveta/MacBook-M3/AWG31-FX-V-MacBook.conf",
+      "owner": "Sveta",
+      "device": "MacBook-M3",
+      "name": "AWG31-FX-V-MacBook.conf",
+      "type": "AWG31",
+      "sha256": "dd2a2d2024ae32f64febf95eee13d77444c55e6e9b00f25b1c2bdd593344542d"
+    },
+    {
+      "path": "Sveta/MacBook-M3/WG-TW-CEN-RUHOME-V-MacBook.conf",
+      "owner": "Sveta",
+      "device": "MacBook-M3",
+      "name": "WG-TW-CEN-RUHOME-V-MacBook.conf",
+      "type": "WG",
+      "sha256": "c7816505048e914484545e4e9bdb279376dcb7515517dc554e8d2a321e16e68e"
+    },
+    {
+      "path": "Sveta/MacBook-M3/WG-TW-FX-RUHOME-V-MacBook.conf",
+      "owner": "Sveta",
+      "device": "MacBook-M3",
+      "name": "WG-TW-FX-RUHOME-V-MacBook.conf",
+      "type": "WG",
+      "sha256": "4f1e7a2ab9d09c44c16cf00ed13aa6468356eabb01dbe3d0bd37f0931fe76aa5"
+    },
+    {
+      "path": "Sveta/iPad-97/AWG31-FX-V-iPad97.conf",
+      "owner": "Sveta",
+      "device": "iPad-97",
+      "name": "AWG31-FX-V-iPad97.conf",
+      "type": "AWG31",
+      "sha256": "d91eb0d3850c59a694bb1ecd64bd55ac9fe2a48bf2fbd6a308eefe3a3a54636e"
+    },
+    {
+      "path": "Sveta/iPad-97/WG-TW-CEN-RUHOME-V-iPad97.conf",
+      "owner": "Sveta",
+      "device": "iPad-97",
+      "name": "WG-TW-CEN-RUHOME-V-iPad97.conf",
+      "type": "WG",
+      "sha256": "9ac0add2d4272151b86284c16700fe09ad60cf831547d77acc70ce61ead71e3e"
+    },
+    {
+      "path": "Sveta/iPad-97/WG-TW-FX-RUHOME-V-iPad97.conf",
+      "owner": "Sveta",
+      "device": "iPad-97",
+      "name": "WG-TW-FX-RUHOME-V-iPad97.conf",
+      "type": "WG",
+      "sha256": "35751cd22fd1e65ea0b58201c466e835603c0e1105512afb82986889c8a0276a"
+    },
+    {
+      "path": "Sveta/iPhone-16/AWG31-FX-V-iPhone.conf",
+      "owner": "Sveta",
+      "device": "iPhone-16",
+      "name": "AWG31-FX-V-iPhone.conf",
+      "type": "AWG31",
+      "sha256": "83bce1659e110a30f5b949c4b9a17ebf6f2bd43a85087d78bbb896c65fcda186"
+    },
+    {
+      "path": "Sveta/iPhone-16/WG-TW-CEN-RUHOME-V-iPhone.conf",
+      "owner": "Sveta",
+      "device": "iPhone-16",
+      "name": "WG-TW-CEN-RUHOME-V-iPhone.conf",
+      "type": "WG",
+      "sha256": "f3390fc67b93cbbe05bdee3ab170cd4c8ce97dfe27099b3a50ffe1349960cb3c"
+    },
+    {
+      "path": "Sveta/iPhone-16/WG-TW-FX-RUHOME-V-iPhone.conf",
+      "owner": "Sveta",
+      "device": "iPhone-16",
+      "name": "WG-TW-FX-RUHOME-V-iPhone.conf",
+      "type": "WG",
+      "sha256": "35bff3a072ce4c7a6b4c9379de3836ee5f3be80accdd0638063c72f5d9292ea1"
+    }
+  ],
+  "counts": {
+    "AWG31": 11,
+    "WG": 36,
+    "SOCKS": 9,
+    "XRAY": 9
+  },
+  "semantics": "Published files; neither installation nor active connectivity is inferred"
+}

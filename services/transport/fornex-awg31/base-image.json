@@ -1,0 +1,49 @@
+{
+  "Id": "sha256:cbafc02b8373a83f428272db6d8001b37bc02e6211cbd8c0cb4e2e3759b12b72",
+  "RepoTags": [
+    "amneziavpn/amneziawg-go:latest"
+  ],
+  "RepoDigests": [
+    "amneziavpn/amneziawg-go@sha256:cbafc02b8373a83f428272db6d8001b37bc02e6211cbd8c0cb4e2e3759b12b72"
+  ],
+  "Comment": "buildkit.dockerfile.v0",
+  "Created": "2026-08-28T15:50:06.566904559Z",
+  "Config": {
+    "Env": [
+      "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+    ],
+    "Cmd": [
+      "/bin/sh"
+    ],
+    "WorkingDir": "/"
+  },
+  "Architecture": "amd64",
+  "Os": "linux",
+  "Size": 9206810,
+  "RootFS": {
+    "Type": "layers",
+    "Layers": [
+      "sha256:0b44b2151d78267ab6f2c76208c3be18688f49b2b0afd6852a9533f2cce121c5",
+      "sha256:198c4d22e0fb1a1a2185b359fc1eab47ae211a150efb971c4562b99546224d36",
+      "sha256:80fd5bcfeaa36d6d75032163e8eb5310340489caed64f728ba2d3ca0b538ae87",
+      "sha256:540dbe1593729ac17075780716c54f2feb0412eef9257280768e0153a5ad5f60",
+      "sha256:928d2cf96e3a988d50c1c4a4237e4f1c4e2d201f566cbf96afb166341da16b8a",
+      "sha256:f4aafaf4821d351b34b1305d7e0cc0a7d71a4d066e70120c623464575829b9a4"
+    ]
+  },
+  "Metadata": {
+    "LastTagTime": "2026-09-13T13:55:58.857606814Z"
+  },
+  "Descriptor": {
+    "mediaType": "application/vnd.oci.image.index.v1+json",
+    "digest": "sha256:cbafc02b8373a83f428272db6d8001b37bc02e6211cbd8c0cb4e2e3759b12b72",
+    "size": 856
+  },
+  "Identity": {
+    "Pull": [
+      {
+        "Repository": "docker.io/amneziavpn/amneziawg-go"
+      }
+    ]
+  }
+}

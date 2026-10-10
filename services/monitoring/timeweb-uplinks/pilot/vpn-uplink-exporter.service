@@ -1,0 +1,22 @@
+[Unit]
+Description=TimeWeb uplink pilot read-only loopback exporter
+After=vpn-uplink-pilot.service
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/vpn-monitoring/pilot/collector
+ExecStart=/opt/vpn-monitoring/pilot/.venv/bin/python -m uplink_monitor serve --pilot --database /var/lib/vpn-uplink-pilot/history.sqlite --health-file /var/lib/vpn-uplink-pilot/health.json --transport-state-file /var/lib/vpn-uplink-pilot/transport-state.json --port 19106
+Restart=on-failure
+RestartSec=10
+UMask=0077
+NoNewPrivileges=yes
+ProtectSystem=strict
+ReadWritePaths=/var/lib/vpn-uplink-pilot
+ProtectHome=yes
+PrivateTmp=yes
+MemoryMax=64M
+CPUQuota=10%
+TasksMax=8
+
+[Install]
+WantedBy=multi-user.target

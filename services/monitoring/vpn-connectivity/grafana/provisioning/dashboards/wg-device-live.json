@@ -1,0 +1,411 @@
+{
+  "uid": "wg-device-live",
+  "title": "VPN: устройство и активный тоннель",
+  "schemaVersion": 39,
+  "version": 1,
+  "refresh": "10s",
+  "time": {
+    "from": "now-1h",
+    "to": "now"
+  },
+  "timepicker": {
+    "refresh_intervals": [
+      "5s",
+      "10s",
+      "15s",
+      "30s",
+      "1m",
+      "5m"
+    ]
+  },
+  "templating": {
+    "list": [
+      {
+        "name": "device",
+        "label": "Устройство",
+        "type": "custom",
+        "query": "macbook,iphone,macmini,ipad-pro-sergey,ipad-97-sergey,macbook-m3-sveta,iphone-16-sveta,ipad-97-sveta,digitalrazor,samsung-pad,win-orekhovo,apple-tv-1,apple-tv-fethiye,apple-tv-4k,apple-tv-orekhovo,avg-redmi,anv-samsung,honor-lana-turk,mariia-mac,mikrotik-n11,igor-unassigned",
+        "current": {
+          "selected": true,
+          "text": "macbook",
+          "value": "macbook"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "multi": false
+      }
+    ]
+  },
+  "links": [
+    {
+      "type": "link",
+      "title": "К устройствам",
+      "url": "/d/timeweb-uplink-pilot/timeweb-uplinks-pilot"
+    }
+  ],
+  "panels": [
+    {
+      "id": 1,
+      "title": "Наблюдаемый тоннель",
+      "type": "stat",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 0,
+        "w": 8,
+        "h": 4
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "vpn_device_active_tunnel{device=\"$device\"} or on() label_replace(vector(0), \"tunnel\", \"Нет активного наблюдаемого тоннеля\", \"__name__\", \".*\")",
+          "instant": true,
+          "legendFormat": "{{tunnel}}"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "noValue": "—",
+          "color": {
+            "mode": "thresholds"
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "value",
+        "graphMode": "none",
+        "textMode": "name"
+      }
+    },
+    {
+      "id": 2,
+      "title": "Состояние устройства",
+      "type": "stat",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "gridPos": {
+        "x": 8,
+        "y": 0,
+        "w": 4,
+        "h": 4
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "vpn_device_activity{device=\"$device\"}",
+          "instant": true,
+          "legendFormat": ""
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "noValue": "—",
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "0": {
+                  "text": "Нет свежих наблюдений",
+                  "color": "gray"
+                },
+                "1": {
+                  "text": "Активен",
+                  "color": "green"
+                },
+                "2": {
+                  "text": "Нет активного наблюдаемого тоннеля",
+                  "color": "yellow"
+                },
+                "3": {
+                  "text": "Недавний Xray access (<90 с)",
+                  "color": "yellow"
+                }
+              }
+            }
+          ]
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "value",
+        "graphMode": "none",
+        "textMode": "value"
+      }
+    },
+    {
+      "id": 3,
+      "title": "Последнее наблюдение",
+      "type": "stat",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "gridPos": {
+        "x": 12,
+        "y": 0,
+        "w": 4,
+        "h": 4
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "vpn_device_active_observation_age_seconds{device=\"$device\"}",
+          "instant": true,
+          "legendFormat": ""
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s",
+          "noValue": "—",
+          "color": {
+            "mode": "thresholds"
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "value",
+        "graphMode": "none",
+        "textMode": "value"
+      }
+    },
+    {
+      "id": 4,
+      "title": "IN (WG/AWG)",
+      "type": "stat",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "gridPos": {
+        "x": 16,
+        "y": 0,
+        "w": 4,
+        "h": 4
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "vpn_device_active_client_in_bps{device=\"$device\"}",
+          "instant": true,
+          "legendFormat": ""
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "bps",
+          "noValue": "—",
+          "color": {
+            "mode": "thresholds"
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "value",
+        "graphMode": "none",
+        "textMode": "value"
+      }
+    },
+    {
+      "id": 5,
+      "title": "OUT (WG/AWG)",
+      "type": "stat",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "gridPos": {
+        "x": 20,
+        "y": 0,
+        "w": 4,
+        "h": 4
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "vpn_device_active_client_out_bps{device=\"$device\"}",
+          "instant": true,
+          "legendFormat": ""
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "bps",
+          "noValue": "—",
+          "color": {
+            "mode": "thresholds"
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "value",
+        "graphMode": "none",
+        "textMode": "value"
+      }
+    },
+    {
+      "id": 10,
+      "title": "Трафик по тоннелям устройства",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 8,
+        "w": 24,
+        "h": 8
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "vpn_wg_peer_client_in_bps{device=\"$device\",source=~\".+\"}",
+          "legendFormat": "{{tunnel}} IN"
+        },
+        {
+          "refId": "B",
+          "expr": "vpn_wg_peer_client_out_bps{device=\"$device\",source=~\".+\"}",
+          "legendFormat": "{{tunnel}} OUT"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "bps",
+          "custom": {
+            "spanNulls": false
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "table",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
+      }
+    },
+    {
+      "id": 11,
+      "title": "Состояние каждого наблюдаемого тоннеля",
+      "type": "state-timeline",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 16,
+        "w": 24,
+        "h": 6
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "vpn_wg_peer_activity{device=\"$device\",source=~\".+\"} or vpn_xray_client_activity{device=\"$device\",source=~\".+\"}",
+          "legendFormat": "{{tunnel}}"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "0": {
+                  "text": "Нет свежих наблюдений",
+                  "color": "gray"
+                },
+                "1": {
+                  "text": "Активен",
+                  "color": "green"
+                },
+                "2": {
+                  "text": "Нет активного наблюдаемого тоннеля",
+                  "color": "yellow"
+                },
+                "3": {
+                  "text": "Недавний Xray access (<90 с)",
+                  "color": "yellow"
+                }
+              }
+            }
+          ]
+        },
+        "overrides": []
+      },
+      "options": {
+        "mergeValues": true,
+        "showValue": "auto",
+        "alignValue": "left"
+      }
+    },
+    {
+      "id": 12,
+      "title": "Семантика",
+      "type": "text",
+      "gridPos": {
+        "x": 0,
+        "y": 22,
+        "w": 24,
+        "h": 5
+      },
+      "options": {
+        "mode": "markdown",
+        "content": "Активным считается самое новое наблюдение: server-side handshake младше 180 секунд для TimeWeb WG/Fornex AWG31 либо подписанное access-событие TimeWeb Xray/REALITY младше 90 секунд. Для Xray это недавний доступ, а не подтверждение открытого VPN-соединения. При переключении профилей выбирается более новое событие. IN - server TX к клиенту; OUT - server RX от клиента. Скорости доступны только для WG/AWG после двух последовательных отсчетов; access-журнал Xray не содержит побайтной статистики по клиенту.\n\nДля SOCKS-TW-FLEX суффикс FX/CEN и RU TW/FX/CEN берётся из проверенного состояния контроллера TimeWeb; если его опрос недоступен, маршрут неизвестен. Наличие access-события не доказывает работу пользовательского приложения.\n\nОпрос TimeWeb и Fornex независим: сбой одного источника не стирает последний срез другого, но после 45 секунд отсутствия источник считается ненаблюдаемым. Отсутствующий серверный peer или Xray access-event - это конфигурационное несоответствие либо отсутствие недавней активности, а не доказательство выключенного клиента."
+      }
+    }
+  ]
+}

@@ -1,0 +1,129 @@
+{
+  "timestamp": "2026-10-10T15:50:13.003273+00:00",
+  "status": "VERIFIED_WITH_RECORDED_LIMITATIONS",
+  "file_map_rows": 3711,
+  "outcomes": {
+    "merged_into_canonical_index": 5,
+    "excluded": 2046,
+    "copied_public_adapted_verified": 345,
+    "copied_private_verified": 80,
+    "excluded_reference_duplicate": 4,
+    "replaced_portable_generator": 3,
+    "runtime_snapshot_verified_at_cutover": 1134,
+    "excluded_historical": 11,
+    "excluded_historical_manifest": 1,
+    "excluded_historical_lab_results": 72,
+    "excluded_issuance_history": 10
+  },
+  "static_syntax": {
+    "json": 25,
+    "python": 116,
+    "shell": 39
+  },
+  "repository": {
+    "status": "PASSED",
+    "public_files": 387,
+    "profiles": 65,
+    "devices": 21,
+    "private_files": 388,
+    "problems": []
+  },
+  "tests": {
+    "tests": 265,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "private_portable_restore": {
+    "status": "VERIFIED",
+    "files": 388,
+    "records": 267
+  },
+  "original_static_sources_checked": 433,
+  "live_verification": {
+    "first_cycle_at": "2026-10-10T15:30:40.244776+00:00",
+    "second_cycle_at": "2026-10-10T15:34:31.863845+00:00",
+    "final_at": "2026-10-10T15:49:35.263688+00:00",
+    "cycles_advanced": {
+      "cenuta": true,
+      "fornex": true
+    },
+    "targets": {
+      "macbook-wg-peer": "up",
+      "timeweb-uplink-pilot": "up",
+      "vpn-host-probe": "up"
+    },
+    "uplinks": {
+      "cenuta": {
+        "state": "UP",
+        "fresh": true
+      },
+      "fornex": {
+        "state": "UP",
+        "fresh": true
+      }
+    },
+    "console": {
+      "device_rows": 3,
+      "ready_routes": 3,
+      "health": [
+        "UP",
+        "UP",
+        "READY"
+      ]
+    },
+    "grafana_database": "ok",
+    "runtime_policy_check": {
+      "returncode": 0,
+      "passed": true
+    }
+  },
+  "fresh_backups": {
+    "timeweb": {
+      "evidence": ".local/backups/timeweb/2026-10-10T145803Z_current-config/verification.json",
+      "status": "VERIFIED",
+      "temporary_restore_files": 55
+    },
+    "fornex": {
+      "evidence": ".local/backups/fornex/2026-10-10T145910Z_current-config/verification.json",
+      "status": "VERIFIED",
+      "temporary_restore_files": 13
+    },
+    "cenuta": {
+      "evidence": ".local/backups/cenuta/2026-10-10T150156Z_current-config/verification.json",
+      "status": "VERIFIED",
+      "temporary_restore_files": 10
+    },
+    "nakhimova": {
+      "evidence": ".local/backups/nakhimova/20261010T154232Z/verification.json",
+      "status": "VERIFIED_TRANSFER",
+      "export_sha256": "5f8010d15bdb016eb8c0edb4c0d048c1ecbbdf2914ffffe52d31771158f1e602",
+      "binary_sha256": "954db14968812d6ab11eaae0e1f318ea35522aa3324f61268fda99ee8a861214"
+    },
+    "orekhovo": {
+      "evidence": ".local/backups/orekhovo/20261010T150512Z/verification.json",
+      "status": "BLOCKED"
+    },
+    "local": {
+      "evidence": ".local/backups/local/2026-10-10T154848547401Z_current-config/verification.json",
+      "status": "VERIFIED",
+      "local_backup": "VERIFIED",
+      "source_files": 777,
+      "client_configs": 65,
+      "temporary_restore_files": 778,
+      "source_hashes_before_after_match": true,
+      "archive_sha256": "ed2a0f626ce8ef79cfbbe1258bc43c0150139d141d27e0bd71b3af624b39c796",
+      "archive_bytes": 13499134
+    }
+  },
+  "excluded_from_git": [
+    ".local",
+    ".venv"
+  ],
+  "originals_deleted": false,
+  "commit_or_push": false,
+  "limitations": [
+    "Orekhovo fresh backup unreachable from external network",
+    "Legacy BTH baseline preflight fails closed; no drift signed"
+  ]
+}

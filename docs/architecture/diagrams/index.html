@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>VPN: индекс схем сети</title>
+  <style>
+    :root { color-scheme: light dark; --bg: #f5f7f8; --surface: #fff; --ink: #20272a; --muted: #526169; --line: #d4dde0; --accent: #00796b; --focus: #0969b5; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.5 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; letter-spacing: 0; }
+    .shell { max-width: 1460px; margin-inline: auto; padding: 28px 28px 20px; }
+    header { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px 32px; flex-wrap: wrap; border-bottom: 1px solid var(--line); padding-bottom: 20px; }
+    h1 { font-size: 28px; line-height: 1.25; font-weight: 650; margin: 0 0 8px; }
+    .context, .snapshot { margin: 0; color: var(--muted); font-size: 14px; }
+    .snapshot { flex-shrink: 0; padding-top: 4px; }
+    .snapshot strong { display: block; color: var(--ink); font-weight: 600; }
+    ol { list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; padding: 24px 0; margin: 0; }
+    li { min-width: 0; }
+    .diagram { display: flex; flex-direction: column; height: 100%; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; text-decoration: none; color: inherit; overflow: hidden; }
+    .diagram:hover { border-color: var(--accent); }
+    .diagram:hover h2 { color: var(--accent); text-decoration: underline; text-underline-offset: 4px; }
+    a:focus-visible { outline: 3px solid var(--focus); outline-offset: 4px; }
+    .heading { display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 10px; padding: 16px 18px 12px; align-items: baseline; }
+    .number { font-size: 13px; font-variant-numeric: tabular-nums; color: var(--muted); }
+    h2 { font-size: 18px; line-height: 1.4; font-weight: 650; margin: 0; overflow-wrap: anywhere; }
+    picture { display: block; aspect-ratio: 2048 / 1320; border-block: 1px solid var(--line); }
+    img { display: block; width: 100%; height: 100%; object-fit: contain; }
+    .description { margin: 0; padding: 14px 18px 18px; font-size: 14px; color: var(--muted); overflow-wrap: anywhere; }
+    .route { color: var(--ink); display: block; margin-bottom: 5px; }
+    footer { border-top: 1px solid var(--line); padding-top: 16px; display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: space-between; font-size: 13px; color: var(--muted); }
+    footer p { margin: 0; }
+    @media (max-width: 1100px) { ol { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (max-width: 680px) { .shell { padding: 20px 16px; } ol { grid-template-columns: minmax(0, 1fr); gap: 16px; padding-top: 20px; } h1 { font-size: 24px; } .snapshot { flex-shrink: 1; } }
+    @media (prefers-color-scheme: dark) { :root { --bg: #111516; --surface: #1a2022; --ink: #e8edef; --muted: #a7b5bb; --line: #384247; --accent: #67d5b5; --focus: #84c9ff; } }
+    @media print { body { background: #fff; color: #000; } .shell { padding: 0; } ol { grid-template-columns: repeat(2, minmax(0, 1fr)); } li { break-inside: avoid; } }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header>
+      <div>
+        <h1>VPN: схемы сети</h1>
+        <p class="context">Нахимова 11 · MikroTik · TimeWeb · Fornex · Cenuta</p>
+      </div>
+      <p class="snapshot"><strong>Конфигурационный срез: 23.09.2026</strong>6 схем · не оперативный статус</p>
+    </header>
+    <main aria-label="Индекс схем">
+      <ol>
+        <li>
+          <a class="diagram" href="01-topology.html" target="_blank" rel="noopener" title="Топология: дома и вне дома, в новой вкладке">
+            <div class="heading"><span class="number">01</span><h2>Топология: дома и вне дома</h2></div>
+            <picture>
+              <source media="(prefers-color-scheme: dark)" srcset="01-topology.visual-check.2048x1320.dark.png">
+              <img src="01-topology.visual-check.2048x1320.light.png" width="2048" height="1320" alt="Домашние устройства через MikroTik и TimeWeb; внешние клиенты и зарубежные выходы">
+            </picture>
+            <p class="description"><span class="route">Дома: LAN → MikroTik → WG → TimeWeb → Cenuta / Fornex.</span>Прямой выход в Дом.ру, внешние WG / XRAY / SOCKS, AWG 3.1 и возврат домой через BTH.</p>
+          </a>
+        </li>
+        <li>
+          <a class="diagram" href="02-wireguard.html" target="_blank" rel="noopener" title="WireGuard на TimeWeb, в новой вкладке">
+            <div class="heading"><span class="number">02</span><h2>WireGuard на TimeWeb</h2></div>
+            <picture>
+              <source media="(prefers-color-scheme: dark)" srcset="02-wireguard.visual-check.2048x1320.dark.png">
+              <img src="02-wireguard.visual-check.2048x1320.light.png" width="2048" height="1320" alt="Контейнер wg-relay: входы WireGuard, маркировка и таблицы маршрутизации">
+            </picture>
+            <p class="description"><span class="route">WG → wg-relay → таблицы 100 / 200 / 300.</span>RU split, приоритеты policy rules, выбор выхода и обратный маршрут к клиенту.</p>
+          </a>
+        </li>
+        <li>
+          <a class="diagram" href="03-reality.html" target="_blank" rel="noopener" title="REALITY: профиль и DNS, в новой вкладке">
+            <div class="heading"><span class="number">03</span><h2>REALITY: профиль и DNS</h2></div>
+            <picture>
+              <source media="(prefers-color-scheme: dark)" srcset="03-reality.visual-check.2048x1320.dark.png">
+              <img src="03-reality.visual-check.2048x1320.light.png" width="2048" height="1320" alt="Xray принимает REALITY и выбирает Fornex, Cenuta или BTH">
+            </picture>
+            <p class="description"><span class="route">AmneziaVPN → TCP/443 → Xray → WG outbound.</span>Три выхода профиля, отдельный поток внутреннего DNS и запреты прямого выхода.</p>
+          </a>
+        </li>
+        <li>
+          <a class="diagram" href="04-home.html" target="_blank" rel="noopener" title="MikroTik: домашний Smart Split, в новой вкладке">
+            <div class="heading"><span class="number">04</span><h2>MikroTik: домашний Smart Split</h2></div>
+            <picture>
+              <source media="(prefers-color-scheme: dark)" srcset="04-home.visual-check.2048x1320.dark.png">
+              <img src="04-home.visual-check.2048x1320.light.png" width="2048" height="1320" alt="Порядок правил MikroTik для домашних устройств и выбор Дом.ру, Cenuta или Fornex">
+            </picture>
+            <p class="description"><span class="route">LAN 192.168.88.0/24 → mangle → выбранный маршрут.</span>Группы устройств, локальный / RU / P2P bypass и WG до TimeWeb. В группе Fornex пока нет устройств.</p>
+          </a>
+        </li>
+        <li>
+          <a class="diagram" href="05-bth.html" target="_blank" rel="noopener" title="BTH: домашний выход, в новой вкладке">
+            <div class="heading"><span class="number">05</span><h2>BTH: домашний выход</h2></div>
+            <picture>
+              <source media="(prefers-color-scheme: dark)" srcset="05-bth.visual-check.2048x1320.dark.png">
+              <img src="05-bth.visual-check.2048x1320.light.png" width="2048" height="1320" alt="REALITY BTH через wg-home на домашний MikroTik и отдельно служебный recovery">
+            </picture>
+            <p class="description"><span class="route">Xray → wg-relay → тот же MikroTik → Дом.ру.</span>Домашний выход в Интернет, возврат ответов, контракт и ограниченное восстановление BTH.</p>
+          </a>
+        </li>
+        <li>
+          <a class="diagram" href="06-transport-switch.html" target="_blank" rel="noopener" title="TimeWeb: backend transport FX/CEN, в новой вкладке">
+            <div class="heading"><span class="number">06</span><h2>TimeWeb: transport FX / CEN</h2></div>
+            <picture>
+              <source media="(prefers-color-scheme: dark)" srcset="06-transport-switch.visual-check.2048x1320.dark.png">
+              <img src="06-transport-switch.visual-check.2048x1320.light.png" width="2048" height="1320" alt="Выбор TimeWeb между native UDP и mTLS WSS для Fornex и Cenuta">
+            </picture>
+            <p class="description"><span class="route">Мониторинг → controller → native UDP или mTLS WSS.</span>Профили WG, XRAY и SOCKS не меняются; BTH не участвует в WSS fallback.</p>
+          </a>
+        </li>
+      </ol>
+    </main>
+    <footer>
+      <p>FX/CEN backend: native UDP или mTLS WSS. AWG 3.1 на Fornex независим от TimeWeb.</p>
+      <p>Локальная эксплуатационная документация</p>
+    </footer>
+  </div>
+</body>
+</html>

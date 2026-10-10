@@ -1,0 +1,9 @@
+[Unit]
+Description=Reconcile isolated SOCKS-TW-FLEX Mac Mini route
+After=docker.service
+Wants=docker.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/python3 /usr/local/sbin/timeweb-flex-macbook --device macmini reconcile
+TimeoutStartSec=30

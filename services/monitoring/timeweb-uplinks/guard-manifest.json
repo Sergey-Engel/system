@@ -1,0 +1,1184 @@
+{
+  "version": 1,
+  "name": "timeweb-uplink-guards",
+  "target": {
+    "kind": "production",
+    "container": {
+      "Id": "de135c801f3060209d9ef41453502b844c072e14a0ef0096e683059c35fde297",
+      "State": {
+        "Pid": 1181,
+        "StartedAt": "2026-07-10T00:10:37.662464526Z",
+        "Running": true
+      }
+    },
+    "boot": "113c32a1-44c6-477b-b48c-de22034fcad3",
+    "namespace": "net:[4026532282]",
+    "start": "1584"
+  },
+  "baseline": {
+    "rules": [
+      {
+        "priority": 0,
+        "src": "all",
+        "table": "local"
+      },
+      {
+        "priority": 180,
+        "src": "all",
+        "dst": "10.50.50.0",
+        "dstlen": 24,
+        "table": "main"
+      },
+      {
+        "priority": 181,
+        "src": "all",
+        "dst": "10.10.10.0",
+        "dstlen": 24,
+        "table": "main"
+      },
+      {
+        "priority": 186,
+        "src": "all",
+        "fwmark": "0x40",
+        "table": "411"
+      },
+      {
+        "priority": 187,
+        "src": "all",
+        "fwmark": "0x40",
+        "action": "prohibit"
+      },
+      {
+        "priority": 188,
+        "src": "all",
+        "fwmark": "0x39",
+        "table": "411"
+      },
+      {
+        "priority": 189,
+        "src": "all",
+        "fwmark": "0x39",
+        "action": "prohibit"
+      },
+      {
+        "priority": 190,
+        "src": "all",
+        "fwmark": "0x30",
+        "table": "300"
+      },
+      {
+        "priority": 219,
+        "src": "10.10.10.0",
+        "srclen": 24,
+        "table": "100"
+      },
+      {
+        "priority": 220,
+        "src": "10.50.50.20",
+        "table": "200"
+      },
+      {
+        "priority": 221,
+        "src": "10.50.50.21",
+        "table": "200"
+      },
+      {
+        "priority": 222,
+        "src": "10.50.50.22",
+        "table": "200"
+      },
+      {
+        "priority": 223,
+        "src": "10.50.50.23",
+        "table": "200"
+      },
+      {
+        "priority": 224,
+        "src": "10.50.50.24",
+        "table": "200"
+      },
+      {
+        "priority": 225,
+        "src": "10.50.50.25",
+        "table": "200"
+      },
+      {
+        "priority": 226,
+        "src": "10.50.50.26",
+        "table": "200"
+      },
+      {
+        "priority": 227,
+        "src": "10.50.50.27",
+        "table": "100"
+      },
+      {
+        "priority": 228,
+        "src": "10.50.50.28",
+        "table": "100"
+      },
+      {
+        "priority": 229,
+        "src": "10.50.50.29",
+        "table": "200"
+      },
+      {
+        "priority": 230,
+        "src": "10.50.50.30",
+        "table": "100"
+      },
+      {
+        "priority": 231,
+        "src": "10.50.50.31",
+        "table": "200"
+      },
+      {
+        "priority": 232,
+        "src": "10.50.50.32",
+        "table": "100"
+      },
+      {
+        "priority": 233,
+        "src": "10.50.50.33",
+        "table": "200"
+      },
+      {
+        "priority": 234,
+        "src": "10.50.50.34",
+        "table": "100"
+      },
+      {
+        "priority": 235,
+        "src": "10.50.50.35",
+        "table": "200"
+      },
+      {
+        "priority": 236,
+        "src": "10.50.50.36",
+        "table": "200"
+      },
+      {
+        "priority": 237,
+        "src": "10.50.50.37",
+        "table": "100"
+      },
+      {
+        "priority": 238,
+        "src": "10.50.50.38",
+        "table": "200"
+      },
+      {
+        "priority": 239,
+        "src": "10.50.50.39",
+        "table": "410"
+      },
+      {
+        "priority": 240,
+        "src": "10.50.50.39",
+        "action": "prohibit"
+      },
+      {
+        "priority": 241,
+        "src": "10.50.50.40",
+        "table": "412"
+      },
+      {
+        "priority": 242,
+        "src": "10.50.50.40",
+        "action": "prohibit"
+      },
+      {
+        "priority": 300,
+        "src": "all",
+        "iif": "wg-home",
+        "table": "300"
+      },
+      {
+        "priority": 32766,
+        "src": "all",
+        "table": "main"
+      },
+      {
+        "priority": 32767,
+        "src": "all",
+        "table": "default"
+      }
+    ],
+    "routes": [
+      {
+        "dst": "default",
+        "dev": "wg-home",
+        "table": "300",
+        "scope": "link",
+        "flags": []
+      },
+      {
+        "dst": "default",
+        "gateway": "10.20.0.2",
+        "dev": "wg1",
+        "table": "100",
+        "flags": []
+      },
+      {
+        "dst": "default",
+        "dev": "wg-up-cenuta",
+        "table": "200",
+        "scope": "link",
+        "flags": []
+      },
+      {
+        "dst": "default",
+        "dev": "wg-up-cenuta",
+        "table": "410",
+        "scope": "link",
+        "flags": []
+      },
+      {
+        "dst": "default",
+        "gateway": "172.19.0.1",
+        "dev": "eth0",
+        "table": "411",
+        "flags": []
+      },
+      {
+        "dst": "default",
+        "dev": "wg-up-cenuta",
+        "table": "412",
+        "scope": "link",
+        "flags": []
+      },
+      {
+        "dst": "default",
+        "gateway": "172.19.0.1",
+        "dev": "eth0",
+        "flags": []
+      },
+      {
+        "dst": "10.10.10.0/24",
+        "dev": "wg0",
+        "protocol": "kernel",
+        "scope": "link",
+        "prefsrc": "10.10.10.1",
+        "flags": []
+      },
+      {
+        "dst": "10.20.0.0/24",
+        "dev": "wg1",
+        "protocol": "kernel",
+        "scope": "link",
+        "prefsrc": "10.20.0.1",
+        "flags": []
+      },
+      {
+        "dst": "10.30.30.0/24",
+        "dev": "wg-home",
+        "protocol": "kernel",
+        "scope": "link",
+        "prefsrc": "10.30.30.1",
+        "flags": []
+      },
+      {
+        "dst": "10.50.50.0/24",
+        "dev": "wg-clients",
+        "protocol": "kernel",
+        "scope": "link",
+        "prefsrc": "10.50.50.1",
+        "flags": []
+      },
+      {
+        "dst": "89.252.153.129",
+        "gateway": "172.19.0.1",
+        "dev": "eth0",
+        "flags": []
+      },
+      {
+        "dst": "103.75.126.143",
+        "gateway": "172.19.0.1",
+        "dev": "eth0",
+        "flags": []
+      },
+      {
+        "dst": "172.19.0.0/16",
+        "dev": "eth0",
+        "protocol": "kernel",
+        "scope": "link",
+        "prefsrc": "172.19.0.2",
+        "flags": []
+      },
+      {
+        "type": "local",
+        "dst": "10.10.10.1",
+        "dev": "wg0",
+        "table": "local",
+        "protocol": "kernel",
+        "scope": "host",
+        "prefsrc": "10.10.10.1",
+        "flags": []
+      },
+      {
+        "type": "broadcast",
+        "dst": "10.10.10.255",
+        "dev": "wg0",
+        "table": "local",
+        "protocol": "kernel",
+        "scope": "link",
+        "prefsrc": "10.10.10.1",
+        "flags": []
+      },
+      {
+        "type": "local",
+        "dst": "10.20.0.1",
+        "dev": "wg1",
+        "table": "local",
+        "protocol": "kernel",
+        "scope": "host",
+        "prefsrc": "10.20.0.1",
+        "flags": []
+      },
+      {
+        "type": "broadcast",
+        "dst": "10.20.0.255",
+        "dev": "wg1",
+        "table": "local",
+        "protocol": "kernel",
+        "scope": "link",
+        "prefsrc": "10.20.0.1",
+        "flags": []
+      },
+      {
+        "type": "local",
+        "dst": "10.30.30.1",
+        "dev": "wg-home",
+        "table": "local",
+        "protocol": "kernel",
+        "scope": "host",
+        "prefsrc": "10.30.30.1",
+        "flags": []
+      },
+      {
+        "type": "broadcast",
+        "dst": "10.30.30.255",
+        "dev": "wg-home",
+        "table": "local",
+        "protocol": "kernel",
+        "scope": "link",
+        "prefsrc": "10.30.30.1",
+        "flags": []
+      },
+      {
+        "type": "local",
+        "dst": "10.40.40.2",
+        "dev": "wg-up-cenuta",
+        "table": "local",
+        "protocol": "kernel",
+        "scope": "host",
+        "prefsrc": "10.40.40.2",
+        "flags": []
+      },
+      {
+        "type": "local",
+        "dst": "10.50.50.1",
+        "dev": "wg-clients",
+        "table": "local",
+        "protocol": "kernel",
+        "scope": "host",
+        "prefsrc": "10.50.50.1",
+        "flags": []
+      },
+      {
+        "type": "broadcast",
+        "dst": "10.50.50.255",
+        "dev": "wg-clients",
+        "table": "local",
+        "protocol": "kernel",
+        "scope": "link",
+        "prefsrc": "10.50.50.1",
+        "flags": []
+      },
+      {
+        "type": "local",
+        "dst": "127.0.0.0/8",
+        "dev": "lo",
+        "table": "local",
+        "protocol": "kernel",
+        "scope": "host",
+        "prefsrc": "127.0.0.1",
+        "flags": []
+      },
+      {
+        "type": "local",
+        "dst": "127.0.0.1",
+        "dev": "lo",
+        "table": "local",
+        "protocol": "kernel",
+        "scope": "host",
+        "prefsrc": "127.0.0.1",
+        "flags": []
+      },
+      {
+        "type": "broadcast",
+        "dst": "127.255.255.255",
+        "dev": "lo",
+        "table": "local",
+        "protocol": "kernel",
+        "scope": "link",
+        "prefsrc": "127.0.0.1",
+        "flags": []
+      },
+      {
+        "type": "local",
+        "dst": "172.19.0.2",
+        "dev": "eth0",
+        "table": "local",
+        "protocol": "kernel",
+        "scope": "host",
+        "prefsrc": "172.19.0.2",
+        "flags": []
+      },
+      {
+        "type": "broadcast",
+        "dst": "172.19.255.255",
+        "dev": "eth0",
+        "table": "local",
+        "protocol": "kernel",
+        "scope": "link",
+        "prefsrc": "172.19.0.2",
+        "flags": []
+      }
+    ],
+    "links": [
+      {
+        "ifindex": 1,
+        "ifname": "lo",
+        "flags": [
+          "LOOPBACK",
+          "UP",
+          "LOWER_UP"
+        ],
+        "mtu": 65536,
+        "addr_info": [
+          {
+            "local": "127.0.0.1",
+            "prefixlen": 8
+          }
+        ]
+      },
+      {
+        "ifindex": 2,
+        "ifname": "eth0",
+        "flags": [
+          "BROADCAST",
+          "MULTICAST",
+          "UP",
+          "LOWER_UP"
+        ],
+        "mtu": 1500,
+        "addr_info": [
+          {
+            "local": "172.19.0.2",
+            "prefixlen": 16
+          }
+        ]
+      },
+      {
+        "ifindex": 4,
+        "ifname": "wg-clients",
+        "flags": [
+          "POINTOPOINT",
+          "NOARP",
+          "UP",
+          "LOWER_UP"
+        ],
+        "mtu": 1420,
+        "addr_info": [
+          {
+            "local": "10.50.50.1",
+            "prefixlen": 24
+          }
+        ]
+      },
+      {
+        "ifindex": 5,
+        "ifname": "wg-home",
+        "flags": [
+          "POINTOPOINT",
+          "NOARP",
+          "UP",
+          "LOWER_UP"
+        ],
+        "mtu": 1420,
+        "addr_info": [
+          {
+            "local": "10.30.30.1",
+            "prefixlen": 24
+          }
+        ]
+      },
+      {
+        "ifindex": 6,
+        "ifname": "wg-up-cenuta",
+        "flags": [
+          "POINTOPOINT",
+          "NOARP",
+          "UP",
+          "LOWER_UP"
+        ],
+        "mtu": 1420,
+        "addr_info": [
+          {
+            "local": "10.40.40.2",
+            "prefixlen": 32
+          }
+        ]
+      },
+      {
+        "ifindex": 7,
+        "ifname": "wg0",
+        "flags": [
+          "POINTOPOINT",
+          "NOARP",
+          "UP",
+          "LOWER_UP"
+        ],
+        "mtu": 1420,
+        "addr_info": [
+          {
+            "local": "10.10.10.1",
+            "prefixlen": 24
+          }
+        ]
+      },
+      {
+        "ifindex": 8,
+        "ifname": "wg1",
+        "flags": [
+          "POINTOPOINT",
+          "NOARP",
+          "UP",
+          "LOWER_UP"
+        ],
+        "mtu": 1420,
+        "addr_info": [
+          {
+            "local": "10.20.0.1",
+            "prefixlen": 24
+          }
+        ]
+      }
+    ],
+    "peers": {
+      "fornex": "yjkRluzDifiJqj9loXlxcbIsEQP3uUsPmlwJcmZGOlE=\t10.20.0.2/32 0.0.0.0/0",
+      "cenuta": "3fg6rK3jeTdtGxtr0yX896BhEtH33OvWyx3ncTm6uR0=\t0.0.0.0/0"
+    },
+    "filter": "-P INPUT ACCEPT\n-P FORWARD ACCEPT\n-P OUTPUT ACCEPT\n-A FORWARD -s 10.10.100.0/24 -o eth0 -j ACCEPT\n-A FORWARD -i wg0 -o wg1 -j ACCEPT\n-A FORWARD -i wg1 -o wg0 -j ACCEPT\n-A FORWARD -s 10.50.50.20/32 -i wg-clients -o wg-up-cenuta -j ACCEPT\n-A FORWARD -d 10.50.50.20/32 -i wg-up-cenuta -o wg-clients -j ACCEPT\n-A FORWARD -s 10.50.50.21/32 -i wg-clients -o wg-up-cenuta -j ACCEPT\n-A FORWARD -d 10.50.50.21/32 -i wg-up-cenuta -o wg-clients -j ACCEPT\n-A FORWARD -s 10.50.50.22/32 -i wg-clients -o wg-up-cenuta -j ACCEPT\n-A FORWARD -d 10.50.50.22/32 -i wg-up-cenuta -o wg-clients -j ACCEPT\n-A FORWARD -s 10.50.50.23/32 -i wg-clients -o wg-up-cenuta -j ACCEPT\n-A FORWARD -d 10.50.50.23/32 -i wg-up-cenuta -o wg-clients -j ACCEPT\n-A FORWARD -s 10.50.50.24/32 -i wg-clients -o wg-up-cenuta -j ACCEPT\n-A FORWARD -d 10.50.50.24/32 -i wg-up-cenuta -o wg-clients -j ACCEPT\n-A FORWARD -s 10.50.50.25/32 -i wg-clients -o wg-up-cenuta -j ACCEPT\n-A FORWARD -d 10.50.50.25/32 -i wg-up-cenuta -o wg-clients -j ACCEPT\n-A FORWARD -s 10.50.50.26/32 -i wg-clients -o wg-up-cenuta -j ACCEPT\n-A FORWARD -d 10.50.50.26/32 -i wg-up-cenuta -o wg-clients -j ACCEPT\n-A FORWARD -s 10.50.50.27/32 -i wg-clients -o wg1 -j ACCEPT\n-A FORWARD -d 10.50.50.27/32 -i wg1 -o wg-clients -j ACCEPT\n-A FORWARD -s 10.50.50.28/32 -i wg-clients -o wg1 -j ACCEPT\n-A FORWARD -d 10.50.50.28/32 -i wg1 -o wg-clients -j ACCEPT\n-A FORWARD -s 10.50.50.29/32 -i wg-clients -o wg-up-cenuta -j ACCEPT\n-A FORWARD -d 10.50.50.29/32 -i wg-up-cenuta -o wg-clients -j ACCEPT\n-A FORWARD -s 10.50.50.30/32 -i wg-clients -o wg1 -j ACCEPT\n-A FORWARD -d 10.50.50.30/32 -i wg1 -o wg-clients -j ACCEPT\n-A FORWARD -s 10.50.50.31/32 -i wg-clients -o wg-up-cenuta -j ACCEPT\n-A FORWARD -d 10.50.50.31/32 -i wg-up-cenuta -o wg-clients -j ACCEPT\n-A FORWARD -s 10.50.50.32/32 -i wg-clients -o wg1 -j ACCEPT\n-A FORWARD -d 10.50.50.32/32 -i wg1 -o wg-clients -j ACCEPT\n-A FORWARD -s 10.50.50.33/32 -i wg-clients -o wg-up-cenuta -j ACCEPT\n-A FORWARD -d 10.50.50.33/32 -i wg-up-cenuta -o wg-clients -j ACCEPT\n-A FORWARD -s 10.50.50.34/32 -i wg-clients -o wg1 -j ACCEPT\n-A FORWARD -d 10.50.50.34/32 -i wg1 -o wg-clients -j ACCEPT\n-A FORWARD -s 10.50.50.35/32 -i wg-clients -o wg-up-cenuta -j ACCEPT\n-A FORWARD -d 10.50.50.35/32 -i wg-up-cenuta -o wg-clients -j ACCEPT\n-A FORWARD -s 10.50.50.36/32 -i wg-clients -o wg-up-cenuta -j ACCEPT\n-A FORWARD -d 10.50.50.36/32 -i wg-up-cenuta -o wg-clients -j ACCEPT\n-A FORWARD -s 10.50.50.37/32 -i wg-clients -o wg1 -j ACCEPT\n-A FORWARD -d 10.50.50.37/32 -i wg1 -o wg-clients -j ACCEPT\n-A FORWARD -s 10.50.50.38/32 -i wg-clients -o wg-up-cenuta -j ACCEPT\n-A FORWARD -d 10.50.50.38/32 -i wg-up-cenuta -o wg-clients -j ACCEPT",
+    "nat": "-P PREROUTING ACCEPT\n-P INPUT ACCEPT\n-P OUTPUT ACCEPT\n-P POSTROUTING ACCEPT\n-N DOCKER_OUTPUT\n-N DOCKER_POSTROUTING\n-A OUTPUT -d 127.0.0.11/32 -j DOCKER_OUTPUT\n-A POSTROUTING -d 127.0.0.11/32 -j DOCKER_POSTROUTING\n-A POSTROUTING -s 10.10.100.0/24 -o eth0 -j MASQUERADE\n-A POSTROUTING -s 10.10.10.0/24 -o wg1 -j MASQUERADE\n-A POSTROUTING -s 10.50.50.20/32 -o wg-up-cenuta -j MASQUERADE\n-A POSTROUTING -s 10.50.50.21/32 -o wg-up-cenuta -j MASQUERADE\n-A POSTROUTING -s 10.50.50.22/32 -o wg-up-cenuta -j MASQUERADE\n-A POSTROUTING -s 10.50.50.23/32 -o wg-up-cenuta -j MASQUERADE\n-A POSTROUTING -s 10.50.50.24/32 -o wg-up-cenuta -j MASQUERADE\n-A POSTROUTING -s 10.50.50.25/32 -o wg-up-cenuta -j MASQUERADE\n-A POSTROUTING -s 10.50.50.26/32 -o wg-up-cenuta -j MASQUERADE\n-A POSTROUTING -s 10.50.50.27/32 -o wg1 -j MASQUERADE\n-A POSTROUTING -s 10.50.50.28/32 -o wg1 -j MASQUERADE\n-A POSTROUTING -s 10.50.50.29/32 -o wg-up-cenuta -j MASQUERADE\n-A POSTROUTING -s 10.50.50.30/32 -o wg1 -j MASQUERADE\n-A POSTROUTING -s 10.50.50.31/32 -o wg-up-cenuta -j MASQUERADE\n-A POSTROUTING -s 10.50.50.32/32 -o wg1 -j MASQUERADE\n-A POSTROUTING -s 10.50.50.33/32 -o wg-up-cenuta -j MASQUERADE\n-A POSTROUTING -s 10.50.50.34/32 -o wg1 -j MASQUERADE\n-A POSTROUTING -s 10.50.50.35/32 -o wg-up-cenuta -j MASQUERADE\n-A POSTROUTING -s 10.50.50.36/32 -o wg-up-cenuta -j MASQUERADE\n-A POSTROUTING -s 10.50.50.37/32 -o wg1 -j MASQUERADE\n-A POSTROUTING -s 10.50.50.38/32 -o wg-up-cenuta -j MASQUERADE\n-A DOCKER_OUTPUT -d 127.0.0.11/32 -p tcp -m tcp --dport 53 -j DNAT --to-destination 127.0.0.11:34003\n-A DOCKER_OUTPUT -d 127.0.0.11/32 -p udp -m udp --dport 53 -j DNAT --to-destination 127.0.0.11:34955\n-A DOCKER_POSTROUTING -s 127.0.0.11/32 -p tcp -m tcp --sport 34003 -j SNAT --to-source :53\n-A DOCKER_POSTROUTING -s 127.0.0.11/32 -p udp -m udp --sport 34955 -j SNAT --to-source :53",
+    "mangle": "-P PREROUTING ACCEPT\n-P INPUT ACCEPT\n-P FORWARD ACCEPT\n-P OUTPUT ACCEPT\n-P POSTROUTING ACCEPT"
+  },
+  "rules": [
+    {
+      "priority": 31000,
+      "reason": "permit connected gateway validation when table 100 is rebuilt",
+      "argv": [
+        "priority",
+        "31000",
+        "protocol",
+        "242",
+        "iif",
+        "lo",
+        "oif",
+        "wg1",
+        "to",
+        "10.20.0.2/32",
+        "lookup",
+        "main",
+        "suppress_prefixlength",
+        "0"
+      ]
+    },
+    {
+      "priority": 31001,
+      "reason": "no WAN fallback for gateway validation",
+      "argv": [
+        "priority",
+        "31001",
+        "protocol",
+        "242",
+        "iif",
+        "lo",
+        "oif",
+        "wg1",
+        "to",
+        "10.20.0.2/32",
+        "prohibit"
+      ]
+    },
+    {
+      "priority": 31002,
+      "reason": "bound local sockets",
+      "argv": [
+        "priority",
+        "31002",
+        "protocol",
+        "242",
+        "iif",
+        "lo",
+        "oif",
+        "wg1",
+        "lookup",
+        "100"
+      ]
+    },
+    {
+      "priority": 31003,
+      "reason": "no table fallthrough for local oif",
+      "argv": [
+        "priority",
+        "31003",
+        "protocol",
+        "242",
+        "iif",
+        "lo",
+        "oif",
+        "wg1",
+        "prohibit"
+      ]
+    },
+    {
+      "priority": 31004,
+      "reason": "bound local sockets",
+      "argv": [
+        "priority",
+        "31004",
+        "protocol",
+        "242",
+        "iif",
+        "lo",
+        "oif",
+        "wg-up-cenuta",
+        "lookup",
+        "200"
+      ]
+    },
+    {
+      "priority": 31005,
+      "reason": "no table fallthrough for local oif",
+      "argv": [
+        "priority",
+        "31005",
+        "protocol",
+        "242",
+        "iif",
+        "lo",
+        "oif",
+        "wg-up-cenuta",
+        "prohibit"
+      ]
+    },
+    {
+      "priority": 31006,
+      "reason": "preserve connected service replies",
+      "argv": [
+        "priority",
+        "31006",
+        "protocol",
+        "242",
+        "iif",
+        "lo",
+        "from",
+        "10.20.0.1/32",
+        "to",
+        "10.20.0.0/24",
+        "lookup",
+        "main",
+        "suppress_prefixlength",
+        "0"
+      ]
+    },
+    {
+      "priority": 31007,
+      "reason": "do not turn a missing service route into WAN traffic",
+      "argv": [
+        "priority",
+        "31007",
+        "protocol",
+        "242",
+        "iif",
+        "lo",
+        "from",
+        "10.20.0.1/32",
+        "to",
+        "10.20.0.0/24",
+        "prohibit"
+      ]
+    },
+    {
+      "priority": 31008,
+      "reason": "preserve connected service replies",
+      "argv": [
+        "priority",
+        "31008",
+        "protocol",
+        "242",
+        "iif",
+        "lo",
+        "from",
+        "10.20.0.1/32",
+        "to",
+        "10.30.30.0/24",
+        "lookup",
+        "main",
+        "suppress_prefixlength",
+        "0"
+      ]
+    },
+    {
+      "priority": 31009,
+      "reason": "do not turn a missing service route into WAN traffic",
+      "argv": [
+        "priority",
+        "31009",
+        "protocol",
+        "242",
+        "iif",
+        "lo",
+        "from",
+        "10.20.0.1/32",
+        "to",
+        "10.30.30.0/24",
+        "prohibit"
+      ]
+    },
+    {
+      "priority": 31010,
+      "reason": "preserve connected service replies",
+      "argv": [
+        "priority",
+        "31010",
+        "protocol",
+        "242",
+        "iif",
+        "lo",
+        "from",
+        "10.20.0.1/32",
+        "to",
+        "172.19.0.0/16",
+        "lookup",
+        "main",
+        "suppress_prefixlength",
+        "0"
+      ]
+    },
+    {
+      "priority": 31011,
+      "reason": "do not turn a missing service route into WAN traffic",
+      "argv": [
+        "priority",
+        "31011",
+        "protocol",
+        "242",
+        "iif",
+        "lo",
+        "from",
+        "10.20.0.1/32",
+        "to",
+        "172.19.0.0/16",
+        "prohibit"
+      ]
+    },
+    {
+      "priority": 31012,
+      "reason": "preserve connected service replies",
+      "argv": [
+        "priority",
+        "31012",
+        "protocol",
+        "242",
+        "iif",
+        "lo",
+        "from",
+        "10.40.40.2/32",
+        "to",
+        "10.20.0.0/24",
+        "lookup",
+        "main",
+        "suppress_prefixlength",
+        "0"
+      ]
+    },
+    {
+      "priority": 31013,
+      "reason": "do not turn a missing service route into WAN traffic",
+      "argv": [
+        "priority",
+        "31013",
+        "protocol",
+        "242",
+        "iif",
+        "lo",
+        "from",
+        "10.40.40.2/32",
+        "to",
+        "10.20.0.0/24",
+        "prohibit"
+      ]
+    },
+    {
+      "priority": 31014,
+      "reason": "preserve connected service replies",
+      "argv": [
+        "priority",
+        "31014",
+        "protocol",
+        "242",
+        "iif",
+        "lo",
+        "from",
+        "10.40.40.2/32",
+        "to",
+        "10.30.30.0/24",
+        "lookup",
+        "main",
+        "suppress_prefixlength",
+        "0"
+      ]
+    },
+    {
+      "priority": 31015,
+      "reason": "do not turn a missing service route into WAN traffic",
+      "argv": [
+        "priority",
+        "31015",
+        "protocol",
+        "242",
+        "iif",
+        "lo",
+        "from",
+        "10.40.40.2/32",
+        "to",
+        "10.30.30.0/24",
+        "prohibit"
+      ]
+    },
+    {
+      "priority": 31016,
+      "reason": "preserve connected service replies",
+      "argv": [
+        "priority",
+        "31016",
+        "protocol",
+        "242",
+        "iif",
+        "lo",
+        "from",
+        "10.40.40.2/32",
+        "to",
+        "172.19.0.0/16",
+        "lookup",
+        "main",
+        "suppress_prefixlength",
+        "0"
+      ]
+    },
+    {
+      "priority": 31017,
+      "reason": "do not turn a missing service route into WAN traffic",
+      "argv": [
+        "priority",
+        "31017",
+        "protocol",
+        "242",
+        "iif",
+        "lo",
+        "from",
+        "10.40.40.2/32",
+        "to",
+        "172.19.0.0/16",
+        "prohibit"
+      ]
+    },
+    {
+      "priority": 31018,
+      "reason": "unbound kernel replies with WG source",
+      "argv": [
+        "priority",
+        "31018",
+        "protocol",
+        "242",
+        "iif",
+        "lo",
+        "from",
+        "10.20.0.1/32",
+        "lookup",
+        "100"
+      ]
+    },
+    {
+      "priority": 31019,
+      "reason": "no main fallback for WG source",
+      "argv": [
+        "priority",
+        "31019",
+        "protocol",
+        "242",
+        "iif",
+        "lo",
+        "from",
+        "10.20.0.1/32",
+        "prohibit"
+      ]
+    },
+    {
+      "priority": 31020,
+      "reason": "unbound kernel replies with WG source",
+      "argv": [
+        "priority",
+        "31020",
+        "protocol",
+        "242",
+        "iif",
+        "lo",
+        "from",
+        "10.40.40.2/32",
+        "lookup",
+        "200"
+      ]
+    },
+    {
+      "priority": 31021,
+      "reason": "no main fallback for WG source",
+      "argv": [
+        "priority",
+        "31021",
+        "protocol",
+        "242",
+        "iif",
+        "lo",
+        "from",
+        "10.40.40.2/32",
+        "prohibit"
+      ]
+    }
+  ],
+  "expected_rules": [
+    {
+      "priority": 31000,
+      "src": "all",
+      "dst": "10.20.0.2",
+      "iif": "lo",
+      "oif": "wg1",
+      "table": "main",
+      "suppress_prefixlen": 0,
+      "protocol": "242"
+    },
+    {
+      "priority": 31001,
+      "src": "all",
+      "dst": "10.20.0.2",
+      "iif": "lo",
+      "oif": "wg1",
+      "action": "prohibit",
+      "protocol": "242"
+    },
+    {
+      "priority": 31002,
+      "src": "all",
+      "iif": "lo",
+      "oif": "wg1",
+      "table": "100",
+      "protocol": "242"
+    },
+    {
+      "priority": 31003,
+      "src": "all",
+      "iif": "lo",
+      "oif": "wg1",
+      "action": "prohibit",
+      "protocol": "242"
+    },
+    {
+      "priority": 31004,
+      "src": "all",
+      "iif": "lo",
+      "oif": "wg-up-cenuta",
+      "table": "200",
+      "protocol": "242"
+    },
+    {
+      "priority": 31005,
+      "src": "all",
+      "iif": "lo",
+      "oif": "wg-up-cenuta",
+      "action": "prohibit",
+      "protocol": "242"
+    },
+    {
+      "priority": 31006,
+      "src": "10.20.0.1",
+      "dst": "10.20.0.0",
+      "dstlen": 24,
+      "iif": "lo",
+      "table": "main",
+      "suppress_prefixlen": 0,
+      "protocol": "242"
+    },
+    {
+      "priority": 31007,
+      "src": "10.20.0.1",
+      "dst": "10.20.0.0",
+      "dstlen": 24,
+      "iif": "lo",
+      "action": "prohibit",
+      "protocol": "242"
+    },
+    {
+      "priority": 31008,
+      "src": "10.20.0.1",
+      "dst": "10.30.30.0",
+      "dstlen": 24,
+      "iif": "lo",
+      "table": "main",
+      "suppress_prefixlen": 0,
+      "protocol": "242"
+    },
+    {
+      "priority": 31009,
+      "src": "10.20.0.1",
+      "dst": "10.30.30.0",
+      "dstlen": 24,
+      "iif": "lo",
+      "action": "prohibit",
+      "protocol": "242"
+    },
+    {
+      "priority": 31010,
+      "src": "10.20.0.1",
+      "dst": "172.19.0.0",
+      "dstlen": 16,
+      "iif": "lo",
+      "table": "main",
+      "suppress_prefixlen": 0,
+      "protocol": "242"
+    },
+    {
+      "priority": 31011,
+      "src": "10.20.0.1",
+      "dst": "172.19.0.0",
+      "dstlen": 16,
+      "iif": "lo",
+      "action": "prohibit",
+      "protocol": "242"
+    },
+    {
+      "priority": 31012,
+      "src": "10.40.40.2",
+      "dst": "10.20.0.0",
+      "dstlen": 24,
+      "iif": "lo",
+      "table": "main",
+      "suppress_prefixlen": 0,
+      "protocol": "242"
+    },
+    {
+      "priority": 31013,
+      "src": "10.40.40.2",
+      "dst": "10.20.0.0",
+      "dstlen": 24,
+      "iif": "lo",
+      "action": "prohibit",
+      "protocol": "242"
+    },
+    {
+      "priority": 31014,
+      "src": "10.40.40.2",
+      "dst": "10.30.30.0",
+      "dstlen": 24,
+      "iif": "lo",
+      "table": "main",
+      "suppress_prefixlen": 0,
+      "protocol": "242"
+    },
+    {
+      "priority": 31015,
+      "src": "10.40.40.2",
+      "dst": "10.30.30.0",
+      "dstlen": 24,
+      "iif": "lo",
+      "action": "prohibit",
+      "protocol": "242"
+    },
+    {
+      "priority": 31016,
+      "src": "10.40.40.2",
+      "dst": "172.19.0.0",
+      "dstlen": 16,
+      "iif": "lo",
+      "table": "main",
+      "suppress_prefixlen": 0,
+      "protocol": "242"
+    },
+    {
+      "priority": 31017,
+      "src": "10.40.40.2",
+      "dst": "172.19.0.0",
+      "dstlen": 16,
+      "iif": "lo",
+      "action": "prohibit",
+      "protocol": "242"
+    },
+    {
+      "priority": 31018,
+      "src": "10.20.0.1",
+      "iif": "lo",
+      "table": "100",
+      "protocol": "242"
+    },
+    {
+      "priority": 31019,
+      "src": "10.20.0.1",
+      "iif": "lo",
+      "action": "prohibit",
+      "protocol": "242"
+    },
+    {
+      "priority": 31020,
+      "src": "10.40.40.2",
+      "iif": "lo",
+      "table": "200",
+      "protocol": "242"
+    },
+    {
+      "priority": 31021,
+      "src": "10.40.40.2",
+      "iif": "lo",
+      "action": "prohibit",
+      "protocol": "242"
+    }
+  ],
+  "uplinks": {
+    "fornex": {
+      "interface": "wg1",
+      "source": "10.20.0.1",
+      "table": 100
+    },
+    "cenuta": {
+      "interface": "wg-up-cenuta",
+      "source": "10.40.40.2",
+      "table": 200
+    }
+  },
+  "lab_evidence": "guard-lab-v4",
+  "review": {
+    "date_utc": "2026-09-16T08:05:02Z",
+    "scope": "22 local-only guards; two explicit WSS carrier host routes; no other route, rule, peer, or policy change",
+    "wss_fallback_host_routes": {
+      "fornex": {
+        "route": "103.75.126.143/32 via 172.19.0.1 dev eth0",
+        "purpose": "Keep TimeWeb-to-Fornex WSS carrier outside wg1"
+      },
+      "cenuta": {
+        "route": "89.252.153.129/32 via 172.19.0.1 dev eth0",
+        "purpose": "Keep TimeWeb-to-Cenuta WSS carrier outside wg-up-cenuta"
+      }
+    }
+  }
+}

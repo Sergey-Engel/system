@@ -1,0 +1,57 @@
+[
+  {
+    "device": "MacBook-Sergey",
+    "file": "Fornex-AWG31-MacBook-Sergey.conf",
+    "address": "10.83.1.1/32"
+  },
+  {
+    "device": "iPhone-Sergey",
+    "file": "Fornex-AWG31-iPhone-Sergey.conf",
+    "address": "10.83.1.2/32"
+  },
+  {
+    "device": "iPad-Pro-Sergey",
+    "file": "Fornex-AWG31-iPad-Pro-Sergey.conf",
+    "address": "10.83.1.5/32"
+  },
+  {
+    "device": "iPad-9.7-Sergey",
+    "file": "Fornex-AWG31-iPad-9.7-Sergey.conf",
+    "address": "10.83.1.6/32"
+  },
+  {
+    "device": "MacBook-M3-Sveta",
+    "file": "Fornex-AWG31-MacBook-M3-Sveta.conf",
+    "address": "10.83.1.7/32"
+  },
+  {
+    "device": "iPhone-16-Sveta",
+    "file": "Fornex-AWG31-iPhone-16-Sveta.conf",
+    "address": "10.83.1.8/32"
+  },
+  {
+    "device": "iPad-9.7-Sveta",
+    "file": "Fornex-AWG31-iPad-9.7-Sveta.conf",
+    "address": "10.83.1.9/32"
+  },
+  {
+    "device": "DigitalRazor-PC",
+    "file": "Fornex-AWG31-DigitalRazor-PC.conf",
+    "address": "10.83.1.10/32"
+  },
+  {
+    "device": "Engel-Samsung-Pad",
+    "file": "Fornex-AWG31-Engel-Samsung-Pad.conf",
+    "address": "10.83.1.11/32"
+  },
+  {
+    "device": "Win-Orekhovo",
+    "file": "Fornex-AWG31-Win-Orekhovo.conf",
+    "address": "10.83.1.12/32"
+  },
+  {
+    "device": "Mac-Mini-M4",
+    "file": "Fornex-AWG31-Mac-Mini-M4.conf",
+    "address": "10.83.1.4/32"
+  }
+]

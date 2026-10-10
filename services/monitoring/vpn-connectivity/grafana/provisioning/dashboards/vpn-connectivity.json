@@ -1,0 +1,63 @@
+{
+  "annotations": {"list": []},
+  "editable": true,
+  "graphTooltip": 1,
+  "panels": [
+    {
+      "id": 1,
+      "title": "Connectivity checks (gateway = LAN diagnostic)",
+      "type": "timeseries",
+      "gridPos": {"h": 8, "w": 24, "x": 0, "y": 9},
+      "fieldConfig": {"defaults": {"min": 0, "max": 1, "unit": "short"}, "overrides": []},
+      "targets": [{"expr": "vpn_probe_up", "legendFormat": "{{check}}", "refId": "A"}],
+      "options": {"legend": {"displayMode": "list", "placement": "bottom"}, "tooltip": {"mode": "multi"}}
+    },
+    {
+      "id": 2,
+      "title": "Latency",
+      "type": "timeseries",
+      "gridPos": {"h": 8, "w": 24, "x": 0, "y": 17},
+      "fieldConfig": {"defaults": {"unit": "s"}, "overrides": []},
+      "targets": [{"expr": "vpn_probe_latency_seconds", "legendFormat": "{{check}}", "refId": "A"}],
+      "options": {"legend": {"displayMode": "list", "placement": "bottom"}, "tooltip": {"mode": "multi"}}
+    },
+    {
+      "id": 3,
+      "title": "Tunnel status",
+      "type": "stat",
+      "gridPos": {"h": 5, "w": 12, "x": 0, "y": 4},
+      "fieldConfig": {"defaults": {"min": 0, "max": 1, "unit": "short", "thresholds": {"mode": "absolute", "steps": [{"color": "red", "value": null}, {"color": "green", "value": 1}]}}, "overrides": []},
+      "targets": [{"expr": "vpn_probe_tunnel_up", "refId": "A"}],
+      "options": {"reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": false}, "orientation": "auto", "colorMode": "background"}
+    },
+    {
+      "id": 4,
+      "title": "Current route",
+      "type": "table",
+      "gridPos": {"h": 4, "w": 24, "x": 0, "y": 0},
+      "fieldConfig": {"defaults": {}, "overrides": []},
+      "targets": [{"expr": "vpn_probe_route_info", "format": "table", "instant": true, "refId": "A"}],
+      "transformations": [{"id": "organize", "options": {"excludeByName": {"Time": true, "Value": true, "site_profile": true, "egress_profile": true}, "renameByName": {"vpn_name": "VPN", "public_ip": "Public IP", "gateway": "Gateway", "lan_interface": "LAN interface", "lan_ip": "LAN IP", "tunnel_interface": "Tunnel interface", "tunnel_ip": "Tunnel IP"}}}],
+      "options": {"cellHeight": "sm", "footer": {"show": false}, "showHeader": true}
+    },
+    {
+      "id": 5,
+      "title": "Internet status",
+      "type": "stat",
+      "gridPos": {"h": 5, "w": 12, "x": 12, "y": 4},
+      "fieldConfig": {"defaults": {"min": 0, "max": 1, "unit": "short", "thresholds": {"mode": "absolute", "steps": [{"color": "red", "value": null}, {"color": "green", "value": 1}]}}, "overrides": []},
+      "targets": [{"expr": "vpn_probe_internet_up", "refId": "A"}],
+      "options": {"colorMode": "background", "graphMode": "area", "justifyMode": "auto", "orientation": "auto", "reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": false}, "textMode": "value"}
+    }
+  ],
+  "refresh": "10s",
+  "schemaVersion": 39,
+  "style": "dark",
+  "tags": ["vpn", "connectivity"],
+  "templating": {"list": []},
+  "time": {"from": "now-6h", "to": "now"},
+  "timezone": "browser",
+  "title": "VPN Connectivity",
+  "uid": "vpn-connectivity",
+  "version": 4
+}

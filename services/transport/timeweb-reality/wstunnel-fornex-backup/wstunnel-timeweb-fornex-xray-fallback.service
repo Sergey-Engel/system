@@ -1,0 +1,13 @@
+[Unit]
+Description=WSS fallback client for TimeWeb Xray to Fornex
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+ExecStart=/usr/local/sbin/wstunnel-timeweb-fornex-xray-fallback
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

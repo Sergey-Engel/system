@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "store": ".local/secrets.json",
+  "record_id": "file:<relative path inside .local>",
+  "materialized_path": ".local/<relative path>",
+  "mode": "0600",
+  "notes": "Reference schema only; never an importable VPN profile."
+}
