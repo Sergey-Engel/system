@@ -540,7 +540,7 @@
     },
     {
       "id": "mikrotik-n11",
-      "name": "MikroTik N11 (клиентский экспорт)",
+      "name": "MikroTik N11 (Нахимова)",
       "peers": [
         {
           "id": "mikrotik-n11-wg-tw-fx",
@@ -548,6 +548,14 @@
           "tunnel_code": 1,
           "interface": "wg0",
           "address": "10.10.10.24/32"
+        },
+        {
+          "id": "mikrotik-n11-wg-s2s-tw",
+          "tunnel": "WG-S2S-TW (LAN/IPIP)",
+          "tunnel_code": 2,
+          "source": "timeweb-s2s",
+          "interface": "wg-s2s",
+          "address": "10.60.60.2/32"
         }
       ]
     },
@@ -561,6 +569,20 @@
           "tunnel_code": 1,
           "interface": "wg-home",
           "address": "10.30.30.4/32"
+        }
+      ]
+    },
+    {
+      "id": "mikrotik-fethiye",
+      "name": "MikroTik Fethiye",
+      "peers": [
+        {
+          "id": "mikrotik-fethiye-wg-s2s-tw",
+          "tunnel": "WG-S2S-TW (LAN/IPIP)",
+          "tunnel_code": 1,
+          "source": "timeweb-s2s",
+          "interface": "wg-s2s",
+          "address": "10.60.60.3/32"
         }
       ]
     }

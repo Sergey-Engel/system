@@ -1,13 +1,48 @@
 ---
 type: configuration
 status: snapshot-not-live
-updated: 2026-09-13
+updated: 2026-10-16
 tags: [mikrotik, routeros, bth]
 ---
 
 # MikroTik hAP ax3: Нахимова 11
 
 ## Источник и свежесть
+
+Дополнение live-аудита 16 октября 2026: serial `HKM0BDXYG74`, RouterOS
+`7.24.4 (stable)`. Fresh export и encrypted binary backup:
+`.local/backups/nakhimova/20261016T124635Z/`, VERIFIED_TRANSFER, без restore
+drill. Добавлено отдельное плечо `wg-s2s-tw`, `10.60.60.2/29`,
+UDP 51860 к TimeWeb `94.241.171.65:51860`, MTU 1420, keepalive 25.
+Старые `wg1`, `wg-home`, `wg-cenuta`, NAT/mangle и default routes не менялись;
+восемь первоначальных owned-объектов сверены с исходным export.
+Последующим подшагом добавлены четыре LAN-объекта и только `.89/24` в
+AllowedIPs этого peer. Main route `192.168.89.0/24` через `wg-s2s-tw`,
+bridge/WG forward разрешен только между `.88/24` и `.89/24`; без NAT.
+Управление через новый интерфейс закрыто, кроме ограниченного ICMP к LAN IP.
+MacBook -> `.88.1` подтвержден, входящие сервисы MacBook не приняты.
+[Первое плечо Нахимова](../../architecture/Nakhimova_TimeWeb_Second_Leg_Changeset.md),
+[текущий LAN changeset](../../architecture/Site_to_Site_LAN_Changeset.md).
+Ниже исторический смысловой обзор сентября, не полный повторный аудит всех
+групп устройств по октябрьскому export.
+
+Последующий Local-подшаг: `ipip-s2s-egress`, outer `.60.2 -> .60.3`,
+inner `10.60.61.1/30`. Peer AllowedIPs добавляет только `.60.3/32`.
+Return rule только WAN -> `.89.197` в отдельной table с blackhole;
+LAN-initiated путь остается прежним. 29 новых owned-объектов, WAN/default,
+NAT/mangle/старые WG не менялись. Post-backup `20261016T143155Z`,
+VERIFIED_TRANSFER. MacBook Фетхие остается Local; при внешних ICMP-пробах
+наблюдались потери, а ответы `1.1.1.1` для двух имен расходились с TLS reference.
+Это не установленная причина отказа провайдера. Общий DNS Нахимова не менялся.
+[Полный Local checkpoint](../../history/2026-10-16-egress-local.md).
+
+Позднее 16 октября: ограниченная проба выхода MacBook Фетхие через Нахимова
+принята по terminal HTTPS `5.18.141.112` и browser HTTPS. Возврат в Local
+подтвержден `194.61.140.217`; сейчас Remote выключен. Конфигурация Нахимова
+во время проб неизменна, использован прежний WAN masquerade, не новые NAT/WG.
+Latest backup/current `20261016T160237Z`, VERIFIED_TRANSFER.
+Отказ канала, обратный выход и постоянный режим не приняты.
+[Протокол проб](../../history/2026-10-16-egress-trials.md).
 
 Последний прочитанный сохраненный export: `services/transport/timeweb-reality/stage9-bth/router.after.rsc`; заголовок RouterOS **2026-09-13 13:56:05**, версия **7.22.1**, модель **C53UiG+5HPaxD2HPaxD** (hAP ax3). Это более поздний источник, чем экспорт 9 июля в `System/Mikrotik/current/router/`.
 

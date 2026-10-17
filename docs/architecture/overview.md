@@ -8,9 +8,15 @@ tags: [mikrotik, vpn, architecture]
 
 # VPN: общая архитектура
 
-Будущий site-to-site мост между Нахимова 11 и Фетхие: [варианты, схемы,
-резервирование и проверка IPv6](Nakhimova_Fethiye_Site_to_Site_Design.md).
-Документ имеет статус proposed; мост еще не внедрен.
+Site-to-site между Нахимова 11 и управляемой LAN Фетхие: 16 октября поднята
+маршрутизируемая IPv4-связь через отдельный TimeWeb host WG.
+[Текущий LAN changeset и границы приемки](Site_to_Site_LAN_Changeset.md).
+Для Internet-выхода создан IPIP внутри WG; ограниченный тест MacBook через
+Нахимова и возврат Local приняты по IPv4/HTTPS, сейчас Local.
+[Результаты и границы приемки](Site_to_Site_Egress_Changeset.md).
+Постоянный/обратный Internet-выход, резервирование и прямой канал еще не приняты;
+[целевой проект и варианты](Nakhimova_Fethiye_Site_to_Site_Design.md) остаются
+планом последующих этапов. Операторский Deco не менялся.
 
 ## Хранилище После Переноса
 

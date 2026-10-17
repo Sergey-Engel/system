@@ -83,6 +83,16 @@ def fixture(host, monitoring=None):
     return bundle, files
 
 
+def test_pilot_backup_requires_whole_bundle_if_any_file_exists():
+    assert backup.pilot_required("timeweb", {}) == []
+    files = {name: b"fixture" for name in backup.S2S_REQUIRED}
+    assert backup.pilot_required("timeweb", files) == backup.S2S_REQUIRED
+    for missing in backup.S2S_REQUIRED:
+        with __import__("pytest").raises(ValueError, match="S2S"):
+            backup.pilot_required("timeweb", {k: v for k, v in files.items() if k != missing})
+    assert backup.pilot_required("fornex", files) == []
+
+
 def write_bundle(folder, bundle):
     bundle = copy.deepcopy(bundle)
     bundle["SHA256SUMS"] = sums(bundle)
@@ -97,6 +107,23 @@ class BackupTests(unittest.TestCase):
             folder = Path(tmp)
             write_bundle(folder, bundle)
             return backup.verify(host, RUN, folder)
+
+    def test_pilot_requires_runtime_capture_and_valid_guard(self):
+        bundle, files = fixture("timeweb")
+        files.update({name: b"fixture" for name in backup.S2S_REQUIRED})
+        bundle["host-files.tar"] = archive(files)
+        for when in ("before", "after", "final"):
+            bundle["host-source-" + when + ".sha256"] = sums(files)
+            bundle["host-metadata-" + when + ".nul"] = metadata(files)
+        with self.assertRaisesRegex(ValueError, "S2S"):
+            self.verify("timeweb", bundle)
+        for state in ("state-before", "state-after"):
+            bundle[state + "/host-s2s-runtime.conf"] = b"same peer\n"
+            bundle[state + "/host-s2s-guard.txt"] = b"S2S_GUARD_VERIFIED\n"
+        self.assertEqual(self.verify("timeweb", bundle)["status"], "VERIFIED")
+        bundle["state-after/host-s2s-runtime.conf"] = b"foreign peer\n"
+        with self.assertRaisesRegex(ValueError, "Runtime drift"):
+            self.verify("timeweb", bundle)
 
     def test_each_host_offline_and_isolated_restore(self):
         for host in backup.HOSTS:

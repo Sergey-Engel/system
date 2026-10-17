@@ -24,6 +24,24 @@ HOSTS = {
 }
 MAX_BYTES = 512 * 1024 * 1024
 MAX_MEMBERS = 20000
+S2S_REQUIRED = [
+    "etc/wireguard/wg-s2s.conf",
+    "etc/wireguard/s2s-pilot/guard.nft",
+    "etc/wireguard/s2s-pilot/guard.py",
+    "etc/wireguard/s2s-pilot/manifest.json",
+    "etc/systemd/system/s2s-pilot-guard.service",
+    "etc/systemd/system/wg-quick@wg-s2s.service.d/pilot.conf",
+]
+
+
+def pilot_required(host, files):
+    if host != "timeweb" or not set(S2S_REQUIRED).intersection(files):
+        return []
+    if any(not files.get(name) for name in S2S_REQUIRED):
+        raise ValueError("Incomplete S2S pilot backup coverage")
+    return S2S_REQUIRED
+
+
 REQUIRED = {
     "timeweb": [
         "opt/wg/config/wg_confs/" + name + ".conf"
@@ -228,7 +246,7 @@ def static_awg_config(data):
     return b"\n".join(sorted(static_text(data, wg=True).splitlines()))
 
 
-def verify_runtime(host, members, prefix):
+def verify_runtime(host, members, prefix, s2s=False):
     before, after = prefix + "state-before/", prefix + "state-after/"
     checks = {}
     def compare(name, transform=lambda x: x):
@@ -240,6 +258,14 @@ def verify_runtime(host, members, prefix):
     for name in ("host-iptables.txt", "host-ip6tables.txt"):
         compare(name, static_text)
     compare("wg-runtime.conf", lambda x: static_text(x, wg=True))
+    if s2s:
+        if any(state + name not in members for state in (before, after)
+               for name in ("host-s2s-runtime.conf", "host-s2s-guard.txt")):
+            raise ValueError("Missing S2S runtime/guard capture")
+        compare("host-s2s-runtime.conf", static_awg_config)
+        checks["s2s-guard-valid"] = all(
+            members[state + "host-s2s-guard.txt"].strip() == b"S2S_GUARD_VERIFIED"
+            for state in (before, after))
     if host == "cenuta":
         compare("wg-unit.txt")
     else:
@@ -300,7 +326,7 @@ def verify(host, run, dest):
         if members[prefix + "host-metadata-before.nul"] != members[prefix + "host-metadata-" + when + ".nul"]:
             raise ValueError("Host source metadata changed during backup")
     verify_metadata(members[prefix + "host-files.tar"], members[prefix + "host-metadata-before.nul"])
-    required = list(REQUIRED[host])
+    required = list(REQUIRED[host]) + pilot_required(host, files)
     if host == "timeweb":
         contract_path = "opt/timeweb-reality/bth-recovery/contract.json"
         contract = json.loads(files.get(contract_path, b"{}"))
@@ -369,7 +395,7 @@ def verify(host, run, dest):
             raise ValueError("Runtime capture command failed")
     if capture_errors:
         raise ValueError("Runtime capture errors")
-    checks = verify_runtime(host, members, prefix)
+    checks = verify_runtime(host, members, prefix, s2s=bool(pilot_required(host, files)))
     # Rehearse restoring required regular files to a private temporary directory.
     # Never extract symlinks or run restored scripts; never restore onto a live host.
     with tempfile.TemporaryDirectory(prefix="restore-check-", dir=dest) as tmp:

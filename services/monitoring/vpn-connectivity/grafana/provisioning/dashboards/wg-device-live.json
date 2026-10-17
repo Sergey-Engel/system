@@ -24,7 +24,7 @@
         "name": "device",
         "label": "Устройство",
         "type": "custom",
-        "query": "macbook,iphone,macmini,ipad-pro-sergey,ipad-97-sergey,macbook-m3-sveta,iphone-16-sveta,ipad-97-sveta,digitalrazor,samsung-pad,win-orekhovo,apple-tv-1,apple-tv-fethiye,apple-tv-4k,apple-tv-orekhovo,avg-redmi,anv-samsung,honor-lana-turk,mariia-mac,mikrotik-n11,igor-unassigned",
+        "query": "macbook,iphone,macmini,ipad-pro-sergey,ipad-97-sergey,macbook-m3-sveta,iphone-16-sveta,ipad-97-sveta,digitalrazor,samsung-pad,win-orekhovo,apple-tv-1,apple-tv-fethiye,apple-tv-4k,apple-tv-orekhovo,avg-redmi,anv-samsung,honor-lana-turk,mariia-mac,mikrotik-n11,igor-unassigned,mikrotik-fethiye",
         "current": {
           "selected": true,
           "text": "macbook",

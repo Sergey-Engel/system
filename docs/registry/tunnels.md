@@ -1,21 +1,25 @@
 ---
 type: registry
 status: current
-updated: 2026-10-10
+updated: 2026-10-16
 tags: [vpn, clients, wireguard, reality, awg]
 ---
 
 # Реестр VPN-туннелей и клиентских профилей
 
-Размещение обновлено 10 октября: [clients.json](../../config/inventory/clients.json)
-содержит 65 точных файлов, [observations.json](../../config/inventory/observations.json)
-определяет 21 устройство для exporter/Grafana. Состав: 36 WG, 11 AWG31,
-9 SOCKS и 9 XRAY. Байты опубликованных профилей не менялись. Датированные
+Размещение обновлено 16 октября: [clients.json](../../config/inventory/clients.json)
+содержит 67 точных файлов, [observations.json](../../config/inventory/observations.json)
+определяет 22 устройства для exporter/Grafana. Состав: 38 WG, 11 AWG31,
+9 SOCKS и 9 XRAY. Байты 65 исходных профилей не менялись; добавлены два
+инфраструктурных WG плеча с LAN-парой и IPIP. Ограниченный тест Internet-выхода
+MacBook через Нахимова и возврат Local принят по IPv4/HTTPS; сейчас Local,
+постоянный и обратный выход не приняты. Все 67 профилей в этих пробах неизменны.
+Их ключи/endpoints при расширении AllowedIPs не менялись. Датированные
 результаты приемки ниже не выданы за повторную приемку при переносе.
 
 ## Профили по устройствам
 
-Все выпущенные файлы для каждого устройства: **65 профилей в 21 папке**, включая одну папку без подтвержденной привязки к устройству. Наличие файла не подтверждает установку или активное подключение; сведения о приемке приведены в таблицах по типам VPN ниже.
+Все выпущенные файлы для каждого устройства: **67 профилей в 22 папках**, включая одну папку без подтвержденной привязки к устройству. Наличие файла не подтверждает установку или активное подключение; сведения о приемке приведены в таблицах по типам VPN ниже.
 
 Папки указаны относительно `.local/clients/`. Полный путь складывается из папки и имени файла. Обозначения протоколов, выходов и `RUHOME` расшифрованы в примечаниях ниже.
 
@@ -40,12 +44,33 @@ tags: [vpn, clients, wireguard, reality, awg]
 | anv-samsung                       | `Other/anv-samsung`       | `WG-TW-FX-anv-samsung.conf`                                                                                                                                                                                              |
 | honor-lana-turk                   | `Other/honor-lana-turk`   | `WG-TW-FX-honor-lana-turk.conf`                                                                                                                                                                                          |
 | mariia-mac                        | `Other/mariia-mac`        | `WG-TW-FX-mariia-mac.conf`                                                                                                                                                                                               |
-| MikroTik N11 (клиентский экспорт) | `Other/mikrotik-n11`      | `WG-TW-FX-mikrotik-n11.conf`                                                                                                                                                                                             |
+| MikroTik N11 (Нахимова) | `Other/mikrotik-n11`      | `WG-TW-FX-mikrotik-n11.conf`<br>`WG-S2S-TW-mikrotik-n11.conf` |
 | Igor: устройство не определено    | `Other/Igor-Unassigned`   | `WG-TW-BTH-Igor-Unassigned.conf`                                                                                                                                                                                         |
+| MikroTik Fethiye, служебный пилот | `Infrastructure/mikrotik-fethiye` | `WG-S2S-TW-mikrotik-fethiye.conf` |
 
 **Правило синхронизации:** при добавлении, отзыве, удалении, переименовании, переносе или изменении назначения профиля обновлять в одной правке и таблицу по устройствам, и соответствующую таблицу по типу VPN. Набор относительных путей в обеих группировках должен совпадать без пропусков и дублей и сверяться с актуальными файлами `.local/clients`. Если меняется наблюдаемая серверная identity, адрес или направление, одновременно обновлять `config/inventory/observations.json`: из него exporter и карточки Grafana получают список устройств, адресов, identity, источников и подписей тоннелей. Отдельный клиентский режим того же REALITY identity, например `TUN` рядом с SOCKS-профилем, в inventory не дублируется. При изменении устройства или направления обновлять также подписи и связанные сведения; параметры и приемку хранить в подробных таблицах по типам VPN, не дублируя их здесь. Изменение реестра само по себе не отзывает серверный доступ.
 
 ## Источник и правила учета
+
+### Инфраструктурный WG-S2S-TW, 16 Октября
+
+| Профиль | Адрес / endpoint | Назначение / приемка |
+| --- | --- | --- |
+| `Infrastructure/mikrotik-fethiye/WG-S2S-TW-mikrotik-fethiye.conf` | `10.60.60.3/29` -> `94.241.171.65:51860/UDP`, host `wg-s2s` `.1/29` | LAN Фетхие `.89/24` -> `.88/24` Нахимова, MTU 1420, keepalive 25. Router tests/1400 и MacBook -> gateway Нахимова без потерь PASS. TCP управления и чужой transit закрыты; удаленный Internet-выход не включен |
+| `Other/mikrotik-n11/WG-S2S-TW-mikrotik-n11.conf` | `10.60.60.2/29` -> тот же host endpoint | LAN Нахимова `.88/24` -> `.89/24` Фетхие. Два LAN-source router ping по 3/3, ключи сохранены. Входящий ping к MacBook не подтвердился также локально; его сервисы/приложения не приняты |
+
+AllowedIPs `.1/32`, противоположная LAN и противоположный outer WG `/32`
+на каждом роутере (`.2/32` на Фетхие, `.3/32` на Нахимова);
+на hub `.2/32` + `.88/24` у Нахимова, `.3/32` + `.89/24` у Фетхие.
+Новые отдельные identities, не профили MacBook и не peers существующего wg-relay. В FLEX fleet,
+selector tables, console controls и старые BTH bindings не добавляется;
+для него отдельное read-only наблюдение `timeweb-s2s`.
+[Точный scope и ограничения](../architecture/Fethiye_TimeWeb_Pilot_Changeset.md).
+[Второе плечо и его rollback](../architecture/Nakhimova_TimeWeb_Second_Leg_Changeset.md).
+[Текущий LAN scope и приемка](../architecture/Site_to_Site_LAN_Changeset.md).
+[IPIP scope и ограниченная приемка Remote IPv4/HTTPS](../architecture/Site_to_Site_Egress_Changeset.md).
+Новая роль наблюдения `WG-S2S-TW (LAN/IPIP)` обозначает транспорт, не проверку
+работоспособности удаленного Internet-выхода. Кардинальность не изменилась.
 
 Дополнение 2026-09-25: выпущен `Sergey/MacMini/SOCKS-TW-FLEX-S-Mini.json`.
 На TimeWeb зарегистрированы отдельные `macmini-socks-flex` и

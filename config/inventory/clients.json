@@ -1,7 +1,15 @@
 {
   "schema_version": 1,
-  "generated_utc": "2026-10-10T14:57:30.632067+00:00",
+  "generated_utc": "2026-10-16T14:43:33+00:00",
   "profiles": [
+    {
+      "path": "Infrastructure/mikrotik-fethiye/WG-S2S-TW-mikrotik-fethiye.conf",
+      "owner": "Infrastructure",
+      "device": "mikrotik-fethiye",
+      "name": "WG-S2S-TW-mikrotik-fethiye.conf",
+      "type": "WG",
+      "sha256": "b342f3ace3b1994aa40e3f47ec299271c956fd98fa5329e118f10e5f8107fe19"
+    },
     {
       "path": "Other/DigitalRazor/AWG31-FX-DigitalRazor.conf",
       "owner": "Other",
@@ -161,6 +169,14 @@
       "name": "WG-TW-FX-mariia-mac.conf",
       "type": "WG",
       "sha256": "428483c057276e42f94f7c17bac8db0d4c1f6d899fd934285213eb1f930139a3"
+    },
+    {
+      "path": "Other/mikrotik-n11/WG-S2S-TW-mikrotik-n11.conf",
+      "owner": "Other",
+      "device": "mikrotik-n11",
+      "name": "WG-S2S-TW-mikrotik-n11.conf",
+      "type": "WG",
+      "sha256": "87c20226d9dc244cbaf0737f9f0336ebe3d5b274fa9830c63c6d7299db37c83b"
     },
     {
       "path": "Other/mikrotik-n11/WG-TW-FX-mikrotik-n11.conf",
@@ -525,7 +541,7 @@
   ],
   "counts": {
     "AWG31": 11,
-    "WG": 36,
+    "WG": 38,
     "SOCKS": 9,
     "XRAY": 9
   },

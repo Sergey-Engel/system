@@ -1,7 +1,7 @@
 ---
 type: registry
 status: current
-updated: 2026-10-10
+updated: 2026-10-16
 ---
 
 # Реестр конфигурации
@@ -11,13 +11,15 @@ updated: 2026-10-10
 Live hosts определяют применённое состояние. Этот checkout хранит исходники
 и описание; [.local/secrets.json](../../.local/secrets.json) хранит переносимые
 private files. [.local/config/hosts](../../.local/config/hosts) содержит точные
-текущие файлы из свежих VERIFIED backups 10 октября, не автоматически обновляемый
-mirror. Stage-каталоги и архивы прежних выпусков не являются deployment masters.
+базовую материализацию VERIFIED backups 10 октября. Последующие changesets
+обновляют явно указанные masters; это не автоматически обновляемый mirror.
+Stage-каталоги и архивы прежних выпусков не являются deployment masters.
 
 | Компонент | Локальный источник / снимок | Live размещение |
 | --- | --- | --- |
 | TimeWeb Xray | `.local/config/hosts/timeweb/current/host/opt/timeweb-reality/` | `/opt/timeweb-reality/`, `xray-timeweb-reality.service` |
 | TimeWeb WG selector | `.local/config/hosts/timeweb/current/host/opt/wg/`, `opt/wg-router/` | `wg-relay`, `/opt/wg/config`, `/opt/wg-router` |
+| TimeWeb S2S | `.local/config/hosts/timeweb/current/host/etc/wireguard/` и exact systemd files; [IPIP Local changeset](../architecture/Site_to_Site_Egress_Changeset.md) | Root namespace `wg-s2s`, `10.60.60.1/29`, UDP 51860; Нахимова `.2`, Фетхие `.3`, LAN-пара `.88/24` ↔ `.89/24` и exact protocol 4 outer pair; host services и прочий transit закрыты; Remote client выключен |
 | BTH recovery | Текущий snapshot `opt/timeweb-reality/bth-recovery/`; код `services/transport/timeweb-reality/bth_recover.sh` | `bth-recovery.service/timer`, peer `.5` и полный routing contract |
 | FLEX | `services/transport/timeweb-reality/flex_*.py`, fleet и текущие controller/state snapshots | `/usr/local/sbin/timeweb-flex-*`, три controller timers, `timeweb-flex-fleet` |
 | Runtime recovery | `services/monitoring/timeweb-uplinks/pilot/runtime_recovery.py`, текущий `opt/vpn-runtime-recovery/` snapshot | `vpn-runtime-recovery`, проверяемая policy generation; timer не публикует policy |
@@ -26,9 +28,10 @@ mirror. Stage-каталоги и архивы прежних выпусков �
 | Cenuta WG/guard | `.local/config/hosts/cenuta/current/host/etc/` | `wg-cenuta`, `/etc/reality-c3`, nftables |
 | UDP/WSS | `services/transport/timeweb-reality/wstunnel-*-backup/`; private PKI и свежие host snapshots | Отдельные WG/Xray backend UDP/WSS controllers |
 | Нахимова | `.local/config/hosts/nakhimova/current/router-export.rsc` | hAP ax3, serial `HKM0BDXYG74`; свежий sensitive export и encrypted binary backup |
+| Фетхие | `.local/config/hosts/fethiye/initial/` (неизменный baseline), `current/` из `.local/backups/fethiye/20261016T160037Z-post-egress/` | hAP ax3 `HM20B6QXS8H`, LAN `192.168.89.0/24`; `wg-s2s-tw` `10.60.60.3/29`, LAN route `.88/24`; IPIP `.61.2/30`, ограниченная проба Remote IPv4/HTTPS принята, сейчас MacBook Local, 10 controls disabled; lease static; VERIFIED_TRANSFER, без restore drill; [паспорт](../hosts/fethiye/MikroTik_hAP_ax3_Initial_Audit.md), [лог](../tasks/PLAN-fethiye-site-to-site.md) |
 | Орехово | Карточки `docs/hosts/orekhovo/` | hEX RB750Gr3; свежий backup заблокирован недоступностью площадки, старые backups не перенесены |
-| Профили | `.local/clients/`, точные байты из secret store | Импорт на устройствах; 65 файлов: 36 WG, 11 AWG31, 9 SOCKS, 9 XRAY |
-| Устройства/метрики | `config/inventory/observations.json` | 21 устройство; один inventory для probe и Grafana |
+| Профили | `.local/clients/`, точные байты из secret store | 67 файлов: 38 WG, 11 AWG31, 9 SOCKS, 9 XRAY; новые S2S WG относятся к роутерам, не к MacBook |
+| Устройства/метрики | `config/inventory/observations.json` | 22 устройства; новый `timeweb-s2s` читает host WG, не контейнер |
 | Профили/checksums | `config/inventory/clients.json` | Реестр выданных файлов; не доказательство активности |
 | Local monitoring | `services/monitoring/vpn-connectivity/compose.yaml`, `.local/runtime/monitoring/` | Те же Docker project/container names и закреплённые image digests |
 | Mac integration | `scripts/setup_mac.py`, существующие SSH identities в private store | Сгенерированные aliases, три user LaunchAgents, `timeweb-vpn` |
@@ -38,11 +41,47 @@ mirror. Stage-каталоги и архивы прежних выпусков �
 
 ## Состояние Проверок
 
-65 опубликованных profiles скопированы без изменения байтов и SHA-256.
+65 исходных profiles сохранены без изменения байтов и SHA-256;
+16 октября добавлены два инфраструктурных WG profiles. При включении LAN
+у них изменены только AllowedIPs, без ротации ключей и endpoint.
 11 старых AWG aliases в transport сравнивались по параметрам с текущими
 клиентскими файлами и не переносились как второй набор профилей.
 Текущие VPS snapshots прошли состав, source drift и offline restore checks.
 Не переносились старые configs/backups, vendor binaries и stage credentials.
+
+16 октября: новый TimeWeb backup `2026-10-16T101524Z_current-config`, VERIFIED,
+386 host files, 61 обязательный файл прошел offline restore verification.
+Новый контур представлен шестью exact files и runtime/guard captures.
+Существующие contracts и защищенный wg-relay snapshot не изменились;
+recovery generation/monitoring manifest не переподписывались.
+Детали и ограничения: [checkpoint пилота](../history/2026-10-16-fethiye-timeweb-pilot.md).
+
+Второе плечо: post-backup TimeWeb `2026-10-16T120448Z_current-config`, VERIFIED
+(386 host files, 61 offline restore checks); Нахимова `20261016T120449Z`,
+VERIFIED_TRANSFER. RouterOS Нахимова live `7.24.4`, новый адрес `.2/29`.
+LAN и default routes не менялись. [Changeset второго плеча](../architecture/Nakhimova_TimeWeb_Second_Leg_Changeset.md).
+
+Последующий LAN-подшаг: только `.88/24` ↔ `.89/24`, без NAT/default/DNS изменений.
+Post-backups TimeWeb `2026-10-16T124355Z_current-config` VERIFIED,
+Фетхие `20261016T124357Z-post-s2s-lan` и Нахимова `20261016T124635Z`
+VERIFIED_TRANSFER. 65 прочих профилей и старые contracts сохранены;
+новая роль `WG-S2S-TW (LAN)` отображается в двух S2S observations.
+[Checkpoint и ограничения](../history/2026-10-16-site-to-site-lan.md).
+
+IPIP Local-подшаг: два router profiles добавляют только opposite outer `/32`;
+65 остальных profiles и WG identities/endpoints не менялись. TimeWeb guard
+и manifest updated, WG config/routes сохранены. Current post-backups:
+TimeWeb `2026-10-16T142629Z_current-config`, Фетхие `20261016T143653Z-post-egress`,
+Нахимова `20261016T143155Z`. MacBook Local HTTPS принят, Remote Internet нет.
+ICMP loss и DNS discrepancy не маскируются WG green;
+[подробные gates и evidence](../history/2026-10-16-egress-local.md).
+
+Ограниченные Remote-пробы 16 октября: IPv4/HTTPS и возврат Local приняты
+на MacBook; его прежний lease закреплен static. 67 профилей, inventory/fleet,
+WG identities и защищенное host state не менялись, re-sign не требовался.
+Current post-backups: TimeWeb `2026-10-16T155615Z_current-config`,
+Фетхие `20261016T160037Z-post-egress`, Нахимова `20261016T160237Z`.
+[Результаты, две попытки и мониторинг](../history/2026-10-16-egress-trials.md).
 
 Старый `maintenance_preflight.py` по-прежнему проверяет строгую историческую
 форму BTH baseline. На свежих snapshot files он отказал: hash `hostguard`

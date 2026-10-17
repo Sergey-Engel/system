@@ -61,6 +61,36 @@ SSH Нахимова использует существующий TimeWeb key �
 
 ## Ограничения
 
+Фетхие добавлена 16 октября: новый hAP ax3 `HM20B6QXS8H`, динамический WAN
+`192.168.68.117` за Deco; разрешены TCP 22/80 только с `192.168.68.115`.
+Используется существующий admin. 16 октября в 10:09-10:12 Europe/Istanbul
+с разрешения пользователя добавлен ключ входа RSA 4096
+`.local/ssh/fethiye_admin_rsa`, public key-owner
+`codex-fethiye-admin-20261016T070953Z`. Повторный strict SSH без пароля проверен;
+вход SSH только с паролем отклонен. Новых пользователей не создавали.
+Браузерный пароль прежний (`access:fethiye:admin`); пользователь явно решил
+сохранить его 16 октября. Не ротировать без нового поручения. Риск передачи
+пароля в чат остается; SSH-ключ не устраняет риск для WebFig.
+Первоначальный `.local/ssh/known_hosts_fethiye` закреплен по public key,
+прочитанному в авторизованном WebFig. 16 октября в 09:57 Europe/Istanbul
+раскрытый SSH host key заменен: новый RSA 2048 создан локально, передан
+зашифрованным PKCS8 по ранее закрепленному SSH и импортирован; временный файл
+удален. Новый public key был известен до импорта, strict SSH проверен;
+known_hosts и private store синхронизированы. Fingerprint:
+`SHA256:eH3GEIpmWD19iX55MwgWYoIoj0J1sA7QUCukDb8GZPc`.
+Пароль admin пока не менялся. [Лог и backup после ротации](../tasks/PLAN-fethiye-site-to-site.md).
+Автоматический alias не добавлялся. Этот доступ локальный из сети Deco,
+не удаленный через TimeWeb. Для входа без глобального SSH config:
+
+```sh
+ssh -i .local/ssh/fethiye_admin_rsa -o UserKnownHostsFile=.local/ssh/known_hosts_fethiye -o StrictHostKeyChecking=yes -o IdentitiesOnly=yes -o BatchMode=yes -o PasswordAuthentication=no -o ForwardAgent=no admin@192.168.68.117
+```
+
+Команда выполняется из корня System; ключ и known_hosts материализуются из
+private store. Последняя копия после импорта ключа:
+`.local/backups/fethiye/20261016T071211Z-post-admin-key-install/`.
+Ограничения, рекомендации по ротации и [backup](../hosts/fethiye/MikroTik_hAP_ax3_Initial_Audit.md).
+
 `StrictHostKeyChecking=yes`, `IdentitiesOnly=yes`, `BatchMode=yes`,
 password authentication и agent forwarding выключены. RSA compatibility
 включена только для старого RouterOS Орехово. При смене host key остановиться,

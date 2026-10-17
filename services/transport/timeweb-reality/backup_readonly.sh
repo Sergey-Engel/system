@@ -229,6 +229,10 @@ snapshot() {
     capture "$dir" docker-inspect.json sh -c 'docker inspect $(docker ps -aq)'
     capture "$dir" docker-stats.json docker stats --no-stream --format '{{json .}}'
     if [[ $host == timeweb ]]; then
+        if [[ -f /etc/wireguard/wg-s2s.conf ]]; then
+            capture "$dir" host-s2s-runtime.conf wg showconf wg-s2s
+            capture "$dir" host-s2s-guard.txt python3 /etc/wireguard/s2s-pilot/guard.py check
+        fi
         capture "$dir" xray-unit.txt systemctl show xray-timeweb-reality.service -p Id -p ActiveState -p SubState -p MainPID -p ActiveEnterTimestamp -p FragmentPath
         # --check does not alter peers/guards, but the existing helper uses /run
         # scratch files and its recovery lock. This is the explicit ephemeral exception.

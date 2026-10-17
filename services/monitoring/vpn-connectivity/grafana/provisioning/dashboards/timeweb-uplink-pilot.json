@@ -11017,7 +11017,7 @@
               "targetBlank": false
             }
           ],
-          "title": "MikroTik N11 (клиентский экспорт)",
+          "title": "MikroTik N11 (Нахимова)",
           "vizConfig": {
             "group": "canvas",
             "kind": "VizConfig",
@@ -11071,6 +11071,10 @@
                               },
                               "1": {
                                 "text": "WG-TW-FX",
+                                "color": "green"
+                              },
+                              "2": {
+                                "text": "WG-S2S-TW (LAN/IPIP)",
                                 "color": "green"
                               }
                             }
@@ -11166,7 +11170,7 @@
                   "mode": "none"
                 },
                 "root": {
-                  "name": "MikroTik N11 (клиентский экспорт) VPN tunnel telemetry",
+                  "name": "MikroTik N11 (Нахимова) VPN tunnel telemetry",
                   "type": "frame",
                   "background": {
                     "color": {
@@ -11915,6 +11919,516 @@
             "version": "13.1.3"
           }
         }
+      },
+      "panel-121": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "PBFA97CFB590B2093"
+                      },
+                      "group": "prometheus",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "expr": "(vpn_device_active_tunnel_code{device=\"mikrotik-fethiye\"}) and on(job,instance) (up{job=\"macbook-wg-peer\"} == 1)",
+                        "instant": true,
+                        "legendFormat": "Тоннель"
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "A"
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "PBFA97CFB590B2093"
+                      },
+                      "group": "prometheus",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "expr": "((vpn_device_active_observation_kind{device=\"mikrotik-fethiye\"}) and on(job,instance) (up{job=\"macbook-wg-peer\"} == 1)) or on() vector(0/0)",
+                        "instant": true,
+                        "legendFormat": "Наблюдение"
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "B"
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "PBFA97CFB590B2093"
+                      },
+                      "group": "prometheus",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "expr": "((vpn_device_active_observation_age_seconds{device=\"mikrotik-fethiye\"}) and on(job,instance) (up{job=\"macbook-wg-peer\"} == 1)) or on() vector(0/0)",
+                        "instant": true,
+                        "legendFormat": "Возраст"
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "C"
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "PBFA97CFB590B2093"
+                      },
+                      "group": "prometheus",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "expr": "((vpn_device_active_client_in_bps{device=\"mikrotik-fethiye\"} and on(job,instance) (vpn_device_active_rate_valid{device=\"mikrotik-fethiye\"} == 1)) and on(job,instance) (up{job=\"macbook-wg-peer\"} == 1)) or on() vector(0/0)",
+                        "instant": true,
+                        "legendFormat": "IN"
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "D"
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "PBFA97CFB590B2093"
+                      },
+                      "group": "prometheus",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "expr": "((vpn_device_active_client_out_bps{device=\"mikrotik-fethiye\"} and on(job,instance) (vpn_device_active_rate_valid{device=\"mikrotik-fethiye\"} == 1)) and on(job,instance) (up{job=\"macbook-wg-peer\"} == 1)) or on() vector(0/0)",
+                        "instant": true,
+                        "legendFormat": "OUT"
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "E"
+                  }
+                }
+              ],
+              "queryOptions": {},
+              "transformations": []
+            }
+          },
+          "description": "device-first-vpn-tiles-v5. Серверная телеметрия TimeWeb WG, TimeWeb Xray/REALITY и Fornex AWG31. Выбирается самое новое наблюдение: handshake WG/AWG младше 180 с либо подписанное Xray access-событие младше 90 с. Xray-событие означает недавний доступ, не подтверждение текущего соединения. Для FLEX маршрут FX/CEN и RU-direct показан только при свежем read-back контроллера TimeWeb. Это не агент на устройстве и не проверка полного клиентского пути.",
+          "id": 121,
+          "links": [
+            {
+              "title": "Подробности",
+              "url": "/d/wg-device-live/wireguard-device-live?var-device=mikrotik-fethiye",
+              "targetBlank": false
+            }
+          ],
+          "title": "MikroTik Fethiye",
+          "vizConfig": {
+            "group": "canvas",
+            "kind": "VizConfig",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "mode": "fixed",
+                    "fixedColor": "text"
+                  },
+                  "noValue": "—",
+                  "mappings": [
+                    {
+                      "type": "special",
+                      "options": {
+                        "match": "nan",
+                        "result": {
+                          "text": "—",
+                          "color": "gray"
+                        }
+                      }
+                    }
+                  ],
+                  "links": [
+                    {
+                      "title": "Подробности",
+                      "url": "/d/wg-device-live/wireguard-device-live?var-device=mikrotik-fethiye"
+                    }
+                  ]
+                },
+                "overrides": [
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "Тоннель"
+                    },
+                    "properties": [
+                      {
+                        "id": "mappings",
+                        "value": [
+                          {
+                            "type": "value",
+                            "options": {
+                              "-1": {
+                                "text": "Нет свежих наблюдений",
+                                "color": "gray"
+                              },
+                              "0": {
+                                "text": "Нет активного наблюдаемого тоннеля",
+                                "color": "yellow"
+                              },
+                              "1": {
+                                "text": "WG-S2S-TW (LAN/IPIP)",
+                                "color": "green"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "Наблюдение"
+                    },
+                    "properties": [
+                      {
+                        "id": "mappings",
+                        "value": [
+                          {
+                            "type": "value",
+                            "options": {
+                              "1": {
+                                "text": "Handshake",
+                                "color": "text"
+                              },
+                              "2": {
+                                "text": "Xray access <90s",
+                                "color": "text"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "Возраст"
+                    },
+                    "properties": [
+                      {
+                        "id": "unit",
+                        "value": "s"
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "IN"
+                    },
+                    "properties": [
+                      {
+                        "id": "unit",
+                        "value": "bps"
+                      },
+                      {
+                        "id": "color",
+                        "value": {
+                          "mode": "fixed",
+                          "fixedColor": "blue"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "OUT"
+                    },
+                    "properties": [
+                      {
+                        "id": "unit",
+                        "value": "bps"
+                      },
+                      {
+                        "id": "color",
+                        "value": {
+                          "mode": "fixed",
+                          "fixedColor": "orange"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              },
+              "options": {
+                "inlineEditing": false,
+                "panZoom": false,
+                "zoomToContent": false,
+                "showAdvancedTypes": false,
+                "tooltip": {
+                  "mode": "none"
+                },
+                "root": {
+                  "name": "MikroTik Fethiye VPN tunnel telemetry",
+                  "type": "frame",
+                  "background": {
+                    "color": {
+                      "fixed": "transparent"
+                    }
+                  },
+                  "elements": [
+                    {
+                      "name": "active-tunnel",
+                      "type": "metric-value",
+                      "config": {
+                        "text": {
+                          "mode": "field",
+                          "field": "Тоннель",
+                          "fixed": ""
+                        },
+                        "color": {
+                          "field": "Тоннель"
+                        },
+                        "align": "left",
+                        "valign": "middle",
+                        "size": 15
+                      },
+                      "placement": {
+                        "left": 2,
+                        "right": 2,
+                        "top": 0,
+                        "height": 24
+                      },
+                      "constraint": {
+                        "horizontal": "scale",
+                        "vertical": "top"
+                      },
+                      "background": {
+                        "color": {
+                          "fixed": "transparent"
+                        }
+                      }
+                    },
+                    {
+                      "name": "observation-kind",
+                      "type": "metric-value",
+                      "config": {
+                        "text": {
+                          "mode": "field",
+                          "field": "Наблюдение",
+                          "fixed": ""
+                        },
+                        "color": {
+                          "field": "Наблюдение"
+                        },
+                        "align": "left",
+                        "valign": "middle",
+                        "size": 11
+                      },
+                      "placement": {
+                        "left": 2,
+                        "right": 68,
+                        "top": 27,
+                        "height": 16
+                      },
+                      "constraint": {
+                        "horizontal": "scale",
+                        "vertical": "top"
+                      },
+                      "background": {
+                        "color": {
+                          "fixed": "transparent"
+                        }
+                      }
+                    },
+                    {
+                      "name": "in-label",
+                      "type": "metric-value",
+                      "config": {
+                        "text": {
+                          "mode": "fixed",
+                          "field": "",
+                          "fixed": "IN"
+                        },
+                        "color": {
+                          "fixed": "blue"
+                        },
+                        "align": "left",
+                        "valign": "middle",
+                        "size": 11
+                      },
+                      "placement": {
+                        "left": 35,
+                        "right": 35,
+                        "top": 27,
+                        "height": 16
+                      },
+                      "constraint": {
+                        "horizontal": "scale",
+                        "vertical": "top"
+                      },
+                      "background": {
+                        "color": {
+                          "fixed": "transparent"
+                        }
+                      }
+                    },
+                    {
+                      "name": "out-label",
+                      "type": "metric-value",
+                      "config": {
+                        "text": {
+                          "mode": "fixed",
+                          "field": "",
+                          "fixed": "OUT"
+                        },
+                        "color": {
+                          "fixed": "orange"
+                        },
+                        "align": "left",
+                        "valign": "middle",
+                        "size": 11
+                      },
+                      "placement": {
+                        "left": 68,
+                        "right": 2,
+                        "top": 27,
+                        "height": 16
+                      },
+                      "constraint": {
+                        "horizontal": "scale",
+                        "vertical": "top"
+                      },
+                      "background": {
+                        "color": {
+                          "fixed": "transparent"
+                        }
+                      }
+                    },
+                    {
+                      "name": "observation-age",
+                      "type": "metric-value",
+                      "config": {
+                        "text": {
+                          "mode": "field",
+                          "field": "Возраст",
+                          "fixed": ""
+                        },
+                        "color": {
+                          "field": "Возраст"
+                        },
+                        "align": "left",
+                        "valign": "middle",
+                        "size": 15
+                      },
+                      "placement": {
+                        "left": 2,
+                        "right": 68,
+                        "top": 43,
+                        "height": 24
+                      },
+                      "constraint": {
+                        "horizontal": "scale",
+                        "vertical": "top"
+                      },
+                      "background": {
+                        "color": {
+                          "fixed": "transparent"
+                        }
+                      }
+                    },
+                    {
+                      "name": "in-value",
+                      "type": "metric-value",
+                      "config": {
+                        "text": {
+                          "mode": "field",
+                          "field": "IN",
+                          "fixed": ""
+                        },
+                        "color": {
+                          "field": "IN"
+                        },
+                        "align": "left",
+                        "valign": "middle",
+                        "size": 15
+                      },
+                      "placement": {
+                        "left": 35,
+                        "right": 35,
+                        "top": 43,
+                        "height": 24
+                      },
+                      "constraint": {
+                        "horizontal": "scale",
+                        "vertical": "top"
+                      },
+                      "background": {
+                        "color": {
+                          "fixed": "transparent"
+                        }
+                      }
+                    },
+                    {
+                      "name": "out-value",
+                      "type": "metric-value",
+                      "config": {
+                        "text": {
+                          "mode": "field",
+                          "field": "OUT",
+                          "fixed": ""
+                        },
+                        "color": {
+                          "field": "OUT"
+                        },
+                        "align": "left",
+                        "valign": "middle",
+                        "size": 15
+                      },
+                      "placement": {
+                        "left": 68,
+                        "right": 2,
+                        "top": 43,
+                        "height": 24
+                      },
+                      "constraint": {
+                        "horizontal": "scale",
+                        "vertical": "top"
+                      },
+                      "background": {
+                        "color": {
+                          "fixed": "transparent"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            "version": "13.1.3"
+          }
+        }
       }
     },
     "layout": {
@@ -12283,6 +12797,19 @@
               "width": 8,
               "x": 16,
               "y": 52
+            }
+          },
+          {
+            "kind": "GridLayoutItem",
+            "spec": {
+              "element": {
+                "kind": "ElementReference",
+                "name": "panel-121"
+              },
+              "height": 4,
+              "width": 8,
+              "x": 0,
+              "y": 56
             }
           }
         ]

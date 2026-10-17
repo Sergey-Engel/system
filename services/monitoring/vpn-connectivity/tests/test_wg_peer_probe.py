@@ -19,6 +19,15 @@ dashboard_spec.loader.exec_module(dashboards)
 
 
 class PeerTests(unittest.TestCase):
+    def test_host_namespace_probe_does_not_read_container_or_private_keys(self):
+        script = peer.remote_script("timeweb-s2s", [dict(id="pilot", interface="wg-s2s", address="10.60.60.3/32")])
+        self.assertNotIn("docker", script)
+        self.assertNotIn("private-key", script)
+        self.assertNotIn("'dump'", script)
+        self.assertIn("ifindex", script)
+        self.assertIn("public-key", script)
+        compile(script, "host-probe", "exec")
+
     def setUp(self):
         self.a = dict(
             identity="a",
@@ -212,14 +221,19 @@ class PeerTests(unittest.TestCase):
                 peer.collect_flex_status()
 
     def test_inventory_covers_each_registry_device_once(self):
-        self.assertEqual(len(peer.DEVICES), 21)
-        self.assertEqual(len(peer.PEERS), 47)
+        self.assertEqual(len(peer.DEVICES), 22)
+        self.assertEqual(len(peer.PEERS), 49)
         self.assertEqual(len(peer.XRAY_CLIENTS), 15)
-        self.assertEqual(len({item["device"] for item in peer.PEERS}), 21)
-        self.assertEqual(len({item["address"] for item in peer.PEERS}), 47)
+        self.assertEqual(len({item["device"] for item in peer.PEERS}), 22)
+        self.assertEqual(len({item["address"] for item in peer.PEERS}), 49)
         self.assertEqual(peer.DEVICES[:3], ("macbook", "iphone", "macmini"))
         self.assertEqual(len(peer.PEERS_BY_SOURCE["timeweb-wg"]), 36)
         self.assertEqual(len(peer.PEERS_BY_SOURCE["fornex-awg31"]), 11)
+        self.assertEqual(len(peer.PEERS_BY_SOURCE["timeweb-s2s"]), 2)
+        self.assertEqual({item["address"] for item in peer.PEERS_BY_SOURCE["timeweb-s2s"]},
+                         {"10.60.60.2/32", "10.60.60.3/32"})
+        self.assertEqual({item["tunnel"] for item in peer.PEERS_BY_SOURCE["timeweb-s2s"]},
+                         {"WG-S2S-TW (LAN/IPIP)"})
         self.assertIn("84", dashboards.DEVICES[0]["tunnel_codes"])
         self.assertEqual(dashboards.DEVICES[0]["tunnel_codes"]["84"],
                          ("SOCKS-TW-FLEX · CEN · RU TW · access <90s", "yellow"))

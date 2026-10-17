@@ -1,5 +1,8 @@
 # MikroTik / VPN Quick Guide
 
+Фетхие: [паспорт действующей сети](hosts/fethiye/network-passport.md)
+(частичное обследование до установки MikroTik).
+
 Планируемый мост Нахимова 11 - Фетхие: [архитектура и варианты каналов](architecture/Nakhimova_Fethiye_Site_to_Site_Design.md).
 
 Все команды из корня checkout. После установки локальных bindings:

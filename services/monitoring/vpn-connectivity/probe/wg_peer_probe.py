@@ -99,7 +99,13 @@ SOURCES = {
         ],
     },
 }
-SOURCE_CODES = {"timeweb-wg": 1, "fornex-awg31": 2, "timeweb-xray": 3}
+SOURCES["timeweb-s2s"] = {
+    "label": "TimeWeb host S2S pilot", "container": None, "tool": "wg",
+    "ssh": [*SOURCES["timeweb-xray"]["ssh"][:-2],
+            "-o", "UserKnownHostsFile=" + str(INVENTORY_PATH.parents[2] / ".local/ssh/known_hosts"),
+            "root@94.241.171.65", "python3 -"],
+}
+SOURCE_CODES = {"timeweb-wg": 1, "fornex-awg31": 2, "timeweb-xray": 3, "timeweb-s2s": 4}
 FLEX_CLIENT_IDS = {"macbook": "macbook-socks-tw-flex",
                    "iphone": "iphone-socks-tw-flex",
                    "macmini": "macmini-socks-tw-flex"}
@@ -225,8 +231,15 @@ def remote_script(source, peers):
         for peer in peers
     ]
     config = SOURCES[source]
+    template = REMOTE_TEMPLATE
+    if config["container"] is None:
+        template = template.replace(
+            "return run('cat','/proc/sys/kernel/random/boot_id')+run('docker','inspect','--format','{{.Id}} {{.State.StartedAt}}',__CONTAINER__)",
+            "return run('cat','/proc/sys/kernel/random/boot_id')+''.join(run('cat','/sys/class/net/'+p['interface']+'/ifindex')+run('wg','show',p['interface'],'public-key') for p in peers)",
+        ).replace("run('docker','exec',__CONTAINER__,__TOOL__,'show',interface,field)",
+                  "run(__TOOL__,'show',interface,field)")
     return (
-        REMOTE_TEMPLATE.replace("__PEERS_JSON__", repr(json.dumps(inventory)))
+        template.replace("__PEERS_JSON__", repr(json.dumps(inventory)))
         .replace("__CONTAINER__", repr(config["container"]))
         .replace("__TOOL__", repr(config["tool"]))
     )
