@@ -1,11 +1,30 @@
 ---
 type: registry
 status: current
-updated: 2026-10-16
+updated: 2026-10-19
 tags: [vpn, clients, wireguard, reality, awg]
 ---
 
 # Реестр VPN-туннелей и клиентских профилей
+
+19 октября: постоянный инфраструктурный Direct SSTP/TCP443 работает отдельно
+от TimeWeb, profiles67 и peer devices22 не менялись. PKI/PPP и новый local
+controller описаны в [отдельном inventory](../../config/inventory/direct-sstp.json).
+Live Add/Remove MacBook Air прошли, финальный выбор пустой, SSTP up.
+[Точный объем приемки](../history/2026-10-19-sstp-direct-permanent.md).
+
+Контроллер 2.0.0 добавляет независимый выбор устройств Нахимова для выхода
+через Фетхие по тому же SSTP. Таблица `sstp_fethiye`, owner
+`s2s-sstp-reverse-v1`; выбранных устройств нет. Транспорт/PKI не менялись.
+[Проверки и граница клиентской приёмки](../history/2026-10-19-sstp-reverse-egress.md).
+
+Контроллер3.0.0 заменяет независимые списки единой вкладкой Device routing:
+Нахимова permanent reservations — Standard/Cenuta/Fornex/Direct;
+Фетхие Wi-Fi registrations — Standard/Direct. Имена exact MAC из справочника.
+Legacy Direct HTTP writers закрыты, один shared lock и журнал pending.
+На установке маршруты не менялись: четыре существующих Cenuta и три Standard
+Нахимова, Фетхие Standard. Новых VPN peers/profiles нет.
+[Приёмка единого UI](../history/2026-10-19-unified-device-routing.md).
 
 Размещение обновлено 16 октября: [clients.json](../../config/inventory/clients.json)
 содержит 67 точных файлов, [observations.json](../../config/inventory/observations.json)
@@ -16,6 +35,13 @@ MacBook через Нахимова и возврат Local принят по IP
 постоянный и обратный выход не приняты. Все 67 профилей в этих пробах неизменны.
 Их ключи/endpoints при расширении AllowedIPs не менялись. Датированные
 результаты приемки ниже не выданы за повторную приемку при переносе.
+
+17 октября: ограниченный IPv4/HTTPS тест обрыва только IPIP с DNS bypass
+и отдельной recovery-пробой принят; окончательный Local подтвержден.
+Первый recovery LAN ping 2/3 остается предупреждением. Все 67 profiles и
+inventory неизменны. Полный WAN/TimeWeb outage, IPv6-negative, постоянный
+Remote, обратный выход и приложения не приняты.
+[Точный протокол и backups](../history/2026-10-17-egress-fail-closed.md).
 
 ## Профили по устройствам
 

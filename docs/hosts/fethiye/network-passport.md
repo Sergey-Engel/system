@@ -1,11 +1,67 @@
 ---
 type: network-passport
 status: partial-audit
-updated: 2026-10-16
+updated: 2026-10-19
 tags: [network, fethiye, deco, mikrotik]
 ---
 
 # Паспорт сети: Фетхие
+
+## Постоянный SSTP: 19 Октября
+
+Установлен `sstp-direct-in`,10.60.64.1, listener5443 за существующим Deco
+TCP443 forward. Отдельный mutual-TLS канал с Нахимова включен постоянно.
+В локальной VPN-панели теперь Device routing3.0.0: только текущие Wi-Fi
+registrations MikroTik, имя из exact-MAC справочника и IP; Standard или Direct
+via Nakhimova, с явной Apply. Прежние Add/Remove MacBook Air прошли; исходное
+состояние перед unified UI — Standard, без выбранных Direct. Старый WG/IPIP
+через TimeWeb не изменен. Current master
+и новые encrypted post-backups обновлены. [Эксплуатация](../../operations/Direct_SSTP.md)
+и [приемка/ограничения](../../history/2026-10-19-sstp-direct-permanent.md).
+Добавлен scoped Internet-выход для `10.60.64.2` из Нахимова по этому же SSTP,
+через WAN/Deco Фетхие. Два направления используют общий экран и отдельные
+наборы режимов; на Нахимова дополнительно Cenuta/Fornex. Реальных
+клиентов Нахимова не переключали. [Протокол обратного выхода](../../history/2026-10-19-sstp-reverse-egress.md).
+[Единое управление и ограничения](../../history/2026-10-19-unified-device-routing.md).
+Ниже сохранена история ранних временных проб, не текущий статус установки.
+
+## Дополнение 19 октября: SSTP Direct
+
+Владелец сохранил TCP443 -> `.68.117:5443`, `SSTP-Direct`; фактический вход
+на5443 подтверждён SYN. Отдельный SSTP с mutual TLS, HTTP200 и reconnect
+проверен на router-level; ordinary interval1s ICMP10/10 в обе стороны.
+При200ms есть timeouts, наблюдавшийся RTT достигает294ms. Строгая/длительная
+приёмка не завершена. Временные сертификаты/PPP/rules полностью удалены,
+исходные exports/trust/server settings и TimeWeb неизменны. Постоянный SSTP
+не установлен: [результаты и ограничения](../../history/2026-10-19-sstp-direct-trial.md).
+
+Следующая отдельная30min проверка завершилась успешно: ICMP305/305 и DF1400
+35/35 в каждую сторону,364 новых HTTP checks без ошибок (HTTP200 в snapshots), непрерывный PPP session;
+три reconnect и negative CA/recovery PASS. Тестовая конфигурация снова полностью
+удалена, TimeWeb/masters/trust неизменны. Это transport acceptance в пределах
+окна, не постоянный канал/клиентский egress:
+[длительная проверка](../../history/2026-10-19-sstp-direct-soak.md).
+
+## Дополнение 18 октября: Проброс Deco
+
+Пользователь в приложении Deco сохранил правило `WireGuard-Direct`, **UDP**:
+внешний порт `51972` -> `192.168.68.117:51972`. Затем сохранено резервирование
+DHCP `D0-EA-11-12-F5-E8` -> `192.168.68.117`, имя MikroTik. Это MAC ether1
+MikroTik, не Wi-Fi MAC. Оба сохранённых списка подтверждены скриншотами.
+В приложении с текущими правами оказались доступны ручное указание IP и MAC;
+отсутствие устройства в предлагаемом списке клиентов не стало препятствием.
+Вход владельца через браузер и его пароль не использовались.
+
+Начальный аутентифицированный обмен через проброс прошёл, но устойчивый Direct
+не квалифицирован: первая серия 5/5 только с Нахимова, затем семь серий 0/5
+в обе стороны. Кандидат полностью удалён, TimeWeb/LAN/egress сохранены:
+[отчёт](../../history/2026-10-18-direct-deco-forward.md),
+[план](../../tasks/PLAN-site-to-site-direct.md).
+Последующая [пакетная диагностика](../../history/2026-10-18-direct-path-diagnosis.md)
+локализовала потерю внешней UDP-доставки WG: смена source port даёт краткий
+повторный успех, а нейтральный UDP того же направления проходит 16/16.
+Избирательная фильтрация вероятна; конкретный DPI/NAT/SPI middlebox не установлен.
+Утверждения ниже об отсутствии reservation/forward относятся к 15 октября.
 
 ## Дополнение 16 октября: MikroTik подключен
 
@@ -55,7 +111,12 @@ NAT/DNS/default unchanged. TCP управления через VPN закрыт;
 Local -> Нахимова -> Local принят на MacBook по IPv4/HTTPS. Сейчас Local,
 Remote/DNS redirect выключены. Прежний lease `.89.197` закреплен static,
 общие DNS/default/DHCP/Wi-Fi неизменны. Fresh current
-`20261016T160037Z-post-egress`; [точные результаты и ограничения](../../history/2026-10-16-egress-trials.md).
+`20261017T084141Z-post-egress`, VERIFIED_TRANSFER; initial неизменен.
+17 октября принят ограниченный IPv4/HTTPS IPIP outage с DNS bypass, отдельной
+recovery-пробой и финальным Local `194.61.140.217`. Первый recovery LAN ping
+2/3 сохранен как предупреждение; полный WAN/TimeWeb outage, IPv6-negative,
+постоянный/обратный Remote и приложения не приняты.
+[Точные результаты и ограничения](../../history/2026-10-17-egress-fail-closed.md).
 
 Uplink уточнен: SkyFiberNet radio -> антенна крыши -> PoE-инжектор -> Deco PPPoE.
 Пользователь отказался от дальнейшего выяснения модели инжектора/антенны.
@@ -133,6 +194,10 @@ mDNS-сервис `MacBook Air - Svetlana` разрешился в
 MAC MacBookAir Sergey в реестрах не найден, reverse DNS не ответил:
 принадлежность установлена пользовательской сверкой IP, не по производителю MAC.
 Этот LAN inventory не изменяет реестр VPN или состав мониторинга.
+Машиночитаемые подтвержденные подписи для панели:
+[full-MAC bindings](../../../config/inventory/lan-devices.json).
+IEEE lookup дает только организацию, не владельца или модель; private MAC
+разных сетей не связываются без отдельного подтверждения.
 
 ### Значение для будущего моста
 

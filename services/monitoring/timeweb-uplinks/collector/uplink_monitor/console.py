@@ -3,10 +3,13 @@ import argparse
 from datetime import datetime, timezone
 from http.cookies import SimpleCookie
 import html
+import ipaddress
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 import json
+import math
 import os
 from pathlib import Path
+import re
 import secrets
 import subprocess
 import threading
@@ -27,6 +30,61 @@ FLEX_EXITS = {'fx', 'cen'}
 FLEX_RU = {'on', 'off'}
 FLEX_SCOPES = {'all', 'macbook', 'iphone12', 'macmini'}
 HISTORY_LIMIT = 6
+S2S_CONTROLLER = '/usr/local/sbin/timeweb-s2s'
+S2S_MAC = re.compile(r'(?:[0-9A-F]{2}:){5}[0-9A-F]{2}')
+S2S_REVISION = re.compile(r'[0-9a-f]{64}')
+S2S_MAX_AGE = 45
+
+
+def s2s_unavailable(error):
+    return {'available': False, 'can_remove': False, 'revision': '', 'checked_at': 0,
+            'tunnel': {'state': 'unknown', 'path': 'TimeWeb',
+                       'egress': 'unknown', 'detail': ''},
+            'devices': [], 'error': error}
+
+
+def s2s_status(value):
+    """Validate and project only the public controller contract."""
+    def text(value, limit=512):
+        return isinstance(value, str) and len(value) <= limit and not any(ord(c) < 32 for c in value)
+
+    if not isinstance(value, dict):
+        raise ValueError('invalid_s2s_output')
+    tunnel, devices = value.get('tunnel'), value.get('devices')
+    checked = value.get('checked_at')
+    if (type(value.get('available')) is not bool or type(value.get('can_remove')) is not bool
+            or not isinstance(value.get('revision'), str)
+            or not S2S_REVISION.fullmatch(value['revision'])
+            or type(checked) not in (int, float) or not math.isfinite(checked)
+            or not 0 <= checked <= 253402300799
+            or not isinstance(tunnel, dict)
+            or tunnel.get('state') not in ('up', 'down', 'unknown')
+            or tunnel.get('path') != 'TimeWeb'
+            or tunnel.get('egress') not in ('route-ready', 'blocked', 'unknown')
+            or not text(tunnel.get('detail'))
+            or not isinstance(devices, list) or len(devices) > 1024
+            or 'error' not in value
+            or (value['error'] is not None and not text(value['error']))):
+        raise ValueError('invalid_s2s_output')
+    public_devices, seen = [], set()
+    for device in devices:
+        if (not isinstance(device, dict) or not isinstance(device.get('id'), str)
+                or not S2S_MAC.fullmatch(device['id']) or device['id'] in seen
+                or not text(device.get('label'), 128)
+                or not text(device.get('ip'), 45)
+                or type(device.get('online')) is not bool
+                or type(device.get('selected')) is not bool
+                or device.get('status') not in ('local', 'remote', 'blocked', 'pending', 'unknown')):
+            raise ValueError('invalid_s2s_output')
+        if device['ip']:
+            ipaddress.ip_address(device['ip'])
+        seen.add(device['id'])
+        public_devices.append({key: device[key] for key in
+                               ('id', 'label', 'ip', 'online', 'selected', 'status')})
+    return {'available': value['available'], 'can_remove': value['can_remove'], 'revision': value['revision'],
+            'checked_at': checked,
+            'tunnel': {key: tunnel[key] for key in ('state', 'path', 'egress', 'detail')},
+            'devices': public_devices, 'error': value['error']}
 
 PAGE_STYLE = '''body{font:16px system-ui;margin:2rem;background:#101216;color:#e9ecf1}main{max-width:1100px;margin:auto}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1rem}.card{border:1px solid #4e5663;border-radius:6px;padding:1rem}.card h2{font-size:1.2rem;margin:0}.card-head{display:flex;align-items:center;justify-content:space-between;gap:1rem}.ok{border-top:4px solid #75c46b}.warn{border-top:4px solid #e7b94c}.error{border-top:4px solid #ef6666}.error-text{color:#ff8585;font-weight:600}dl{display:grid;grid-template-columns:110px 1fr;gap:.45rem;margin:1rem 0}dt{color:#aab2c0}dd{margin:0;overflow-wrap:anywhere}.info{display:inline-grid;place-items:center;width:1.45rem;height:1.45rem;border:1px solid #aab2c0;border-radius:50%;background:none;color:#cbd2da;cursor:pointer;font:inherit;font-size:.85rem}.details{border-top:1px solid #363d47;margin-top:1rem;padding-top:.65rem}.details summary{color:#cbd2da;cursor:pointer}.details dl{font-size:.88rem;margin:.7rem 0 0}.transport{border:0;margin:0;padding:0}.transport legend{color:#aab2c0;font-size:.88rem;margin-bottom:.45rem}.transport-options{display:inline-flex;border:1px solid #76808d;border-radius:5px;overflow:hidden}.transport-options label{display:block;min-width:5.5rem;text-align:center;padding:.48rem .85rem;cursor:pointer;background:#252a31}.transport-options label+input+label{border-left:1px solid #76808d}.transport-options input{position:absolute;opacity:0;width:1px;height:1px}.transport-options input:checked+label{background:#315b40;color:#f0fff0;font-weight:700}.transport-options input:focus-visible+label{outline:2px solid #b9d9ff;outline-offset:-3px}.transport-options input:disabled+label{opacity:.5;cursor:not-allowed}.transport-progress,.transport-error{margin:.45rem 0 0;font-size:.85rem}.transport-progress:empty,.transport-error:empty{display:none}.transport-progress{color:#b9d9ff}.transport-error{color:#ff8585}.failover-alert{color:#ff8585;font-size:.85rem;margin:.35rem 0}.flex{margin-top:1rem}.flex form{display:flex;gap:.6rem;align-items:end;flex-wrap:wrap}.flex label{display:grid;gap:.25rem;color:#aab2c0}select{padding:.5rem;background:#20242b;color:#e9ecf1;border:1px solid #4e5663}button{padding:.55rem .8rem}button:disabled{opacity:.45}.spinner{display:none;width:.8rem;height:.8rem;border:2px solid currentColor;border-right-color:transparent;border-radius:50%;margin-right:.45rem;vertical-align:-.1rem;animation:spin .7s linear infinite}button.executing .spinner{display:inline-block}.transport-progress .spinner{display:inline-block}@keyframes spin{to{transform:rotate(360deg)}}.activity{margin-top:1rem}.activity h2{font-size:1.2rem}.activity ol{list-style:none;padding:0;margin:0}.activity li{display:grid;grid-template-columns:210px 1fr auto;gap:.75rem;padding:.7rem 0;border-top:1px solid #363d47}.activity time,.activity .detail{color:#aab2c0}.activity time{white-space:nowrap}.activity .result{white-space:nowrap}.activity .failed{color:#ff8585}.activity .empty{color:#aab2c0}@media(max-width:650px){body{margin:1rem}.activity li{grid-template-columns:1fr;gap:.2rem}}'''
 PAGE_STYLE += '''.health-indicator{position:relative;display:inline-flex;align-items:center;gap:.45rem;padding:.25rem .4rem;border-radius:4px;font-size:.85rem;font-weight:700;cursor:help}.health-indicator::before{content:"";width:.65rem;height:.65rem;border-radius:50%;background:currentColor}.ok .health-indicator{color:#85d47c}.warn .health-indicator{color:#f0c66e}.error .health-indicator{color:#ff8585}.health-indicator:focus-visible{outline:2px solid currentColor;outline-offset:2px}.health-indicator .health-tooltip{display:none;position:absolute;z-index:5;top:calc(100% + .4rem);right:0;width:max-content;max-width:min(20rem,80vw);padding:.5rem .65rem;border:1px solid #687382;border-radius:4px;background:#252a31;color:#e9ecf1;font-size:.8rem;font-weight:400;line-height:1.4;overflow-wrap:anywhere;white-space:normal;box-shadow:0 5px 16px #0008}.health-indicator:hover .health-tooltip,.health-indicator:focus .health-tooltip{display:block}'''
@@ -42,6 +100,7 @@ function showError(element,message){
 }
 async function refreshState(){
   if(submitting)return;
+  if(location.hash==='#site-to-site')return refreshSiteToSite();
   clearTimeout(refreshTimer);
   const abort=new AbortController();
   const timeout=setTimeout(()=>abort.abort(),30000);
@@ -154,6 +213,168 @@ document.addEventListener('DOMContentLoaded',()=>{
   refreshTimer=setTimeout(refreshState,15000);
 });'''
 
+PAGE_STYLE += '''[hidden]{display:none!important}.console-tabs{display:flex;gap:1.2rem;border-bottom:1px solid #4e5663;margin:1rem 0}.console-tabs a{color:#aab2c0;text-decoration:none;padding:.6rem .1rem;border-bottom:3px solid transparent}.console-tabs a[aria-selected="true"]{color:#e9ecf1;border-color:#85d47c}.s2s-status{display:flex;flex-wrap:wrap;gap:.7rem 2rem;padding:.6rem 0;border-bottom:1px solid #363d47;margin:0}.s2s-status div{min-width:8rem}.s2s-status dt{font-size:.8rem}.s2s-status dd{margin-top:.2rem}.s2s-detail{color:#aab2c0;font-size:.85rem;overflow-wrap:anywhere}.s2s-columns{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:2rem;margin-top:1.1rem}.s2s-columns h2{font-size:1rem;margin:0 0 .7rem}.s2s-add{display:flex;align-items:end;gap:.5rem}.s2s-add label{display:grid;gap:.35rem;min-width:0;flex:1;font-size:.85rem;color:#aab2c0}.s2s-add select{width:100%;min-width:0}.s2s-add button{flex-shrink:0;min-height:2.5rem}.s2s-selected{list-style:none;margin:0;padding:0}.s2s-selected li{display:grid;grid-template-columns:minmax(0,1fr) auto 2.5rem;align-items:center;gap:.65rem;border-bottom:1px solid #363d47;padding:.55rem 0;min-height:2.5rem}.s2s-selected strong,.s2s-selected small{display:block;overflow-wrap:anywhere}.s2s-selected small{color:#aab2c0;font-size:.8rem}.s2s-device-status{font-size:.85rem}.s2s-remove{width:2.5rem;height:2.5rem;padding:0;position:relative;background:none;color:#e9ecf1;border:1px solid #687382;border-radius:4px;cursor:pointer;font-size:1.15rem}.s2s-remove span{display:none;position:absolute;right:0;bottom:calc(100% + .3rem);width:max-content;max-width:70vw;padding:.4rem;background:#252a31;border:1px solid #687382;font-size:.8rem;z-index:5}.s2s-remove:hover span,.s2s-remove:focus-visible span{display:block}.s2s-error{color:#ff8585;overflow-wrap:anywhere}.s2s-message{min-height:1.4rem;font-size:.85rem;overflow-wrap:anywhere}.s2s-empty{color:#aab2c0;font-size:.85rem}@media(max-width:650px){.s2s-columns{grid-template-columns:1fr;gap:1.2rem}.s2s-status{gap:.7rem 1rem}.s2s-selected li{gap:.4rem}}'''
+
+PAGE_SCRIPT += '''
+let s2sData=null;
+let s2sEpoch=0;
+let s2sReadFailed=false;
+function s2sFresh(){
+  const age=Date.now()/1000-(s2sData?.checked_at||0);
+  return age>=0 && age<=S2S_MAX_AGE;
+}
+function updateS2sControls(){
+  const panel=document.getElementById('site-to-site');
+  if(!panel)return;
+  const usable=s2sData && /^[0-9a-f]{64}$/.test(s2sData.revision);
+  const ready=usable && s2sData.available && !s2sReadFailed && !s2sData.error && s2sFresh()
+    && s2sData.tunnel.state==='up' && s2sData.tunnel.egress==='route-ready';
+  panel.querySelector('[name="device"]').disabled=submitting;
+  panel.querySelector('.s2s-add button').disabled=submitting || !ready
+    || !panel.querySelector('[name="device"]').value;
+  panel.querySelectorAll('.s2s-remove').forEach(button=>button.disabled=submitting || !usable || !s2sData.can_remove);
+  panel.querySelector('[data-s2s="availability"]').textContent=s2sReadFailed
+    ? 'Unavailable' : !s2sData ? 'Not checked' : !s2sData.available
+    ? 'Unavailable' : !s2sFresh() ? 'Stale' : 'Available';
+}
+function renderSiteToSite(data){
+  const panel=document.getElementById('site-to-site');
+  s2sData=data;
+  const values={availability:data.available?'Available':'Unavailable',
+    tunnel:data.tunnel.state,path:data.tunnel.path,egress:data.tunnel.egress,
+    checked:data.checked_at?new Date(data.checked_at*1000).toISOString().replace('T',' ').replace('.000Z',' UTC'):'Not checked',
+    detail:data.tunnel.detail,error:data.error||''};
+  for(const [key,value] of Object.entries(values))panel.querySelector(`[data-s2s="${key}"]`).textContent=value;
+  const select=panel.querySelector('[name="device"]');
+  const choice=select.value;
+  select.replaceChildren(new Option('Select a device',''));
+  for(const device of data.devices.filter(device=>device.online && !device.selected)){
+    select.add(new Option(`${device.label||device.id} - ${device.ip||'No IP'} - ${device.status}`,device.id));
+  }
+  select.value=Array.from(select.options).some(option=>option.value===choice)?choice:'';
+  const list=panel.querySelector('.s2s-selected');
+  list.replaceChildren();
+  for(const device of data.devices.filter(device=>device.selected)){
+    const row=document.createElement('li');
+    const identity=document.createElement('div');
+    const label=document.createElement('strong');
+    label.textContent=device.label||device.id;
+    const address=document.createElement('small');
+    address.textContent=`${device.ip||'No IP'} · ${device.id} · ${device.online?'Online':'Offline'}`;
+    identity.append(label,address);
+    const status=document.createElement('span');
+    status.className='s2s-device-status';
+    status.textContent=device.status;
+    const remove=document.createElement('button');
+    remove.type='button';remove.className='s2s-remove';
+    remove.title='Return to local internet';
+    remove.setAttribute('aria-label',`Return to local internet: ${device.label||device.id}`);
+    remove.append(document.createTextNode('×'));
+    const tooltip=document.createElement('span');
+    tooltip.textContent='Return to local internet';tooltip.setAttribute('aria-hidden','true');
+    remove.append(tooltip);
+    remove.onclick=()=>s2sAction('remove',device.id);
+    row.append(identity,status,remove);list.append(row);
+  }
+  panel.querySelector('.s2s-empty').hidden=list.children.length>0;
+  updateS2sControls();
+}
+async function refreshSiteToSite(){
+  if(submitting || location.hash!=='#site-to-site')return;
+  clearTimeout(refreshTimer);
+  const epoch=++s2sEpoch;
+  const abort=new AbortController();
+  const timeout=setTimeout(()=>abort.abort(),130000);
+  try{
+    const response=await fetch('/s2s-state',{cache:'no-store',signal:abort.signal});
+    if(!response.ok)throw new Error(`Status request failed (${response.status})`);
+    const data=await response.json();
+    if(submitting || epoch!==s2sEpoch || location.hash!=='#site-to-site')return;
+    s2sReadFailed=false;
+    renderSiteToSite(data);
+  }catch(exc){
+    if(!submitting && epoch===s2sEpoch){
+      s2sReadFailed=true;
+      document.querySelector('[data-s2s="error"]').textContent=exc.message||'Site-to-site refresh failed';
+      updateS2sControls();
+    }
+  }finally{
+    clearTimeout(timeout);
+    if(!submitting && epoch===s2sEpoch && location.hash==='#site-to-site')refreshTimer=setTimeout(refreshState,15000);
+  }
+}
+async function s2sAction(action,device){
+  if(submitting || !s2sData)return;
+  const panel=document.getElementById('site-to-site');
+  const message=panel.querySelector('.s2s-message');
+  const body=new URLSearchParams({csrf:panel.querySelector('[name="csrf"]').value,
+    action,device,revision:s2sData.revision});
+  submitting=true;++s2sEpoch;clearTimeout(refreshTimer);
+  message.classList.remove('s2s-error');message.textContent=action==='add'?'Adding device...':'Returning device to local internet...';
+  updateS2sControls();
+  const abort=new AbortController();
+  const timeout=setTimeout(()=>abort.abort(),130000);
+  try{
+    const response=await fetch('/s2s-action',{method:'POST',body,signal:abort.signal,
+      credentials:'same-origin',headers:{'Accept':'application/json','Content-Type':'application/x-www-form-urlencoded'},cache:'no-store'});
+    if(!response.ok)throw new Error(`Request failed (${response.status})`);
+    const result=await response.json();
+    s2sReadFailed=false;
+    renderSiteToSite(result);
+    if(result.success!==true)throw new Error(result.error||'Change not confirmed by controller');
+    message.textContent='Change confirmed';
+  }catch(exc){s2sReadFailed=true;message.classList.add('s2s-error');message.textContent=exc.message||'Site-to-site change failed';}
+  finally{
+    clearTimeout(timeout);submitting=false;updateS2sControls();
+    await refreshState();
+  }
+}
+function selectConsoleTab(initial=false){
+  const active=location.hash==='#site-to-site';
+  ++s2sEpoch;clearTimeout(refreshTimer);
+  document.getElementById('vpn').hidden=active;
+  document.getElementById('site-to-site').hidden=!active;
+  document.querySelectorAll('[role="tab"]').forEach(tab=>{
+    tab.setAttribute('aria-selected',String(tab.hash===(active?'#site-to-site':'#vpn')));
+  });
+  if(!submitting){
+    if(active || !initial)refreshState();
+    else refreshTimer=setTimeout(refreshState,15000);
+  }
+}
+document.addEventListener('DOMContentLoaded',()=>{
+  window.addEventListener('hashchange',()=>selectConsoleTab());
+  document.querySelector('.s2s-add').addEventListener('submit',event=>{
+    event.preventDefault();
+    updateS2sControls();
+    if(!event.target.querySelector('button').disabled)s2sAction('add',event.target.elements.device.value);
+  });
+  document.querySelector('.s2s-add select').addEventListener('change',updateS2sControls);
+  setInterval(updateS2sControls,1000);
+  selectConsoleTab(true);
+});'''.replace('S2S_MAX_AGE', str(S2S_MAX_AGE))
+
+
+def s2s_panel(csrf):
+    return f'''<section id="site-to-site" role="tabpanel" aria-labelledby="s2s-tab" hidden>
+      <h2>Fethiye → Nakhimova</h2>
+      <dl class="s2s-status">
+        <div><dt>Status</dt><dd data-s2s="availability">Not checked</dd></div>
+        <div><dt>Tunnel</dt><dd data-s2s="tunnel">unknown</dd></div>
+        <div><dt>Path</dt><dd data-s2s="path">TimeWeb</dd></div>
+        <div><dt>Last checked</dt><dd data-s2s="checked">Not checked</dd></div>
+        <div><dt>Egress readiness</dt><dd data-s2s="egress">unknown</dd></div>
+      </dl>
+      <p class="s2s-detail" data-s2s="detail"></p><p class="s2s-error" data-s2s="error" role="status"></p>
+      <div class="s2s-columns"><section><h2>Available devices</h2>
+        <form class="s2s-add"><input type="hidden" name="csrf" value="{html.escape(csrf, quote=True)}">
+          <label>Device<select name="device"><option value="">Select a device</option></select></label>
+          <button type="submit" disabled><span aria-hidden="true">+</span> Add</button>
+        </form></section><section><h2>Internet via Nakhimova</h2>
+        <ul class="s2s-selected"></ul><p class="s2s-empty">No devices selected</p>
+      </section></div><p class="s2s-message" role="status" aria-live="polite"></p>
+    </section>'''
+
 
 def age(value):
     if not isinstance(value, (int, float)) or value < 0:
@@ -173,7 +394,66 @@ class Console:
         self.lock = threading.Lock()
         self._view_cache = None
         self._view_time = 0
+        self._s2s_lock = threading.Lock()
+        self._s2s_cache = None
+        self._s2s_time = 0
         self.audit_path = self.state_dir / 'console-actions.jsonl'
+
+    def _s2s_controller(self, action='status', device=None, revision=None):
+        args = [S2S_CONTROLLER, action]
+        if action != 'status':
+            args.extend((device, revision))
+        try:
+            result = self.runner(args, text=True, capture_output=True, timeout=125, check=False)
+            if result.returncode != 0:
+                return s2s_unavailable('Site-to-site controller failed'), False
+            if len(result.stdout) > 1048576:
+                raise ValueError('oversized_s2s_output')
+            raw = json.loads(result.stdout)
+            value = s2s_status(raw)
+            confirmed = raw.get('success') is True and (
+                value['available'] and value['error'] is None if action == 'add' else value['can_remove'])
+            return value, confirmed
+        except subprocess.TimeoutExpired:
+            return s2s_unavailable('Site-to-site controller timed out'), False
+        except (OSError, subprocess.SubprocessError):
+            return s2s_unavailable('Site-to-site controller unavailable'), False
+        except (ValueError, TypeError, OverflowError, RecursionError):
+            return s2s_unavailable('Invalid site-to-site controller output'), False
+
+    def s2s_view(self):
+        # Keep router reads independent of the existing VPN view and its lock.
+        with self._s2s_lock:
+            if self._s2s_cache is None or time.monotonic() - self._s2s_time >= 15:
+                value, _ = self._s2s_controller()
+                self._s2s_cache = self._retain_s2s_selection(value)
+                self._s2s_time = time.monotonic()
+            return self._s2s_cache
+
+    def _retain_s2s_selection(self, value):
+        if not value['revision'] and self._s2s_cache:
+            value = dict(value, devices=[dict(d, status='unknown', online=False)
+                                        for d in self._s2s_cache['devices'] if d['selected']])
+            value['tunnel'] = dict(value['tunnel'], detail='Last known selection; controller status unavailable')
+        return value
+
+    def s2s_action(self, action, device, revision):
+        if (action not in ('add', 'remove') or not isinstance(device, str)
+                or not S2S_MAC.fullmatch(device) or not isinstance(revision, str)
+                or not S2S_REVISION.fullmatch(revision)):
+            raise ValueError('invalid_s2s_request')
+        with self._s2s_lock:
+            after, confirmed = self._s2s_controller(action, device, revision)
+            after = self._retain_s2s_selection(after)
+            observed = next((item for item in after['devices'] if item['id'] == device), None)
+            matches = (observed is not None and observed['selected']
+                       and observed['status'] == 'remote') if action == 'add' else (
+                           observed is None or not observed['selected'])
+            success = confirmed and matches
+            self._s2s_cache = after
+            self._s2s_time = time.monotonic()
+            return dict(after, success=success, error=None if success else (
+                after['error'] or 'Site-to-site controller did not confirm the requested state'))
 
     def view(self):
         # Share expensive controller reads across tabs and serialize with writes.
@@ -529,8 +809,11 @@ def make_server(database, state_dir, port=19108, console=None):
 
         def do_GET(self):
             path = urlsplit(self.path).path
-            if not self.allowed_host() or path not in ('/', '/state'):
+            if not self.allowed_host() or path not in ('/', '/state', '/s2s-state'):
                 self.reply(404, 'Not found')
+                return
+            if path == '/s2s-state':
+                self.reply_json(200, console.s2s_view())
                 return
             csrf, headers = self.token(), []
             if csrf is None:
@@ -558,12 +841,17 @@ def make_server(database, state_dir, port=19108, console=None):
                     f'<title>TimeWeb: VPN control</title><style>{PAGE_STYLE}</style>'
                     f'<script>{PAGE_SCRIPT}</script><main><h1>TimeWeb: VPN control</h1>'
                     f'<p>Loopback-only console. Background refresh: 15 s. '
-                    f'<span id="refresh-state" role="status"></span></p>{content}</main></html>')
+                    f'<span id="refresh-state" role="status"></span></p>'
+                    f'<nav class="console-tabs" role="tablist" aria-label="Console">'
+                    f'<a id="vpn-tab" href="#vpn" role="tab" aria-controls="vpn" aria-selected="true">VPN</a>'
+                    f'<a id="s2s-tab" href="#site-to-site" role="tab" aria-controls="site-to-site" aria-selected="false">Site-to-site</a></nav>'
+                    f'<section id="vpn" role="tabpanel" aria-labelledby="vpn-tab">{content}</section>'
+                    f'{s2s_panel(csrf)}</main></html>')
             self.reply(200, body, headers=headers)
 
         def do_POST(self):
             path = urlsplit(self.path).path
-            if not self.allowed_host() or path not in ('/action', '/flex-action'):
+            if not self.allowed_host() or path not in ('/action', '/flex-action', '/s2s-action'):
                 print(json.dumps({'event': 'console_post_rejected', 'reason': 'host_or_path',
                                   'host': self.headers.get('Host', '')[:128],
                                   'path': urlsplit(self.path).path[:128]}), flush=True)
@@ -584,12 +872,16 @@ def make_server(database, state_dir, port=19108, console=None):
                     raise ValueError('invalid_length')
                 fields = parse_qs(self.rfile.read(length).decode(), max_num_fields=4)
                 expected = {'csrf', 'upstream', 'action'} if path == '/action' else {'csrf', 'scope', 'field', 'value'}
+                if path == '/s2s-action':
+                    expected = {'csrf', 'action', 'device', 'revision'}
                 if set(fields) != expected or any(len(v) != 1 for v in fields.values()):
                     raise ValueError('invalid_fields')
-                if not secrets.compare_digest(fields['csrf'][0], self.token() or ''):
+                if not secrets.compare_digest(fields['csrf'][0].encode(), (self.token() or '').encode()):
                     raise ValueError('invalid_csrf')
                 if path == '/action':
                     result = console.action(fields['upstream'][0], fields['action'][0])
+                elif path == '/s2s-action':
+                    result = console.s2s_action(fields['action'][0], fields['device'][0], fields['revision'][0])
                 else:
                     result = console.flex_action(fields['scope'][0], fields['field'][0], fields['value'][0])
             except (UnicodeDecodeError, ValueError, KeyError) as exc:
@@ -598,7 +890,9 @@ def make_server(database, state_dir, port=19108, console=None):
                                   'path': path}), flush=True)
                 self.reply(400, 'Bad request')
                 return
-            if self.headers.get('Accept') == 'application/json':
+            if path == '/s2s-action':
+                self.reply_json(200, result)
+            elif self.headers.get('Accept') == 'application/json':
                 self.reply_json(200, {'success': result['success'] is True,
                                       'error': result.get('error')})
             else:

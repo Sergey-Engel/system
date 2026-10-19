@@ -1,5 +1,6 @@
 {
   "schema_version": 3,
+  "separate_infrastructure_inventory": "config/inventory/direct-sstp.json",
   "description": "Observed server-side VPN telemetry. WireGuard and AWG31 use peer handshakes and counters; TimeWeb Xray/REALITY uses its signed client access events from journald. Xray access events establish recent activity but do not expose per-client byte counters.",
   "devices": [
     {

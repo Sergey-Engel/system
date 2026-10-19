@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "controller_release": "3.0.0",
+  "id": "fethiye-nakhimova-sstp-direct",
+  "status": "installed-router-and-controller-qualified",
+  "owner": "s2s-sstp-direct-v1",
+  "transport": "SSTP/TLS/TCP443",
+  "timeweb_transport_modified": false,
+  "automatic_fallback": false,
+  "endpoint": "194.61.140.217:443",
+  "deco_target": "192.168.68.117:5443",
+  "mtu": 1400,
+  "routing_table": "sstp_direct",
+  "directions": [
+    {"id":"forward","source":"fethiye","destination":"nakhimova","subnet":"192.168.89.0/24","routing_table":"sstp_direct","owner":"s2s-sstp-direct-v1","state":".local/config/sstp-direct/state.json","http":"/routing-state/fethiye","action":"/routing-action","client_acceptance":"MacBook Air previously confirmed; currently Local"},
+    {"id":"reverse","source":"nakhimova","destination":"fethiye","subnet":"192.168.88.0/24","routing_table":"sstp_fethiye","owner":"s2s-sstp-reverse-v1","state":".local/config/sstp-direct/reverse/state.json","http":"/routing-state/nakhimova","action":"/routing-action","client_acceptance":"Not performed; router-originated HTTPS/MTU/isolated route failure qualified"}
+  ],
+  "sites": [
+    {"id": "fethiye", "serial": "HM20B6QXS8H", "role": "server", "interface": "sstp-direct-in", "address": "10.60.64.1"},
+    {"id": "nakhimova", "serial": "HKM0BDXYG74", "role": "client", "interface": "sstp-direct-out", "address": "10.60.64.2"}
+  ],
+  "profiles": {
+    "scope": "infrastructure PKI/PPP; not issued end-device client profiles",
+    "private_config": ".local/config/sstp-direct/config.json",
+    "private_state": ".local/config/sstp-direct/state.json",
+    "credentials": "private verified changeset backup and canonical store only"
+  },
+  "observation": {
+    "source": "local-direct-controller",
+    "http": "http://127.0.0.1:19118/s2s-state",
+    "vpn_peer_inventory_unchanged": true,
+    "acceptance_boundary": "configuration and route readiness; not end-device HTTPS acceptance"
+  },
+  "management": {
+    "panel": "http://127.0.0.1:19118/#site-to-site",
+    "writer": "services/transport/site-to-site/device_routing.py",
+    "serialization": ".local/config/sstp-direct/controller.lock",
+    "eligible_devices": "Nakhimova: enabled permanent defconf DHCP reservations including offline; Fethiye: authorized MikroTik Wi-Fi registrations with unambiguous DHCP binding for writes",
+    "routing_modes": {"nakhimova":["local","cenuta","fornex","direct"],"fethiye":["local","direct"]},
+    "routing_state": ".local/config/sstp-direct/routing-state.json",
+    "legacy_direct_writers": "HTTP 410 and controller action refusal when routing_enabled=true",
+    "shared_transport": true,
+    "state_serialization": "One shared flock for both direction controllers; independent generations and audit files"
+  },
+  "certificate_lifetime_days": 825,
+  "certificate_warning_days": 30,
+  "endpoint_change": "reviewed certificate reissue and connect-to update required"
+}

@@ -214,6 +214,52 @@ def mode_export(text):
     return "\n".join(result)
 
 
+def outage_export(text):
+    """Permit only the selected IPIP disabled flag in addition to mode flags."""
+    result = []
+    selected = 0
+    pattern = r'(?<![\w-])comment="?' + re.escape(OWNER + ":tunnel") + r'"?(?=\s|$)'
+    for line in mode_export(text).splitlines():
+        if re.search(pattern, line):
+            if not line.startswith("/interface ipip add "):
+                raise ValueError("outage tunnel export path differs")
+            selected += 1
+            line = re.sub(r"(?<![\w-])disabled=(?:yes|no)\s*", "", line)
+        result.append(line.rstrip())
+    if selected != 1:
+        raise ValueError("outage tunnel export ambiguous")
+    return "\n".join(result)
+
+
+def outage_command(row, enabled):
+    spec = SITES["fethiye"]
+    if (type(enabled) is not bool or type(row.get("disabled")) is not bool
+            or not re.fullmatch(r"\*[0-9A-Fa-f]+", row.get(".id", ""))
+            or row.get("name") != TUNNEL or row.get("comment") != OWNER + ":tunnel"
+            or row.get("local-address") != spec["outer"] or row.get("remote-address") != spec["peer"]):
+        raise ValueError("outage tunnel identity or flag differs")
+    return f'/interface ipip {"enable" if enabled else "disable"} {row[".id"]}'
+
+
+def outage_route_selection(routes, active_routes, down):
+    """Require positive RIB election evidence, not a missing inactive flag."""
+    if type(down) is not bool or len(routes) != 2 or len(active_routes) != 1:
+        raise ValueError("outage route election cardinality differs")
+    expected = {OWNER + ":remote-default": 1, OWNER + ":remote-blackhole": 254}
+    if {r.get("comment") for r in routes} != set(expected):
+        raise ValueError("outage route identities differ")
+    for row in routes:
+        if (not re.fullmatch(r"\*[0-9A-Fa-f]+", row.get(".id", ""))
+                or row.get("routing-table") != "s2s_remote"
+                or row.get("dst-address") != "0.0.0.0/0"
+                or row.get("distance") != expected[row["comment"]]):
+            raise ValueError("outage route scope differs")
+    selected = next(r for r in routes if r["comment"] == OWNER + (":remote-blackhole" if down else ":remote-default"))
+    if active_routes[0].get(".id") != selected[".id"] or active_routes[0].get("comment") != selected["comment"]:
+        raise ValueError("unexpected active route or fallback")
+    return selected[".id"]
+
+
 def profile(before, site):
     s = SITES[site]
     old = 'AllowedIPs = ' + s['before_allowed'].replace(',', ', ') + '\n'

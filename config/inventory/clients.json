@@ -1,5 +1,6 @@
 {
   "schema_version": 1,
+  "separate_infrastructure_inventory": "config/inventory/direct-sstp.json",
   "generated_utc": "2026-10-16T14:43:33+00:00",
   "profiles": [
     {

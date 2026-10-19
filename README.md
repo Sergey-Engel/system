@@ -12,6 +12,7 @@
 - [Реестр тоннелей](docs/registry/tunnels.md), [реестр конфигурации](docs/registry/configuration.md).
 - [Правила изменений для агента](AGENTS.md).
 - [Хранение, перенос и откат](docs/operations/storage-and-transfer.md).
+- [Текущий release3.0, полный checkpoint и резервные копии](docs/history/2026-10-19-routing-release-checkpoint.md).
 - [Результаты миграции 10 октября](docs/migration/2026-10-10-execution-report.md).
 
 ## Каталоги

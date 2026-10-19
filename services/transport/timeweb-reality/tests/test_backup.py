@@ -93,6 +93,16 @@ def test_pilot_backup_requires_whole_bundle_if_any_file_exists():
     assert backup.pilot_required("fornex", files) == []
 
 
+def test_s2s_console_backup_requires_code_state_and_both_private_identities():
+    assert backup.s2s_console_required("timeweb", {}) == []
+    files = {name: b"fixture" for name in backup.S2S_CONSOLE_REQUIRED}
+    assert backup.s2s_console_required("timeweb", files) == backup.S2S_CONSOLE_REQUIRED
+    for missing in backup.S2S_CONSOLE_REQUIRED:
+        with __import__("pytest").raises(ValueError, match="S2S console"):
+            backup.s2s_console_required("timeweb", {k:v for k,v in files.items() if k != missing})
+    assert backup.s2s_console_required("fornex", files) == []
+
+
 def write_bundle(folder, bundle):
     bundle = copy.deepcopy(bundle)
     bundle["SHA256SUMS"] = sums(bundle)

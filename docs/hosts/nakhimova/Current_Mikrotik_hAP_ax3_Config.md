@@ -1,13 +1,50 @@
 ---
 type: configuration
 status: snapshot-not-live
-updated: 2026-10-16
+updated: 2026-10-19
 tags: [mikrotik, routeros, bth]
 ---
 
 # MikroTik hAP ax3: Нахимова 11
 
 ## Источник и свежесть
+
+Итог19 октября: постоянный `sstp-direct-out` -> Фетхие TCP443,10.60.64.2,
+mutual TLS/AES256-GCM/PFS, MTU1400; отдельные Internet filters/NAT/MSS.
+Current master обновлен по финальному VERIFIED_TRANSFER encrypted backup.
+Local VPN-панель3.0.0 объединяет маршруты: на Нахимова только permanent DHCP
+reservations, Standard/Cenuta/Fornex/Direct via Fethiye; на Фетхие Wi-Fi-клиенты,
+Standard/Direct via Nakhimova. SSTP остается up. TimeWeb/WG/IPIP не менялись.
+[Финальный протокол](../../history/2026-10-19-sstp-direct-permanent.md).
+Дополнительно установлен обратный Internet-выход через Фетхие: таблица
+`sstp_fethiye`, scoped public SNAT `.64.2`, per-device управление через ту же
+панель. Выбранных Direct не было при установке UI; четыре существующих
+Cenuta и три Standard сохранены. Пользовательская приёмка Нахимова не
+проводилась. [Протокол](../../history/2026-10-19-sstp-reverse-egress.md).
+[Единое управление и ограничения](../../history/2026-10-19-unified-device-routing.md).
+Следующие абзацы описывают более ранние временные пробы.
+
+19 октября: прямой SSTP client -> Фетхие TCP443 проверен в изолированной
+временной конфигурации: TLS с отказом при недоверенном CA, HTTP200,
+ordinary interval1s ICMP10/10 и reconnect. Быстрые interval200ms дают timeouts;
+длительная/клиентская приёмка не завершена. Все trial objects/certificates/files
+удалены, export и trust совпали с исходными; старые WG/TimeWeb/NAT/routes
+не менялись. Fresh encrypted backups в private trial evidence, не замена
+current master: [отчёт](../../history/2026-10-19-sstp-direct-trial.md).
+
+Позднее19 октября: отдельный30min SSTP soak PASS,305/305 ICMP и35/35 DF1400
+в каждую сторону,364 новых HTTP checks без failed, три reconnect и negative CA/recovery PASS.
+Все временные objects/certificates/files удалены, export/trust/server settings
+исходные, старые TimeWeb/LAN paths5/5 с обеих площадок. Постоянный SSTP/egress
+не включён: [полный протокол](../../history/2026-10-19-sstp-direct-soak.md).
+
+17 октября: конфигурация Нахимова после ограниченного IPIP outage совпала
+с исходным Local export; WAN/NAT/WG и остальные profiles не менялись.
+Latest backup/current `20261017T084227Z`, VERIFIED_TRANSFER, без restore drill.
+Remote HTTPS MacBook Фетхие после отдельной recovery-пробы `5.18.141.112`,
+финальный Local `194.61.140.217`. Первый recovery LAN ping 2/3 остается
+предупреждением; прежние внешние ICMP-потери также не отменены.
+[Объем приемки и ограничения](../../history/2026-10-17-egress-fail-closed.md).
 
 Дополнение live-аудита 16 октября 2026: serial `HKM0BDXYG74`, RouterOS
 `7.24.4 (stable)`. Fresh export и encrypted binary backup:

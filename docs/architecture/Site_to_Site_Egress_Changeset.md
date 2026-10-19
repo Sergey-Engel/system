@@ -1,8 +1,8 @@
 ---
 type: changeset
-status: bounded-egress-trial-verified
+status: bounded-ipip-outage-verified-with-warning
 created: 2026-10-16
-updated: 2026-10-16
+updated: 2026-10-17
 ---
 
 # Выход MacBook Фетхие Через Нахимова
@@ -11,9 +11,15 @@ updated: 2026-10-16
 на MacBook Air Sergey: terminal HTTPS показал `5.18.141.112` в Remote и
 `194.61.140.217` после возврата, `example.com` в Remote открылся.
 Сейчас Local, все 10 Remote controls выключены; прежний IP закреплен
-статически. Постоянный Remote, отказ удаленного пути, обратный выход и
-приложения еще не приняты. Исторические ICMP-потери Нахимова не отменены.
-[Текущий протокол](../history/2026-10-16-egress-trials.md),
+статически. 17 октября принята ограниченная IPv4/HTTPS проверка обрыва IPIP:
+проверенный запрос с DNS bypass завершился timeout без местного выхода,
+отдельная recovery-проба вернула `5.18.141.112`, финальный Local подтвердил
+`194.61.140.217`. Первый recovery gate дал 2/3 LAN ping и containment в Local;
+это предупреждение не снято. Постоянный Remote, полный WAN/TimeWeb outage,
+IPv6-negative, обратный выход и приложения еще не приняты.
+Исторические ICMP-потери Нахимова не отменены.
+[Текущий протокол и ограничения](../history/2026-10-17-egress-fail-closed.md),
+[пробы 16 октября](../history/2026-10-16-egress-trials.md),
 [предыдущий Local-подшаг](../history/2026-10-16-egress-local.md),
 [история подготовки](../history/2026-10-16-egress-preparation.md).
 
@@ -91,6 +97,35 @@ Local: disable lookup/DNS -> очистить только client conntrack -> �
 Проба ограничена 420 секундами: процесс на компьютере агента возвращает Local
 при истечении окна. RouterOS scheduler/device-mode для этого не менялись.
 Это ограничитель испытания, не автономное резервирование сети.
+
+### Испытание Обрыва 17 Октября
+
+Одобрено пользователем «начинай» для того же MacBook. До записи: свежие
+verified backups, strict serial/SSH, exact current/master/store и bound static
+lease. Local baseline сегодня: пользовательский terminal HTTPS `194.61.140.217`.
+
+Последовательность физической приемки: Local -> Remote (положительный HTTPS
+контроль) -> отключить только Fethiye `ipip-s2s-egress` -> ожидать HTTPS timeout
+без local fallback -> включить IPIP -> подтвердить Remote HTTPS -> Local и
+контрольный HTTPS. Для outage-запроса используется тот же заранее проверенный
+public IP сервиса api.ipify.org через `curl --resolve`: отсутствие DNS не
+должно быть единственной причиной отрицательного результата.
+
+Все 10 Remote controls остаются включенными во время обрыва. Проверяются
+inactive remote gateway, active blackhole и продолжающая работать LAN-пара;
+другие WG/ethernet/Wi-Fi/Deco не отключаются. Трафик/conntrack очищается только
+для `.89.197`. Один процесс на компьютере агента владеет всеми изменениями:
+outage максимум 180 s, общий drill максимум 900 s; при timeout восстанавливает
+IPIP и Local. Это не router-side failover. Повторный тест требует нового
+baseline, старые sealed пробы не перезапускаются.
+
+RouterOS 7.19.6 возвращает JSON `null` для `get active` невыбранного route,
+хотя `/routing route` показывает `contribution=best-candidate`. Это не boolean
+`false` и не самостоятельное доказательство выбора. Проверять положительный
+набор `/routing route print ... where active=yes` и точный ожидаемый ID:
+ровно gateway при поднятом IPIP, ровно blackhole при отключенном. Сверять
+`contribution` выбранного route и весь scoped набор; `null` не приводить к False.
+Источники: [routing route properties](https://help.mikrotik.com/docs/spaces/ROS/pages/59965493/routing%2Broute).
 
 ## Gates И Откат
 

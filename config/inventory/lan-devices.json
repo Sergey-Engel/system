@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "semantics": "Presentation-only exact full-MAC bindings. No IP, hostname, manufacturer or cross-network identity inference. Does not authorize tunnel selection.",
+  "bindings": [
+    {"mac": "18:C2:3C:0E:A2:57", "name": "Aqara Hub M2", "network": "fethiye-deco", "evidence": "docs/hosts/fethiye/network-passport.md", "basis": "observed device name"},
+    {"mac": "88:10:8F:E8:40:2B", "name": "Honor 8C (Turkish SIM)", "network": "fethiye-deco", "evidence": "docs/hosts/fethiye/network-passport.md", "basis": "owner confirmed"},
+    {"mac": "84:89:AD:77:47:B0", "name": "iPad Pro (Sergey)", "network": "fethiye-deco", "evidence": "docs/hosts/fethiye/network-passport.md", "basis": "owner confirmed"},
+    {"mac": "F8:62:14:82:6C:AE", "name": "iPad (Svetlana)", "network": "fethiye-deco", "evidence": "docs/hosts/fethiye/network-passport.md", "basis": "owner confirmed"},
+    {"mac": "A2:2A:6B:89:9B:DB", "name": "iPhone (Svetlana)", "network": "fethiye-deco", "evidence": "docs/hosts/fethiye/network-passport.md", "basis": "owner confirmed"},
+    {"mac": "A6:0B:CA:EB:01:6B", "name": "Mac mini (Sergey)", "network": "fethiye-deco", "evidence": "docs/hosts/fethiye/network-passport.md", "basis": "local IP/MAC and hostname verified"},
+    {"mac": "C2:F6:CB:FB:43:34", "name": "MacBook Air (Svetlana)", "network": "fethiye-deco", "evidence": "docs/hosts/fethiye/network-passport.md", "basis": "mDNS and owner confirmed"},
+    {"mac": "4A:CE:4B:D0:88:E5", "name": "MacBook Air (Sergey)", "network": "fethiye-deco", "evidence": "docs/hosts/fethiye/network-passport.md", "basis": "owner confirmed IP/MAC association"},
+    {"mac": "A2:C1:5E:29:F5:8E", "name": "MacBook Air (Sergey)", "network": "fethiye-mikrotik", "evidence": "docs/tasks/PLAN-fethiye-site-to-site.md", "basis": "owner confirmed test device and DHCP/registration association"},
+    {"mac": "78:64:C0:BA:0C:F0", "name": "iPhone 12 (Sergey)", "network": "fethiye-deco", "evidence": "docs/hosts/fethiye/network-passport.md", "basis": "owner confirmed"},
+    {"mac": "04:4B:ED:9C:A1:FC", "name": "Apple TV (Fethiye)", "network": "fethiye-deco", "evidence": "docs/hosts/fethiye/network-passport.md", "basis": "owner confirmed"},
+    {"mac": "C4:61:8B:8D:6C:77", "name": "iPhone 6 (Sergey)", "network": "fethiye-deco", "evidence": "docs/hosts/fethiye/network-passport.md", "basis": "owner confirmed model correction"},
+    {"mac": "CA:0D:5D:AA:FE:8B", "name": "Android tablet (Sergey)", "network": "fethiye-deco", "evidence": "docs/hosts/fethiye/network-passport.md", "basis": "owner confirmed; exact model unverified"},
+    {"mac": "42:71:1C:2F:28:4E", "name": "Watch (Sergey)", "network": "fethiye-deco", "evidence": "docs/hosts/fethiye/network-passport.md", "basis": "owner confirmed; exact model unverified"},
+    {"mac": "80:EA:96:E7:DF:FF", "name": "SEAP Server", "network": "nakhimova", "evidence": "docs/history/2026-10-19-unified-device-routing.md", "basis": "existing explicit permanent DHCP reservation label; exact MAC readback"},
+    {"mac": "C4:F7:C1:13:E4:BC", "name": "Apple TV Gostinaa", "network": "nakhimova", "evidence": "docs/history/2026-10-19-unified-device-routing.md", "basis": "existing explicit permanent DHCP reservation label; exact MAC readback"},
+    {"mac": "00:D8:61:3A:23:BC", "name": "DigitalRazor PC", "network": "nakhimova", "evidence": "docs/history/2026-10-19-unified-device-routing.md", "basis": "existing explicit permanent DHCP reservation label; exact MAC readback"},
+    {"mac": "54:BD:79:53:0C:AE", "name": "Samsung TV", "network": "nakhimova", "evidence": "docs/history/2026-10-19-unified-device-routing.md", "basis": "existing explicit permanent DHCP reservation label; exact MAC readback"},
+    {"mac": "50:DE:06:8F:B7:A7", "name": "AppleTV Spalna", "network": "nakhimova", "evidence": "docs/history/2026-10-19-unified-device-routing.md", "basis": "existing explicit permanent DHCP reservation label; exact MAC readback"},
+    {"mac": "00:11:32:5D:AA:19", "name": "Synology DS416", "network": "nakhimova", "evidence": "docs/history/2026-10-19-unified-device-routing.md", "basis": "existing explicit permanent DHCP reservation label; exact MAC readback"},
+    {"mac": "D0:11:E5:CD:1F:51", "name": "Mac Mini M4 (Sergey) en0", "network": "nakhimova", "evidence": "docs/history/2026-10-19-unified-device-routing.md", "basis": "existing explicit permanent DHCP reservation label; exact MAC readback"}
+  ]
+}

@@ -74,6 +74,16 @@ materialize поверх более новых профилей: сперва с
 
 ## Свежие резервные копии
 
+19 октября: обе действующие площадки Нахимова и Фетхие сохранены вместе с
+local unified controller3.0.0, PKI и доступами. Точный каталог/состав и
+проверки: [release checkpoint](../history/2026-10-19-routing-release-checkpoint.md).
+Это encrypted RouterOS configuration backups плюс sensitive exports,
+не побитовые образы накопителей. Полные копии остаются в `.local` и
+canonical store, не попадают в GitHub. Исторический `backup_router.py` ниже
+поддерживает Нахимова/Орехово, но не Фетхие; не подставлять другую площадку
+ради совпадения LAN IP. Для точного свежего набора использовать manifest
+checkpoint, не перезаписывать его повторным запуском старого changeset.
+
 ```sh
 .venv/bin/python -B services/transport/timeweb-reality/run_backup.py all
 .venv/bin/python -B scripts/backup_router.py nakhimova

@@ -1,7 +1,7 @@
 ---
 type: registry
 status: current
-updated: 2026-10-16
+updated: 2026-10-19
 ---
 
 # Реестр конфигурации
@@ -17,6 +17,8 @@ Stage-каталоги и архивы прежних выпусков не яв
 
 | Компонент | Локальный источник / снимок | Live размещение |
 | --- | --- | --- |
+| Direct SSTP / Device routing | `device_routing.py`, `routing_panel.py`, `direct_*.py`, `sstp_direct.py` в `services/transport/site-to-site/`, `.local/config/sstp-direct/`, отдельный [inventory](../../config/inventory/direct-sstp.json) | Нахимова `.64.2` client -> Фетхие TCP443/5443 `.64.1`; один канал, controller3.0.0. Unified Nakhimova static DHCP: Standard/Cenuta/Fornex/Direct; Fethiye Wi-Fi: Standard/Direct. Facade19118, общий lock, routing intent и независимые Direct state/audit. Два user LaunchAgents. TimeWeb без изменений. [Runbook](../operations/Direct_SSTP.md) |
+| LAN device names | [Full-MAC bindings](../../config/inventory/lan-devices.json), `direct_names.py`, rebuildable IEEE snapshot `.local/cache/mac-vendors.json` | Unified UI: только exact inventory, иначе Unknown device. DHCP/IEEE fallback остаётся только в legacy read API. Не VPN inventory, не authority для выбора маршрута |
 | TimeWeb Xray | `.local/config/hosts/timeweb/current/host/opt/timeweb-reality/` | `/opt/timeweb-reality/`, `xray-timeweb-reality.service` |
 | TimeWeb WG selector | `.local/config/hosts/timeweb/current/host/opt/wg/`, `opt/wg-router/` | `wg-relay`, `/opt/wg/config`, `/opt/wg-router` |
 | TimeWeb S2S | `.local/config/hosts/timeweb/current/host/etc/wireguard/` и exact systemd files; [IPIP Local changeset](../architecture/Site_to_Site_Egress_Changeset.md) | Root namespace `wg-s2s`, `10.60.60.1/29`, UDP 51860; Нахимова `.2`, Фетхие `.3`, LAN-пара `.88/24` ↔ `.89/24` и exact protocol 4 outer pair; host services и прочий transit закрыты; Remote client выключен |
@@ -28,7 +30,7 @@ Stage-каталоги и архивы прежних выпусков не яв
 | Cenuta WG/guard | `.local/config/hosts/cenuta/current/host/etc/` | `wg-cenuta`, `/etc/reality-c3`, nftables |
 | UDP/WSS | `services/transport/timeweb-reality/wstunnel-*-backup/`; private PKI и свежие host snapshots | Отдельные WG/Xray backend UDP/WSS controllers |
 | Нахимова | `.local/config/hosts/nakhimova/current/router-export.rsc` | hAP ax3, serial `HKM0BDXYG74`; свежий sensitive export и encrypted binary backup |
-| Фетхие | `.local/config/hosts/fethiye/initial/` (неизменный baseline), `current/` из `.local/backups/fethiye/20261016T160037Z-post-egress/` | hAP ax3 `HM20B6QXS8H`, LAN `192.168.89.0/24`; `wg-s2s-tw` `10.60.60.3/29`, LAN route `.88/24`; IPIP `.61.2/30`, ограниченная проба Remote IPv4/HTTPS принята, сейчас MacBook Local, 10 controls disabled; lease static; VERIFIED_TRANSFER, без restore drill; [паспорт](../hosts/fethiye/MikroTik_hAP_ax3_Initial_Audit.md), [лог](../tasks/PLAN-fethiye-site-to-site.md) |
+| Фетхие | `.local/config/hosts/fethiye/initial/` (неизменный baseline), `current/` обновлен по post-SSTP backup19 октября | hAP ax3 `HM20B6QXS8H`, LAN `.89/24`, прежние WG/IPIP сохранены; новый `sstp-direct-in` `.64.1`, `sstp_direct` table, prepared device controls disabled после проверки; MacBook Local. VERIFIED_TRANSFER без restore drill; [SSTP checkpoint](../history/2026-10-19-sstp-direct-permanent.md) |
 | Орехово | Карточки `docs/hosts/orekhovo/` | hEX RB750Gr3; свежий backup заблокирован недоступностью площадки, старые backups не перенесены |
 | Профили | `.local/clients/`, точные байты из secret store | 67 файлов: 38 WG, 11 AWG31, 9 SOCKS, 9 XRAY; новые S2S WG относятся к роутерам, не к MacBook |
 | Устройства/метрики | `config/inventory/observations.json` | 22 устройства; новый `timeweb-s2s` читает host WG, не контейнер |
@@ -82,6 +84,17 @@ WG identities и защищенное host state не менялись, re-sign 
 Current post-backups: TimeWeb `2026-10-16T155615Z_current-config`,
 Фетхие `20261016T160037Z-post-egress`, Нахимова `20261016T160237Z`.
 [Результаты, две попытки и мониторинг](../history/2026-10-16-egress-trials.md).
+
+17 октября: ограниченный IPv4/HTTPS IPIP outage принят с предупреждением
+первого recovery LAN ping 2/3. Финальный MacBook Local подтвержден;
+router configuration bodies, 67 profiles, inventory/fleet и host contracts
+неизменны. Console/Prometheus/persisted Grafana и два post-Local cycles
+проверены, re-sign/restart не требовались. Current router backups:
+Фетхие `20261017T084141Z-post-egress`, Нахимова `20261017T084227Z`,
+оба VERIFIED_TRANSFER. Post VPS backups VERIFIED: TimeWeb
+`2026-10-17T083751Z_current-config`, Fornex `2026-10-17T083920Z_current-config`,
+Cenuta `2026-10-17T083947Z_current-config`.
+[Объем приемки, потери и ограничения](../history/2026-10-17-egress-fail-closed.md).
 
 Старый `maintenance_preflight.py` по-прежнему проверяет строгую историческую
 форму BTH baseline. На свежих snapshot files он отказал: hash `hostguard`

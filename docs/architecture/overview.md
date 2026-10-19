@@ -2,11 +2,22 @@
 type: hld
 status: current
 topic: mikrotik
-updated: 2026-09-23
+updated: 2026-10-19
 tags: [mikrotik, vpn, architecture]
 ---
 
 # VPN: общая архитектура
+
+19 октября добавлен постоянный независимый SSTP/TCP443 между роутерами,
+без изменения TimeWeb. Контроллер 3.0.0 объединяет маршруты устройств обеих
+площадок в локальной вкладке Device routing: Нахимова permanent reservations
+(Standard/Cenuta/Fornex/Direct), Фетхие Wi-Fi регистрации (Standard/Direct).
+Назначение взаимоисключающее, с явной Apply и durable intent/readback.
+Обратный выход проверен с роутера, клиентская приёмка Нахимова недоступна.
+Direct не выбран; исходные четыре Cenuta и три Standard Нахимова сохранены,
+Фетхие Standard. Автоматического fallback нет.
+[Runbook и границы](../operations/Direct_SSTP.md).
+История WG/IPIP и временных проверок ниже не заменяет этот текущий статус.
 
 Site-to-site между Нахимова 11 и управляемой LAN Фетхие: 16 октября поднята
 маршрутизируемая IPv4-связь через отдельный TimeWeb host WG.
@@ -14,9 +25,13 @@ Site-to-site между Нахимова 11 и управляемой LAN Фет
 Для Internet-выхода создан IPIP внутри WG; ограниченный тест MacBook через
 Нахимова и возврат Local приняты по IPv4/HTTPS, сейчас Local.
 [Результаты и границы приемки](Site_to_Site_Egress_Changeset.md).
-Постоянный/обратный Internet-выход, резервирование и прямой канал еще не приняты;
-[целевой проект и варианты](Nakhimova_Fethiye_Site_to_Site_Design.md) остаются
-планом последующих этапов. Операторский Deco не менялся.
+Для прежнего WG/IPIP постоянный/обратный клиентский Internet-выход и
+автоматическое резервирование не принимались. Состояние установленного
+прямого SSTP описано выше; [целевой проект](Nakhimova_Fethiye_Site_to_Site_Design.md)
+разделяет принятые и оставшиеся этапы. Deco остаётся основным роутером Фетхие.
+18 октября владелец добавил UDP51972 forward и DHCP reservation MikroTik;
+неустойчивым остался именно Direct WireGuard, не последующий SSTP/TCP443:
+[локализация потери WG и границы вывода](../history/2026-10-18-direct-path-diagnosis.md).
 
 ## Хранилище После Переноса
 

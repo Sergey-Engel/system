@@ -119,6 +119,9 @@ host_roots() {
             usr/local/sbin/timeweb-fornex-wg-transport usr/local/sbin/wstunnel-timeweb-cenuta-wg-fallback \
             usr/local/sbin/timeweb-cenuta-wg-transport
         if [[ -d /opt/timeweb-reality ]]; then printf '%s\n' opt/timeweb-reality; fi
+        if [[ -d /opt/vpn-s2s ]]; then
+            printf '%s\n' opt/vpn-s2s etc/vpn-s2s var/lib/vpn-s2s usr/local/sbin/timeweb-s2s
+        fi
         if [[ -d /opt/vpn-runtime-recovery ]]; then
             printf '%s\n' opt/vpn-runtime-recovery var/lib/vpn-runtime-recovery \
                 opt/vpn-monitoring/guards var/lib/vpn-uplink-guards/state.json \

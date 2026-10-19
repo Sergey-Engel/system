@@ -5,6 +5,14 @@ the deployed root-owned startup guard. It is not a general-purpose WG writer.
 The approved one-shot deployment and rollback snapshots are private evidence;
 do not rerun them against a new baseline or refresh an old recovery contract.
 
+The separate multi-device console controller is a **local candidate, not deployed**
+as of 2026-10-17. Nakhimova became unreachable before the new deployment
+baseline could be captured. See the [runbook](../../../docs/operations/Site_to_Site_Console.md)
+and [plan](../../../docs/tasks/PLAN-site-to-site-console.md); current routers
+must not be treated as already supporting the candidate management access.
+Access recovered later on October 17, but the candidate still requires fresh
+bootstrap/deployment qualification and has not been installed.
+
 - `pilot.py`: empty-scope / exact-baseline checks; fixed ICMP-only policy and
   configuration rendering. Router rules use a separate input chain and a
   unique static anchor, never index 0 before a dynamic FastTrack dummy.
@@ -21,8 +29,50 @@ do not rerun them against a new baseline or refresh an old recovery contract.
 - `egress.py` / `test_egress.py`: scoped IPIP-over-WG transport, pinned ten-object
   mode switching and exact export refusal tests. The initial lease is validated
   dynamically and pinned statically before Remote. A bounded Local -> Remote ->
-  Local IPv4/HTTPS trial is accepted; current mode is Local. Controlled outage,
-  permanent Remote and reverse egress remain unaccepted.
+  Local IPv4/HTTPS trial and a bounded, DNS-bypassed IPv4/HTTPS IPIP outage
+  probe with a separate recovery follow-up are accepted; current mode is Local.
+  The first recovery LAN ping 2/3 remains a warning, not a passed gate.
+  Pure outage checks pin the IPIP object and exact active RIB route IDs; null
+  is not coerced to false. Full WAN/hub outage, IPv6 negative acceptance,
+  permanent Remote, reverse egress and application tests remain unaccepted.
+- `managed.py`, `router.py`, `controller.py`, `timeweb-s2s`: persistent, locked
+  device selection; strict SSH identities, exact owner/field/order checks,
+  fresh DHCP binding, per-client mode controls, durable pending operations,
+  offline removal and refusal of unknown drift. New selections do not alter
+  shared transport, NAT/defaults or other client identities. The legacy preset
+  requires a MAC flow qualification before this controller can be deployed.
+- `test_managed.py`: fake-router multi-device and crash tests, including fresh
+  lease IDs, partial make-static, failed guards, interrupted removal and rule
+  movement across baseline anchors. These are not live router acceptance.
+- `direct_trial.py` / `test_direct_trial.py`: isolated feasibility builders for
+  separate-socket and shared-socket direct WG trials, strict owner cleanup,
+  ICMP-only test addresses, test-subnet forward denial and Safe Mode ACK tests.
+  Both live candidates were completely rolled back; neither qualified a stable
+  direct path. This is not a deployed controller or a repeatable production
+  writer. See the [trial receipt](../../../docs/history/2026-10-17-direct-tunnel-feasibility.md).
+- `forward_trial.py` / `test_forward_trial.py`: separate Oct18 isolated
+  responder/initiator candidate after the owner saved Deco UDP51972 forwarding
+  and DHCP reservation. Initial authenticated packets passed, but seven later
+  rounds failed both ways. Fully undone; not a permanent transport/controller.
+  See the [forward trial receipt](../../../docs/history/2026-10-18-direct-deco-forward.md).
+- `direct_diagnostics.py`, `direct_path_probe.py` and focused tests: separate
+  temporary packet-boundary observers and same-key source-port rotation.
+  Direct WG RX stopped while WAN TX continued; neutral UDP controls passed.
+  All scopes undone, no TimeWeb changes. This localizes the external flow loss,
+  not a specific DPI/NAT middlebox. See the
+  [diagnostic receipt](../../../docs/history/2026-10-18-direct-path-diagnosis.md).
+- `sstp_trial.py` / `test_sstp_trial.py`: isolated mutual-TLS SSTP builder and
+  certificate/namespace/isolation tests. Oct19 direct TCP443->5443 passed HTTP,
+  negative CA/reconnect and ordinary-interval ICMP; 200ms probes timed out.
+  All trial objects/certificates removed, TimeWeb unchanged. Not a persistent
+  writer or production qualification. See the
+  [SSTP receipt](../../../docs/history/2026-10-19-sstp-direct-trial.md).
+- `sstp_soak.py` / `test_sstp_soak.py`: read-only observation/acceptance logic
+  for the separate thirty-minute trial. Fixed one-second probes, HTTP counter
+  freshness, uptime/session continuity and latest Safe Mode prompt validation.
+  The live soak and three reconnects/negative CA passed; exact cleanup restored
+  both routers, TimeWeb unchanged. This is not persistent routing or a console
+  deployment. See the [soak receipt](../../../docs/history/2026-10-19-sstp-direct-soak.md).
 
 RouterOS 7.19 `print as-value` can omit `disabled` flags. Missing is unknown,
 not enabled: read the explicit `get <id> disabled` property and require a
@@ -55,3 +105,47 @@ The [egress changeset](../../../docs/architecture/Site_to_Site_Egress_Changeset.
 keeps client Local mode separate from transport and public Internet gates.
 The [bounded trial receipt](../../../docs/history/2026-10-16-egress-trials.md)
 records actual client HTTPS/IP results, Local restoration and remaining limits.
+The [bounded IPIP outage receipt](../../../docs/history/2026-10-17-egress-fail-closed.md)
+preserves the first recovery failure and distinguishes later HTTPS recovery
+from autonomous failover or general leak protection acceptance.
+
+## Permanent Direct SSTP
+
+`sstp_direct.py` and `direct_access.py`/`direct_controller.py` implement the
+independent persistent router path and local device selection. `direct_panel.py`
+adds the Direct SSTP tab to the unchanged upstream VPN console through a local
+loopback facade; `direct_panel_service.py` owns only two local LaunchAgents.
+`direct_private.py` checkpoints approved controller state in the private store.
+TimeWeb deployment files, transports and recovery contracts are unchanged.
+Current operations and evidence: [runbook](../../../docs/operations/Direct_SSTP.md),
+[qualification](../../../docs/history/2026-10-19-sstp-direct-permanent.md).
+
+Controller release 2.0.0 adds the reverse Nakhimova-to-Fethiye direction over
+the same bidirectional SSTP connection. `sstp_fethiye` has an isolated default
+and blackhole; source SNAT is limited to public destinations. A shared lock
+serializes both controllers, while client state, generations, revisions and
+audit files remain direction-specific. Legacy forward endpoints are retained;
+reverse uses `/s2s-reverse-state` and `/s2s-reverse-action`. The UI never polls
+or switches real clients automatically. See the
+[reverse acceptance boundary](../../../docs/history/2026-10-19-sstp-reverse-egress.md).
+
+## Unified Device Routing (3.0.0)
+
+`device_routing.py` is the single assignment authority; `routing_panel.py`
+replaces both Direct lists when `routing_enabled=true`. Nakhimova first/default:
+enabled permanent DHCP reservations, including offline; Standard, Split Cenuta,
+Split Fornex or Direct via Fethiye. Fethiye: authorized MikroTik Wi-Fi registrations
+only, Standard or Direct via Nakhimova. Names come only from exact-MAC inventory.
+Mode selection requires an explicit Apply; no polling or automatic route changes.
+
+GET `/routing-state/{nakhimova,fethiye}`, POST `/routing-action` with CSRF,
+site, device, mode and revision. Legacy Direct HTTP actions return 410; the old
+controller action also refuses writes. `routing-state.json` journals intent
+before the first write. Only reviewed exact host membership diffs can update
+the strict baseline. Unknown result retains pending and permits explicit Standard
+recovery for the same MAC/IP/lease; never replay writes or adopt neighboring drift.
+Direct state and policy controls remain reused under the same shared lock.
+Existing Split exceptions/transports and all TimeWeb configuration are untouched.
+The deployed UI does not switch clients during verification; all 16 Nakhimova
+mode transitions and interrupted operations are tested against strict router fixtures.
+See [receipt](../../../docs/history/2026-10-19-unified-device-routing.md).

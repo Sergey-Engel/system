@@ -180,3 +180,51 @@ def test_mode_export_only_ignores_approved_flags_and_binding():
     assert egress.mode_export(before.replace("action=drop","action=accept",1))!=egress.mode_export(after)
     with pytest.raises(ValueError): egress.mode_export(before+"\n"+before.splitlines()[0])
     with pytest.raises(ValueError): egress.mode_export("\n".join(before.splitlines()[1:]))
+
+
+def tunnel():
+    return {".id":"*42","name":egress.TUNNEL,"comment":egress.OWNER+":tunnel",
+            "local-address":"10.60.60.3","remote-address":"10.60.60.2","disabled":False}
+
+
+@pytest.mark.parametrize("field,value", [(".id","*42; /system reboot"),("name","wg-s2s-tw"),
+    ("comment","foreign:tunnel"),("local-address","10.60.60.2"),
+    ("remote-address","10.60.60.1"),("disabled","false")])
+def test_outage_toggle_refuses_foreign_or_untyped_target(field,value):
+    with pytest.raises(ValueError): egress.outage_command({**tunnel(),field:value},False)
+
+
+def test_outage_toggle_only_changes_pinned_ipip():
+    assert egress.outage_command(tunnel(),False)=="/interface ipip disable *42"
+    assert egress.outage_command({**tunnel(),"disabled":True},True)=="/interface ipip enable *42"
+    with pytest.raises(ValueError): egress.outage_command(tunnel(),"yes")
+
+
+def test_outage_export_preserves_endpoints_and_unrelated_flags():
+    controls="\n".join(f'{path} add comment={egress.OWNER}:{name} disabled=yes' for name,path in egress.CONTROL_PATHS.items())
+    line=f'/interface ipip add comment={egress.OWNER}:tunnel local-address=10.60.60.3 name={egress.TUNNEL} remote-address=10.60.60.2'
+    before=controls+"\n"+line
+    assert egress.outage_export(before)==egress.outage_export(before.replace(line,line+" disabled=yes"))
+    assert egress.outage_export(before)!=egress.outage_export(before.replace("remote-address=10.60.60.2","remote-address=10.60.60.1"))
+    assert egress.outage_export(before+"\n/interface ethernet set ether1 disabled=yes")!=egress.outage_export(before+"\n/interface ethernet set ether1 disabled=no")
+    with pytest.raises(ValueError): egress.outage_export(controls)
+    with pytest.raises(ValueError): egress.outage_export(before+"\n"+line)
+
+
+def outage_routes():
+    return [{".id":"*1","comment":egress.OWNER+":remote-default","routing-table":"s2s_remote","dst-address":"0.0.0.0/0","distance":1},
+            {".id":"*2","comment":egress.OWNER+":remote-blackhole","routing-table":"s2s_remote","dst-address":"0.0.0.0/0","distance":254}]
+
+
+def test_outage_election_uses_positive_rib_rows_even_without_false_flags():
+    routes=outage_routes()
+    assert egress.outage_route_selection(routes,[routes[0]],False)=="*1"
+    assert egress.outage_route_selection(routes,[routes[1]],True)=="*2"
+    with pytest.raises(ValueError): egress.outage_route_selection(routes,[routes[0]],True)
+    with pytest.raises(ValueError): egress.outage_route_selection(routes,[routes[1]],False)
+
+
+@pytest.mark.parametrize("active", [[],[0,1],[2]])
+def test_outage_missing_duplicate_or_foreign_election_fails(active):
+    routes=outage_routes(); candidates=routes+[{**routes[0],".id":"*99"}]
+    with pytest.raises(ValueError): egress.outage_route_selection(routes,[candidates[i] for i in active],False)

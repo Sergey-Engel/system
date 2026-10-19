@@ -8,6 +8,9 @@ while [ -L "$script" ]; do
   case "$link" in /*) script=$link ;; *) script=$(dirname "$script")/$link ;; esac
 done
 root=$(CDPATH='' cd -- "$(dirname "$script")/../../../.." && pwd)
+if [ -f "$root/.local/config/sstp-direct/config.json" ]; then
+  exec "$root/.venv/bin/python" -B "$root/services/transport/site-to-site/direct_panel_service.py" "${1:-start}"
+fi
 ssh_config="$root/.local/ssh/config"
 if [ ! -r "$ssh_config" ]; then
   printf 'Run .venv/bin/python scripts/setup_mac.py --install from the project root first.\n' >&2

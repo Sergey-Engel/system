@@ -1,0 +1,3 @@
+#!/bin/sh
+set -eu
+exec /usr/bin/python3 -B /opt/vpn-s2s/controller.py "$@"

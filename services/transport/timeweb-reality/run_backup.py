@@ -32,6 +32,12 @@ S2S_REQUIRED = [
     "etc/systemd/system/s2s-pilot-guard.service",
     "etc/systemd/system/wg-quick@wg-s2s.service.d/pilot.conf",
 ]
+S2S_CONSOLE_REQUIRED = [
+    "opt/vpn-s2s/" + name for name in ("controller.py", "managed.py", "router.py", "egress.py", "lan.py")
+] + ["etc/vpn-s2s/" + name for name in ("config.json", "ssh_config", "known_hosts", "id_fethiye", "id_nakhimova")] + [
+    "var/lib/vpn-s2s/state.json", "usr/local/sbin/timeweb-s2s",
+    "etc/systemd/system/vpn-uplink-console.service", "etc/tmpfiles.d/timeweb-console-locks.conf",
+]
 
 
 def pilot_required(host, files):
@@ -40,6 +46,14 @@ def pilot_required(host, files):
     if any(not files.get(name) for name in S2S_REQUIRED):
         raise ValueError("Incomplete S2S pilot backup coverage")
     return S2S_REQUIRED
+
+
+def s2s_console_required(host, files):
+    if host != "timeweb" or not any(name.startswith(("opt/vpn-s2s/", "etc/vpn-s2s/", "var/lib/vpn-s2s/")) for name in files):
+        return []
+    if any(not files.get(name) for name in S2S_CONSOLE_REQUIRED):
+        raise ValueError("Incomplete S2S console backup coverage")
+    return S2S_CONSOLE_REQUIRED
 
 
 REQUIRED = {
@@ -326,7 +340,7 @@ def verify(host, run, dest):
         if members[prefix + "host-metadata-before.nul"] != members[prefix + "host-metadata-" + when + ".nul"]:
             raise ValueError("Host source metadata changed during backup")
     verify_metadata(members[prefix + "host-files.tar"], members[prefix + "host-metadata-before.nul"])
-    required = list(REQUIRED[host]) + pilot_required(host, files)
+    required = list(REQUIRED[host]) + pilot_required(host, files) + s2s_console_required(host, files)
     if host == "timeweb":
         contract_path = "opt/timeweb-reality/bth-recovery/contract.json"
         contract = json.loads(files.get(contract_path, b"{}"))

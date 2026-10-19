@@ -1,18 +1,21 @@
 ---
 type: configuration
 status: audited-snapshot
-updated: 2026-10-16
+updated: 2026-10-17
 tags: [mikrotik, fethiye, backup, audit]
 ---
 
 # MikroTik Фетхие: стартовый паспорт и аудит
 
-> Текущий подшаг 16 октября: проба Local -> Нахимова -> Local принята на MacBook
-> по terminal IPv4/HTTPS и browser HTTPS. Сейчас Local, все 10 Remote controls
+> Текущий подшаг 17 октября: ограниченный IPIP outage принят на MacBook
+> по terminal IPv4/HTTPS с DNS bypass и отдельной recovery-пробой.
+> Первый recovery LAN ping 2/3 сохранен как предупреждение, причина не установлена.
+> Финальный Local подтвержден `194.61.140.217`, все 10 Remote controls
 > disabled, прежний lease `.89.197` закреплен static без смены IP/DNS/gateway.
-> Общие DNS/default/Wi-Fi/Deco не менялись. Постоянный Remote и отказ канала
-> не приняты. Latest backup/current: `.local/backups/fethiye/20261016T160037Z-post-egress/`,
-> VERIFIED_TRANSFER, initial неизменен. [Результаты и предупреждения](../../history/2026-10-16-egress-trials.md).
+> Общие DNS/default/Wi-Fi/Deco не менялись. Постоянный Remote, полный WAN/TimeWeb
+> outage и IPv6-negative не приняты. Latest backup/current:
+> `.local/backups/fethiye/20261017T084141Z-post-egress/`, VERIFIED_TRANSFER,
+> initial неизменен. [Результаты и предупреждения](../../history/2026-10-17-egress-fail-closed.md).
 
 > 16 октября: WireGuard Фетхие `.3` - TimeWeb `.1` в `10.60.60.0/29`
 > расширен до управляемой LAN-пары `.89/24` ↔ `.88/24` Нахимова.
