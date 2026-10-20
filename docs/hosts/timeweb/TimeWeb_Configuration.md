@@ -4,7 +4,7 @@ topic: mikrotik
 system: timeweb
 status: active
 created: 2026-06-28
-updated: 2026-09-25
+updated: 2026-10-20
 tags:
   - mikrotik
   - vpn
@@ -40,11 +40,35 @@ RPDB table `414`, mark `0x41`, source priorities `243/244`, mark priorities
 подтверждены `ready` и `BTH_CONTRACT_VALID`; клиентский импорт и трафик
 не подтверждены. Базовые счетчики и PID ниже относятся к старому снимку.
 
-## Две runtime-границы
+## Runtime-границы
+
+### Дополнительный IP для SSTP: 20 октября 2026
+
+Пользователь выделил 91.222.238.208 в панели TimeWeb и разрешил использовать
+его для SSTP от Нахимова. После согласованного обслуживания адрес
+91.222.238.208/24 назначен overlay-файлом netplan с сохранением DHCP/default
+gateway. Отдельный SSTP endpoint 91.222.238.208:443/TCP работает параллельно
+Xray на 94.241.171.65:443. Release1.1.1, namespace sstp-timeweb,
+PPP10.60.65.1/10.60.65.2, MTU1400. Autostart и реальный reboot приняты,
+soak904.9s/26 samples и двусторонняя передача прошли. LAN/default/user routes
+и автоматическое переключение не добавлялись.
+
+Установлены 25 обновлений текущей Ubuntu, Docker29.9.1/containerd2.4.2,
+swap2GiB; загружен kernel6.8.0-147-generic. Два согласованных reboot временно
+прерывали WG/Xray, но их configs/keys, container ID/image и выбранные режимы
+сохранены. CPU control plane остаётся высоким; тысячи FIFO-wait threads
+и memory pressure в новом окне не повторялись.
+[Адреса, источники и результат live-проверки](TimeWeb_Parameters.md),
+[итоговый протокол](../../history/2026-10-20-timeweb-maintenance-sstp-newip.md).
 
 ### Docker WireGuard
 
-`wg-relay` running, restart `unless-stopped`, старт 2026-07-10.
+20 октября container ID и image сохранены; после второго согласованного
+reboot контейнер автоматически запущен 2026-10-20T17:20:54Z.
+Следующие PID, счётчики и дата первоначального запуска относятся
+к историческому снимку, не к текущему процессу.
+
+`wg-relay` running, restart `unless-stopped`, исторический старт 2026-07-10.
 Сеть `wg_wg-network`, контейнер `172.19.0.2`, bridge `172.19.0.1`.
 PID `1181` и namespace `net:[4026532282]` относятся только к снимку;
 после recreate их нельзя использовать без нового разрешения namespace.
@@ -183,9 +207,11 @@ native nft guards и правила в Docker namespace.
 
 Серверный listener, route и handshake не заменяют DNS, IPv6, Amnezia/TUN,
 fail-closed, restart и stability-приемку реальных клиентов.
-Свежий export MikroTik через proxy завершился timeout 45 s:
-текущая конфигурация роутера не подтверждена этим аудитом.
-Пакетный статус, reboot-required и эффективные SSH-настройки не обновлялись.
+Timeout export MikroTik 45 s и непроверенный пакетный статус относятся
+к исходному аудиту. 20 октября выполнены обслуживание ОС, два reboot,
+свежие exports/backup Нахимова и проверка отсутствия reboot-required;
+полный аудит эффективных SSH-настроек не повторялся.
+[Текущие результаты и свежие копии](../../history/2026-10-20-timeweb-publication-checkpoint.md).
 
 ## Мастер-копии и история
 

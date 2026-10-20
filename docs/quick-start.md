@@ -1,5 +1,12 @@
 # MikroTik / VPN Quick Guide
 
+20 октября: TimeWeb обновлён с двумя согласованными перезагрузками;
+прежние VPN восстановились. Добавлен отдельный SSTP Нахимова - TimeWeb
+на **91.222.238.208:443/TCP**, без маршрутизации устройств и автоматического
+переключения. Это не Direct SSTP между площадками.
+[Обслуживание и приёмка](history/2026-10-20-timeweb-maintenance-sstp-newip.md),
+[свежие копии и публикация](history/2026-10-20-timeweb-publication-checkpoint.md).
+
 19 октября: [Direct SSTP](http://127.0.0.1:19118/#site-to-site) установлен
 постоянно, управление добавлено локально в ту же VPN-панель. Вкладка
 Device routing объединяет Direct и Split (controller3.0.0). Nakhimova первая:

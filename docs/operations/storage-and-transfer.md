@@ -74,6 +74,14 @@ materialize поверх более новых профилей: сперва с
 
 ## Свежие резервные копии
 
+20 октября после обслуживания TimeWeb и приёмки нового SSTP сохранены
+новые конфигурационные копии TimeWeb/Нахимова и локального приватного
+набора. [Публикационный checkpoint с точными путями и проверками](../history/2026-10-20-timeweb-publication-checkpoint.md).
+Архив TimeWeb включает manifest/hashes нового SSTP, binary/libs,
+сертификат/ключ сервера, PPP secret, units, netplan overlay и fstab.
+Офлайн-ключ CA и RouterOS backup password остаются в canonical private
+store. Не считать этот архив образом ОС или подтверждением live restore.
+
 19 октября: обе действующие площадки Нахимова и Фетхие сохранены вместе с
 local unified controller3.0.0, PKI и доступами. Точный каталог/состав и
 проверки: [release checkpoint](../history/2026-10-19-routing-release-checkpoint.md).

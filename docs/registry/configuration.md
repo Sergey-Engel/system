@@ -1,7 +1,7 @@
 ---
 type: registry
 status: current
-updated: 2026-10-19
+updated: 2026-10-20
 ---
 
 # Реестр конфигурации
@@ -17,6 +17,7 @@ Stage-каталоги и архивы прежних выпусков не яв
 
 | Компонент | Локальный источник / снимок | Live размещение |
 | --- | --- | --- |
+| SSTP Нахимова - TimeWeb | [Source/runbook](../../services/transport/sstp-timeweb/README.md), [inventory](../../config/inventory/sstp-timeweb.json) | Release1.1.1, 91.222.238.208:443 -> isolated namespace/PPP. Autostart/reboot и soak904.9s/26 samples приняты. Production routing/failover выключены. Старые VPN configs/keys сохранены при согласованном OS maintenance. CPU control plane остаётся высоким. [Протокол](../history/2026-10-20-timeweb-maintenance-sstp-newip.md) |
 | Direct SSTP / Device routing | `device_routing.py`, `routing_panel.py`, `direct_*.py`, `sstp_direct.py` в `services/transport/site-to-site/`, `.local/config/sstp-direct/`, отдельный [inventory](../../config/inventory/direct-sstp.json) | Нахимова `.64.2` client -> Фетхие TCP443/5443 `.64.1`; один канал, controller3.0.0. Unified Nakhimova static DHCP: Standard/Cenuta/Fornex/Direct; Fethiye Wi-Fi: Standard/Direct. Facade19118, общий lock, routing intent и независимые Direct state/audit. Два user LaunchAgents. TimeWeb без изменений. [Runbook](../operations/Direct_SSTP.md) |
 | LAN device names | [Full-MAC bindings](../../config/inventory/lan-devices.json), `direct_names.py`, rebuildable IEEE snapshot `.local/cache/mac-vendors.json` | Unified UI: только exact inventory, иначе Unknown device. DHCP/IEEE fallback остаётся только в legacy read API. Не VPN inventory, не authority для выбора маршрута |
 | TimeWeb Xray | `.local/config/hosts/timeweb/current/host/opt/timeweb-reality/` | `/opt/timeweb-reality/`, `xray-timeweb-reality.service` |

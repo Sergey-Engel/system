@@ -103,6 +103,43 @@ def test_s2s_console_backup_requires_code_state_and_both_private_identities():
     assert backup.s2s_console_required("fornex", files) == []
 
 
+def test_sstp_backup_requires_entire_owned_manifest_without_external_paths():
+    import pytest
+    assert backup.sstp_required("timeweb", {}) == []
+    files = {name: b"fixture" for name in backup.SSTP_REQUIRED}
+    bound = {"/"+name: backup.digest(value) for name,value in files.items()
+             if name != "etc/sstp-timeweb/manifest.json"}
+    files["etc/sstp-timeweb/manifest.json"] = json.dumps({"files":bound}).encode()
+    assert set(backup.sstp_required("timeweb", files)) == set(backup.SSTP_REQUIRED)
+    for missing in backup.SSTP_REQUIRED:
+        with pytest.raises(ValueError,match="SSTP"):
+            backup.sstp_required("timeweb", {n:v for n,v in files.items() if n != missing})
+    broken = dict(files, **{"etc/sstp-timeweb/server.key":b"drift"})
+    with pytest.raises(ValueError,match="SSTP"):
+        backup.sstp_required("timeweb", broken)
+    bound["/etc/shadow"] = "a"*64
+    files["etc/sstp-timeweb/manifest.json"] = json.dumps({"files":bound}).encode()
+    with pytest.raises(ValueError,match="SSTP"):
+        backup.sstp_required("timeweb", files)
+    assert backup.sstp_required("fornex", files) == []
+
+
+def test_new_ip_sstp_backup_requires_netplan_and_fstab():
+    import pytest
+    files={name:b"fixture" for name in backup.SSTP_REQUIRED}
+    manifest=dict(endpoint='91.222.238.208',files={
+        '/'+name:backup.digest(value) for name,value in files.items()
+        if name!='etc/sstp-timeweb/manifest.json'})
+    files['etc/sstp-timeweb/manifest.json']=json.dumps(manifest).encode()
+    with pytest.raises(ValueError,match='SSTP persistent network'):
+        backup.sstp_required('timeweb',files)
+    files['etc/netplan/90-sstp-timeweb-additional-ip.yaml']=b'network: {}'
+    with pytest.raises(ValueError,match='SSTP persistent network'):
+        backup.sstp_required('timeweb',files)
+    files['etc/fstab']=b'/swapfile-timeweb-maintenance none swap sw 0 0'
+    assert {'etc/fstab','etc/netplan/90-sstp-timeweb-additional-ip.yaml'}<=set(backup.sstp_required('timeweb',files))
+
+
 def write_bundle(folder, bundle):
     bundle = copy.deepcopy(bundle)
     bundle["SHA256SUMS"] = sums(bundle)

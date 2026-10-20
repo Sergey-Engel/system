@@ -38,6 +38,44 @@ S2S_CONSOLE_REQUIRED = [
     "var/lib/vpn-s2s/state.json", "usr/local/sbin/timeweb-s2s",
     "etc/systemd/system/vpn-uplink-console.service", "etc/tmpfiles.d/timeweb-console-locks.conf",
 ]
+SSTP_REQUIRED = ['etc/sstp-timeweb/'+name for name in (
+    'manifest.json', 'server.pem', 'server.key', 'chap-secrets', 'accel.conf', 'namespace.nft'
+)] + ['opt/sstp-timeweb/'+name for name in ('namespace.py', 'probe.py', 'status.py')] + [
+    'etc/systemd/system/sstp-timeweb-'+name for name in (
+        'netns.service', 'server.service', 'probe.service', 'proxy.socket', 'proxy.service')]
+
+
+def sstp_required(host, files):
+    if host != 'timeweb' or not any(n.startswith(('etc/sstp-timeweb/', 'opt/sstp-timeweb/')) for n in files):
+        return []
+    if any(not files.get(name) for name in SSTP_REQUIRED):
+        raise ValueError('Incomplete SSTP backup coverage')
+    try:
+        manifest = json.loads(files['etc/sstp-timeweb/manifest.json'])
+        bound = manifest['files']
+        if not isinstance(bound, dict) or not bound:
+            raise ValueError('Empty SSTP manifest')
+        required = set(SSTP_REQUIRED)
+        for name, expected in bound.items():
+            path = PurePosixPath(name)
+            if (not path.is_absolute() or '..' in path.parts
+                    or str(path) != name
+                    or not (name.startswith(('/etc/sstp-timeweb/', '/opt/sstp-timeweb/'))
+                            or name.lstrip('/') in SSTP_REQUIRED)):
+                raise ValueError('Unsafe SSTP manifest path')
+            relative = name.lstrip('/')
+            if relative not in files or digest(files[relative]) != expected:
+                raise ValueError('SSTP archived manifest hash mismatch')
+            required.add(relative)
+        if any('/'+n not in bound for n in SSTP_REQUIRED if not n.endswith('/manifest.json')):
+            raise ValueError('SSTP manifest omits a required component')
+        if manifest.get('endpoint') == '91.222.238.208':
+            required.update(('etc/netplan/90-sstp-timeweb-additional-ip.yaml', 'etc/fstab'))
+        if any(not files.get(name) for name in required):
+            raise ValueError('Incomplete SSTP persistent network coverage')
+        return sorted(required)
+    except (KeyError, TypeError, json.JSONDecodeError) as exc:
+        raise ValueError('Invalid SSTP backup manifest') from exc
 
 
 def pilot_required(host, files):
@@ -340,7 +378,7 @@ def verify(host, run, dest):
         if members[prefix + "host-metadata-before.nul"] != members[prefix + "host-metadata-" + when + ".nul"]:
             raise ValueError("Host source metadata changed during backup")
     verify_metadata(members[prefix + "host-files.tar"], members[prefix + "host-metadata-before.nul"])
-    required = list(REQUIRED[host]) + pilot_required(host, files) + s2s_console_required(host, files)
+    required = list(REQUIRED[host]) + pilot_required(host, files) + s2s_console_required(host, files) + sstp_required(host, files)
     if host == "timeweb":
         contract_path = "opt/timeweb-reality/bth-recovery/contract.json"
         contract = json.loads(files.get(contract_path, b"{}"))

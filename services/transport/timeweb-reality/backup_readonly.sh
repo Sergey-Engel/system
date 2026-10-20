@@ -109,7 +109,7 @@ hash_inventory() {
 
 host_roots() {
     local p
-    for p in etc/wireguard etc/nftables.conf etc/iptables etc/ufw etc/default/ufw etc/iproute2 etc/sysctl.conf etc/sysctl.d etc/netplan etc/network etc/docker etc/systemd/system etc/ssh etc/passwd etc/group etc/subuid etc/subgid etc/sudoers etc/sudoers.d etc/cron.d etc/cron.daily etc/crontab var/spool/cron/crontabs root/.ssh/authorized_keys home/ubuntu/.ssh/authorized_keys; do
+    for p in etc/wireguard etc/nftables.conf etc/iptables etc/ufw etc/default/ufw etc/iproute2 etc/sysctl.conf etc/sysctl.d etc/netplan etc/network etc/fstab etc/docker etc/systemd/system etc/ssh etc/passwd etc/group etc/subuid etc/subgid etc/sudoers etc/sudoers.d etc/cron.d etc/cron.daily etc/crontab var/spool/cron/crontabs root/.ssh/authorized_keys home/ubuntu/.ssh/authorized_keys; do
         if [[ -e /$p || -L /$p ]]; then printf '%s\n' "$p"; fi
     done
     if [[ $host != cenuta ]]; then printf '%s\n' opt/wg; fi
@@ -119,6 +119,9 @@ host_roots() {
             usr/local/sbin/timeweb-fornex-wg-transport usr/local/sbin/wstunnel-timeweb-cenuta-wg-fallback \
             usr/local/sbin/timeweb-cenuta-wg-transport
         if [[ -d /opt/timeweb-reality ]]; then printf '%s\n' opt/timeweb-reality; fi
+        if [[ -d /etc/sstp-timeweb || -d /opt/sstp-timeweb ]]; then
+            printf '%s\n' etc/sstp-timeweb opt/sstp-timeweb
+        fi
         if [[ -d /opt/vpn-s2s ]]; then
             printf '%s\n' opt/vpn-s2s etc/vpn-s2s var/lib/vpn-s2s usr/local/sbin/timeweb-s2s
         fi
