@@ -140,6 +140,16 @@ def test_new_ip_sstp_backup_requires_netplan_and_fstab():
     assert {'etc/fstab','etc/netplan/90-sstp-timeweb-additional-ip.yaml'}<=set(backup.sstp_required('timeweb',files))
 
 
+def test_split_sstp_backup_requires_connector_hooks_and_exact_recovery_dependency():
+    import pytest
+    files={name:b'fixture' for name in backup.SSTP_REQUIRED+backup.SSTP_SPLIT_REQUIRED}
+    bound={'/'+name:backup.digest(value) for name,value in files.items() if name!='etc/sstp-timeweb/manifest.json'}
+    files['etc/sstp-timeweb/manifest.json']=json.dumps(dict(files=bound,split_enabled=True)).encode()
+    assert set(backup.sstp_required('timeweb',files))==set(backup.SSTP_REQUIRED+backup.SSTP_SPLIT_REQUIRED)
+    for name in backup.SSTP_SPLIT_REQUIRED:
+        with pytest.raises(ValueError):backup.sstp_required('timeweb',{k:v for k,v in files.items() if k!=name})
+
+
 def write_bundle(folder, bundle):
     bundle = copy.deepcopy(bundle)
     bundle["SHA256SUMS"] = sums(bundle)

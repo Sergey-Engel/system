@@ -1,11 +1,21 @@
 ---
 type: network-passport
 status: partial-audit
-updated: 2026-10-19
+updated: 2026-10-21
 tags: [network, fethiye, deco, mikrotik]
 ---
 
 # Паспорт сети: Фетхие
+
+## RU Direct: 21 Октября
+
+Device routing4.1.0 предлагает Standard / Direct SSTP-RU via Nakhimova
+для текущих Wi-Fi клиентов MikroTik. Российские IPv4 идут непосредственно
+в WAN/Deco Фетхие; прочий Direct-трафик идёт в Нахимова. Установлен
+RU_Networks с эквивалентным Нахимова покрытием8588 CIDR. Выбор устройств,
+PKI/SSTP server, Deco forward и прежние WireGuard каналы сохранены.
+Current master и свежий encrypted configuration backup проверены.
+[IP-фильтрация и ограничения](../../operations/Panel_RU_Direct.md).
 
 ## Постоянный SSTP: 19 Октября
 

@@ -43,6 +43,12 @@ SSTP_REQUIRED = ['etc/sstp-timeweb/'+name for name in (
 )] + ['opt/sstp-timeweb/'+name for name in ('namespace.py', 'probe.py', 'status.py')] + [
     'etc/systemd/system/sstp-timeweb-'+name for name in (
         'netns.service', 'server.service', 'probe.service', 'proxy.socket', 'proxy.service')]
+SSTP_SPLIT_REQUIRED = ['etc/sstp-timeweb/'+name for name in (
+    'split-config.json','split-relay.nft','namespace-base.nft')]+[
+    'opt/sstp-timeweb/'+name for name in ('split_policy.py','split_bridge.py','split-ip-up')]+[
+    'etc/systemd/system/sstp-timeweb-'+name for name in (
+        'split.service','split-health.service','split-health.timer')]+[
+    'etc/systemd/system/timeweb-runtime-recovery.service.d/sstp-split.conf']
 
 
 def sstp_required(host, files):
@@ -55,19 +61,20 @@ def sstp_required(host, files):
         bound = manifest['files']
         if not isinstance(bound, dict) or not bound:
             raise ValueError('Empty SSTP manifest')
-        required = set(SSTP_REQUIRED)
+        components=SSTP_REQUIRED+(SSTP_SPLIT_REQUIRED if manifest.get('split_enabled') is True else [])
+        required = set(components)
         for name, expected in bound.items():
             path = PurePosixPath(name)
             if (not path.is_absolute() or '..' in path.parts
                     or str(path) != name
                     or not (name.startswith(('/etc/sstp-timeweb/', '/opt/sstp-timeweb/'))
-                            or name.lstrip('/') in SSTP_REQUIRED)):
+                            or name.lstrip('/') in components)):
                 raise ValueError('Unsafe SSTP manifest path')
             relative = name.lstrip('/')
             if relative not in files or digest(files[relative]) != expected:
                 raise ValueError('SSTP archived manifest hash mismatch')
             required.add(relative)
-        if any('/'+n not in bound for n in SSTP_REQUIRED if not n.endswith('/manifest.json')):
+        if any('/'+n not in bound for n in components if not n.endswith('/manifest.json')):
             raise ValueError('SSTP manifest omits a required component')
         if manifest.get('endpoint') == '91.222.238.208':
             required.update(('etc/netplan/90-sstp-timeweb-additional-ip.yaml', 'etc/fstab'))

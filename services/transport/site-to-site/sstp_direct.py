@@ -59,7 +59,7 @@ def stage_commands(site, endpoint, password):
 enable_server = tls.enable_server
 
 
-def client_policy(mac, ip, direction='forward'):
+def client_policy(mac, ip, direction='forward', ru_bypass=False):
     import managed
     if direction not in ('forward', 'reverse'):
         raise ValueError('invalid_direct_direction')
@@ -85,6 +85,19 @@ def client_policy(mac, ip, direction='forward'):
     for subnet in (68, 88, 89):
         values.append(('/routing rule', 'bypass-' + str(subnet), f'action=lookup-only-in-table table=main src-address={ip}/32 dst-address=192.168.{subnet}.0/24'))
     values.append(('/routing rule', 'route', f'action=lookup-only-in-table table={table} src-address={ip}/32'))
+    if ru_bypass:
+        # Non-RU uses mangle priority; the old catch-all source rule must not
+        # pull RU packets back into SSTP after a main-table exception.
+        values=[(path,suffix,properties+(' dst-address=1.1.1.1/32' if suffix=='route' else
+                ' dst-address-list=!RU_Networks' if suffix.startswith('dns-') else ''))
+                for path,suffix,properties in values if suffix!='main-policy']
+        bound=f'in-interface=bridge src-address={ip}/32 src-mac-address={mac}'
+        values += [
+            ('/ip firewall filter','ru-out',f'chain=forward action=accept {bound} out-interface=ether1 dst-address-list=RU_Networks connection-state=new,established,related'),
+            ('/ip firewall filter','ru-in',f'chain=forward action=accept in-interface=ether1 out-interface=bridge dst-address={ip}/32 src-address-list=RU_Networks connection-state=established,related'),
+            ('/ip firewall mangle','main-policy',f'chain=prerouting action=mark-routing {bound} dst-address-list=!RU_Networks dst-address-type=!local new-routing-mark={table} passthrough=no'),
+            ('/ip firewall mangle','private-policy',f'chain=prerouting action=accept {bound} dst-address-list={REVERSE_OWNER}-private'),
+            ('/ip firewall mangle','ru-policy',f'chain=prerouting action=accept {bound} dst-address-list=RU_Networks')]
     return [dict(path=path, comment=prefix + ':' + suffix, properties=properties,
                  head=path != '/routing rule') for path, suffix, properties in values]
 

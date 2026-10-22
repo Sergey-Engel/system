@@ -1,0 +1,15 @@
+#!/usr/bin/python3 -B
+"""Restore only fixed authenticated PPP alias routes after a reconnect."""
+import json
+import subprocess
+import sys
+
+if len(sys.argv)<6 or (sys.argv[1],sys.argv[4],sys.argv[5])!=('sstptw0','10.60.65.1','10.60.65.2'):
+    raise SystemExit('Unexpected PPP identity')
+for address in ('10.60.65.10/32','10.60.65.11/32'):
+    rows=json.loads(subprocess.check_output(['ip','-j','route','show','exact',address],text=True,timeout=5))
+    if rows:
+        if len(rows)!=1 or rows[0].get('dev')!='sstptw0' or str(rows[0].get('protocol'))!='243':
+            raise SystemExit('PPP alias route collision')
+    else:
+        subprocess.run(['ip','route','add',address,'dev','sstptw0','proto','243'],check=True,timeout=5)

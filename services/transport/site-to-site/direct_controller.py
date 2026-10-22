@@ -11,7 +11,7 @@ import managed
 import sstp_direct as policy
 from controller import write
 
-CONTROLLER_RELEASE = '3.0.0'
+CONTROLLER_RELEASE = '3.1.0'
 
 
 def configuration_hash(export, clients=(), owner=policy.OWNER):
@@ -86,7 +86,8 @@ class DirectController:
             selected=bool(self.state['clients'].get(key, {}).get('selected'))))
 
     def specs(self, key, ip):
-        return policy.client_policy(key, ip, direction=self.direction)
+        return policy.client_policy(key, ip, direction=self.direction,
+                                    ru_bypass=self.config.get('ru_bypass_enabled') is True)
 
     def inspect(self, c):
         export = access.run(c, '/export terse').decode()
@@ -127,6 +128,19 @@ class DirectController:
                 if any(v is not (not client['selected']) for v in values):
                     raise ValueError('direct_selection_drift')
         lines = managed.export_lines(export)
+        if self.config.get('ru_bypass_enabled') is True:
+            positions={}
+            for i,line in enumerate(lines):
+                if self.owner+':device-' in line:
+                    path,fields=managed.tokens(line)
+                    positions[fields.get('comment')]=i
+            for client in clients:
+                prefix=self.owner+':device-'+client['mac'].replace(':','').lower()
+                for earlier,later in [('ru-policy','private-policy'),('private-policy','main-policy'),
+                                      ('ru-out','leak'),('ru-in','leak')]:
+                    first,last=prefix+':'+earlier,prefix+':'+later
+                    if first in positions and last in positions and positions[first]>positions[last]:
+                        raise ValueError('direct_ru_rule_order_changed')
         for spec in owned.values():
             if spec['comment'] not in found or not spec['head']:
                 continue

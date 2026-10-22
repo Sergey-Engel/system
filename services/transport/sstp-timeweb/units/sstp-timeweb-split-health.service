@@ -1,0 +1,14 @@
+[Unit]
+Description=Read-only SSTP egress measurement, never changes device routes
+Requires=sstp-timeweb-split.service
+After=sstp-timeweb-split.service sstp-timeweb-server.service
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/python3 -B /opt/sstp-timeweb/split_bridge.py probe
+TimeoutStartSec=60
+UMask=0077
+NoNewPrivileges=yes
+ProtectHome=yes
+CPUQuota=15%
+MemoryMax=96M
+TasksMax=20

@@ -129,13 +129,20 @@ reverse uses `/s2s-reverse-state` and `/s2s-reverse-action`. The UI never polls
 or switches real clients automatically. See the
 [reverse acceptance boundary](../../../docs/history/2026-10-19-sstp-reverse-egress.md).
 
-## Unified Device Routing (3.0.0)
+## Unified Device Routing (4.1.1)
+
+Local facade4.1.1 coalesces overlapping same-site GETs only when their check
+completed after request arrival. A later Refresh always starts a fresh check;
+POSTs are independently validated and invalidate read results. Router policy
+and Direct controller versions are unchanged. Failed reads retain existing
+rows but disable writes; an initial failed read no longer says Checking.
 
 `device_routing.py` is the single assignment authority; `routing_panel.py`
 replaces both Direct lists when `routing_enabled=true`. Nakhimova first/default:
-enabled permanent DHCP reservations, including offline; Standard, Split Cenuta,
-Split Fornex or Direct via Fethiye. Fethiye: authorized MikroTik Wi-Fi registrations
-only, Standard or Direct via Nakhimova. Names come only from exact-MAC inventory.
+enabled permanent DHCP reservations, including offline; Standard, WG-Cenuta-RU,
+WG-Fornex-RU, SSTP-Cenuta-RU, SSTP-Fornex-RU or Direct SSTP-RU via Fethiye.
+Fethiye: authorized MikroTik Wi-Fi registrations
+only, Standard or Direct SSTP-RU via Nakhimova. Names come only from exact-MAC inventory.
 Mode selection requires an explicit Apply; no polling or automatic route changes.
 
 GET `/routing-state/{nakhimova,fethiye}`, POST `/routing-action` with CSRF,
@@ -143,9 +150,22 @@ site, device, mode and revision. Legacy Direct HTTP actions return 410; the old
 controller action also refuses writes. `routing-state.json` journals intent
 before the first write. Only reviewed exact host membership diffs can update
 the strict baseline. Unknown result retains pending and permits explicit Standard
-recovery for the same MAC/IP/lease; never replay writes or adopt neighboring drift.
+recovery or a proven manual rollback for the same MAC/IP/lease; never replay
+writes or adopt neighboring drift. Undo restores exact prior memberships,
+including disabled entries and comments. A stale binding invalidates Undo.
 Direct state and policy controls remain reused under the same shared lock.
-Existing Split exceptions/transports and all TimeWeb configuration are untouched.
-The deployed UI does not switch clients during verification; all 16 Nakhimova
-mode transitions and interrupted operations are tested against strict router fixtures.
-See [receipt](../../../docs/history/2026-10-19-unified-device-routing.md).
+Existing WG Split exceptions/transports remain intact; the separately reviewed
+TimeWeb split data plane supplies both SSTP modes. Writes to an SSTP mode require
+a new HTTPS egress proof; partial readiness does not suppress the healthy exit.
+All 36 Nakhimova mode transitions and interrupted operations have strict router
+fixture coverage. Live acceptance used one offline permanent device, with both
+SSTP assignments and Undo, restoring all original modes. Not browser acceptance.
+See [current runbook](../../../docs/operations/Nakhimova_TimeWeb_SSTP_Split.md)
+and [original UI receipt](../../../docs/history/2026-10-19-unified-device-routing.md).
+
+RU release4.1 uses the source router's country IPv4 list for all five VPN
+choices, including Direct on both sites. RU rules precede the old forced
+Russian destination. Direct3.1 marks only non-RU, narrows its old source rule
+to the DNS target and admits only scoped RU WAN returns before leak guards.
+Legacy configs retain old specs until the explicit ru_bypass_enabled migration.
+See [IP policy and limits](../../../docs/operations/Panel_RU_Direct.md).

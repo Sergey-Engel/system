@@ -12,7 +12,10 @@
 - [Реестр тоннелей](docs/registry/tunnels.md), [реестр конфигурации](docs/registry/configuration.md).
 - [Правила изменений для агента](AGENTS.md).
 - [Хранение, перенос и откат](docs/operations/storage-and-transfer.md).
-- [Текущий release3.0, полный checkpoint и резервные копии](docs/history/2026-10-19-routing-release-checkpoint.md).
+- [Ручной выбор WG/SSTP для Cenuta/Fornex, release4.0](docs/operations/Nakhimova_TimeWeb_SSTP_Split.md).
+- [RU bypass по IP во всех режимах панели, release4.1](docs/operations/Panel_RU_Direct.md).
+- [Установка, проверки и резервные копии 21 октября](docs/history/2026-10-21-sstp-split-manual-routing.md).
+- [Исторический release3.0 и checkpoint](docs/history/2026-10-19-routing-release-checkpoint.md).
 - [TimeWeb: обслуживание, новый SSTP и свежий checkpoint](docs/history/2026-10-20-timeweb-publication-checkpoint.md).
 - [Результаты миграции 10 октября](docs/migration/2026-10-10-execution-report.md).
 

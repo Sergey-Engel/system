@@ -1,7 +1,7 @@
 ---
 type: registry
 status: current
-updated: 2026-10-20
+updated: 2026-10-21
 ---
 
 # Реестр конфигурации
@@ -17,8 +17,9 @@ Stage-каталоги и архивы прежних выпусков не яв
 
 | Компонент | Локальный источник / снимок | Live размещение |
 | --- | --- | --- |
-| SSTP Нахимова - TimeWeb | [Source/runbook](../../services/transport/sstp-timeweb/README.md), [inventory](../../config/inventory/sstp-timeweb.json) | Release1.1.1, 91.222.238.208:443 -> isolated namespace/PPP. Autostart/reboot и soak904.9s/26 samples приняты. Production routing/failover выключены. Старые VPN configs/keys сохранены при согласованном OS maintenance. CPU control plane остаётся высоким. [Протокол](../history/2026-10-20-timeweb-maintenance-sstp-newip.md) |
-| Direct SSTP / Device routing | `device_routing.py`, `routing_panel.py`, `direct_*.py`, `sstp_direct.py` в `services/transport/site-to-site/`, `.local/config/sstp-direct/`, отдельный [inventory](../../config/inventory/direct-sstp.json) | Нахимова `.64.2` client -> Фетхие TCP443/5443 `.64.1`; один канал, controller3.0.0. Unified Nakhimova static DHCP: Standard/Cenuta/Fornex/Direct; Fethiye Wi-Fi: Standard/Direct. Facade19118, общий lock, routing intent и независимые Direct state/audit. Два user LaunchAgents. TimeWeb без изменений. [Runbook](../operations/Direct_SSTP.md) |
+| RU-direct всех режимов панели | `sstp_direct.py`, `ru_policy.py`, controller4.1/Direct3.1; [inventory](../../config/inventory/direct-sstp.json) | RU_Networks на обоих роутерах,8588 normalized CIDR. RU до forced195.133.216.210; Direct non-RU mangle + scoped RU WAN accepts, без catch-all source override. Endpoint/peers TimeWeb не меняются. [Runbook](../operations/Panel_RU_Direct.md) |
+| SSTP Нахимова - TimeWeb | [Source](../../services/transport/sstp-timeweb/README.md), [inventory](../../config/inventory/sstp-timeweb.json) | Транспорт1.1.1, endpoint91.222.238.208:443; split data plane2.0.0. Ручные SSTP-Cenuta/Fornex, connector только между namespaces, guarded sources .245, без изменения WG keys/peers/Xray. BTH contract расширен точным source selector218, мониторинг/recovery согласованы. Reconnect/connector restart приняты; полный reboot split не выполнялся. [Runbook](../operations/Nakhimova_TimeWeb_SSTP_Split.md) |
+| Direct SSTP / Device routing | `device_routing.py`, `routing_panel.py`, `direct_*.py`, `sstp_direct.py` в `services/transport/site-to-site/`, `.local/config/sstp-direct/`, отдельный [inventory](../../config/inventory/direct-sstp.json) | Controller4.0.0; Nakhimova static DHCP: Standard/WG-Cenuta-RU/WG-Fornex-RU/SSTP-Cenuta/SSTP-Fornex/Direct. Fethiye Wi-Fi: Standard/Direct. Direct `.64.2` -> Фетхие TCP443/5443 `.64.1` без изменений. Facade19118, общий lock, durable intent и Undo того же MAC/IP/lease. BTH/management по WG. [Runbook](../operations/Direct_SSTP.md) |
 | LAN device names | [Full-MAC bindings](../../config/inventory/lan-devices.json), `direct_names.py`, rebuildable IEEE snapshot `.local/cache/mac-vendors.json` | Unified UI: только exact inventory, иначе Unknown device. DHCP/IEEE fallback остаётся только в legacy read API. Не VPN inventory, не authority для выбора маршрута |
 | TimeWeb Xray | `.local/config/hosts/timeweb/current/host/opt/timeweb-reality/` | `/opt/timeweb-reality/`, `xray-timeweb-reality.service` |
 | TimeWeb WG selector | `.local/config/hosts/timeweb/current/host/opt/wg/`, `opt/wg-router/` | `wg-relay`, `/opt/wg/config`, `/opt/wg-router` |

@@ -108,6 +108,7 @@ def inject(page, token, unified=False):
     script=script.replace('DIRECT_TOKEN',json.dumps(token))
     if unified:
         script=script.replace('APPLY_ICON',json.dumps(routing_panel.ICONS['apply']))
+        script=script.replace('UNDO_ICON',json.dumps(routing_panel.ICONS['undo']))
     return page.replace('<main>', nav + '<main>', 1).replace('</main>', '</main>' + section, 1) + style + script
 
 
@@ -166,9 +167,17 @@ def server(port=19118, backend='http://127.0.0.1:19119', execute=direct_controll
             if not self.allowed() or (self.path not in ('/', '/state', '/s2s-state', '/s2s-reverse-state') and not is_routing):
                 return self.reply(404, '{}')
             if is_routing:
+                requested_at = time.monotonic()
                 with mutex:
-                    value=routing_execute(site=routing_site)
-                    self.reply(200,json.dumps(value))
+                    key = ('routing', routing_site)
+                    item = cache.get(key)
+                    # Reuse only a check completed after this request arrived.
+                    if item is None or item['time'] < requested_at:
+                        value = routing_execute(site=routing_site)
+                        item = dict(value=value, time=time.monotonic())
+                        cache[key] = item
+                    value = item['value']
+                self.reply(200,json.dumps(value))
                 return
             if self.path not in ('/s2s-state', '/s2s-reverse-state'):
                 return self.proxy()
@@ -201,7 +210,7 @@ def server(port=19118, backend='http://127.0.0.1:19119', execute=direct_controll
                     if not secrets.compare_digest(fields['csrf'][0],self.cookie() or ''):
                         raise ValueError('invalid_csrf')
                     site=fields['site'][0]
-                    if site not in device_routing.MODES or fields['mode'][0] not in device_routing.MODES[site]:
+                    if site not in device_routing.MODES or fields['mode'][0] not in (*device_routing.MODES[site],'rollback'):
                         raise ValueError('invalid_route_mode')
                     with mutex:
                         value=routing_execute(site=site,device=fields['device'][0],mode=fields['mode'][0],revision=fields['revision'][0])

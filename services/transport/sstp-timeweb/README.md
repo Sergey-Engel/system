@@ -1,7 +1,34 @@
-# Nakhimova - TimeWeb: isolated SSTP transport
+# Nakhimova - TimeWeb: SSTP Transport And Manual Split
 
 Release: **1.1.1** (installed and transport-qualified). Owner: sstp-tw-v1. Installation status and acceptance are
 recorded separately in the dated operations report, not inferred from this source.
+
+## Manual Split Extension (21 October 2026)
+
+Split data plane **2.0.0**, device routing **4.0.0**. Per-device SSTP-Cenuta
+and SSTP-Fornex share the existing authenticated PPP. BTH and management stay
+on WG. The old WG choices are named WG-Cenuta-RU/WG-Fornex-RU, retaining IDs.
+No default device reassignment and no automatic transport switching.
+
+Device routing4.1.0 names these choices SSTP-Cenuta-RU/SSTP-Fornex-RU and
+places source-router RU exceptions before forced destinations. Direct on
+both sites has the same local-ISP RU behavior. Server transport/connector
+bytes are unchanged by this router-only extension; see
+[RU policy](../../../docs/operations/Panel_RU_Direct.md).
+
+`split_policy.py`, `split_bridge.py`, `split-ip-up` and `units/` add reviewed
+RouterOS rules, a source-bound namespace connector, guards and reconnect routes.
+Only sstp-timeweb namespace forwarding is enabled. No host-root veth/NAT/default
+route is added. The existing wg-relay receives a new veth, return routes and
+source selector218; full BTH/monitoring/recovery contracts accept only this
+specific additive diff. WG/Xray identities and configurations are preserved.
+The new health timer measures HTTPS egress, never chooses a transport.
+
+Actual exit IPs, negative guards, connector restart, PPP reconnect and explicit
+per-device Undo were verified. No client-browser or full-host-reboot acceptance
+is claimed for this extension. See [runbook](../../../docs/operations/Nakhimova_TimeWeb_SSTP_Split.md)
+and [receipt](../../../docs/history/2026-10-21-sstp-split-manual-routing.md).
+The original isolated transport qualification below describes 20 October.
 
 ## Current Qualification
 
@@ -12,7 +39,8 @@ Xray remains bound to 94.241.171.65:443. Deployment followed the approved
 fresh backups/recovery checks and the user's provider-console login. OS updates
 and two approved reboots preserved the old VPN configuration, keys, container
 ID and image. Both public addresses and the new transport recovered automatically.
-Production routing and automatic failover remain disabled.
+At that stage production routing and automatic failover were disabled.
+The 21 October extension above enables only explicitly assigned split traffic.
 Qualification: strict 904.9-second bidirectional DF1400 window, 26 successful
 samples, unchanged server/proxy processes and PPP ifindex; 512 KiB SFTP in each
 direction, bad password/untrusted CA rejection and three reconnects passed.
@@ -57,9 +85,11 @@ the separately approved OS maintenance did restart existing services.
 - accel-ppp listens on namespace loopback only. Its PPP interface sstptw0
   and probe service also live inside that namespace.
 - No root-namespace veth, route, NAT or firewall update is needed. Namespace
-  forwarding is disabled and its forward chain drops all traffic.
+  forwarding was disabled in the original transport-only stage. The split
+  extension admits only its reviewed sources to the guarded connector.
 - Router guards allow only peer ICMP/SSH test traffic and deny LAN transit on
-  this new interface. Preserve existing Direct device rules at the head of
+  this new interface in the original stage; split adds source-scoped exceptions.
+  Preserve existing Direct device rules at the head of
   each chain; ignore dynamic FastTrack placeholders when choosing anchors.
 - Server-certificate verification plus PPP authentication is **not mutual TLS**:
   this accel-ppp implementation does not require a client certificate.

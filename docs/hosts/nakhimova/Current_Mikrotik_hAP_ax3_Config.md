@@ -1,13 +1,20 @@
 ---
 type: configuration
 status: snapshot-not-live
-updated: 2026-10-19
+updated: 2026-10-21
 tags: [mikrotik, routeros, bth]
 ---
 
 # MikroTik hAP ax3: Нахимова 11
 
 ## Источник и свежесть
+
+21 октября: SSTP до TimeWeb и два отдельных SSTP-Cenuta-RU/Fornex-RU
+установлены; панель4.1.0 также исключает российские IPv4 из Direct в
+провайдера Нахимова. RU accept предшествует native forced destination.
+Исходные назначения сохранены, включая Direct192.168.88.28.
+Transport/keys/BTH/management не переключались. [Текущая IP policy](../../operations/Panel_RU_Direct.md).
+Описание19 октября ниже - исторический этап.
 
 Итог19 октября: постоянный `sstp-direct-out` -> Фетхие TCP443,10.60.64.2,
 mutual TLS/AES256-GCM/PFS, MTU1400; отдельные Internet filters/NAT/MSS.

@@ -1,11 +1,28 @@
 ---
 type: registry
 status: current
-updated: 2026-10-20
+updated: 2026-10-21
 tags: [vpn, clients, wireguard, reality, awg]
 ---
 
 # Реестр VPN-туннелей и клиентских профилей
+
+Текущие названия в панели4.1.0: WG-Cenuta-RU, WG-Fornex-RU,
+SSTP-Cenuta-RU, SSTP-Fornex-RU и Direct SSTP-RU via Fethiye/Nakhimova.
+RU IPv4 идут через локального провайдера исходной площадки во всех режимах.
+Mode IDs и67 выданных profiles не менялись; не массовый перевыпуск профилей.
+[Source list и правила](../operations/Panel_RU_Direct.md).
+
+21 октября: к действующему SSTP Нахимова - TimeWeb добавлены независимые
+per-device режимы SSTP-Cenuta/SSTP-Fornex (data plane2.0.0, controller4.0.0).
+Прежние Split Cenuta/Fornex переименованы в WG-Cenuta-RU/WG-Fornex-RU;
+их mode IDs, lists, WG peers и профили не менялись. BTH/management остаются WG.
+Профилей по-прежнему67, наблюдаемых устройств22; новые aliases являются
+инфраструктурой, не клиентскими identities. Начальные назначения сохранены.
+Ручные Apply/Undo, явная проверка egress, без автоматического переключения.
+[Runbook](../operations/Nakhimova_TimeWeb_SSTP_Split.md),
+[протокол и копии](../history/2026-10-21-sstp-split-manual-routing.md).
+Следующие описания 19-20 октября - датированные этапы, не текущий выбор.
 
 20 октября, после согласованного обслуживания: независимый SSTP Нахимова -
 TimeWeb установлен на **91.222.238.208:443/TCP**, release1.1.1.

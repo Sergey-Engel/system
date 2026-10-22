@@ -4,7 +4,7 @@ topic: mikrotik
 system: timeweb
 status: active
 created: 2026-06-28
-updated: 2026-10-20
+updated: 2026-10-21
 tags:
   - mikrotik
   - vpn
@@ -41,6 +41,25 @@ RPDB table `414`, mark `0x41`, source priorities `243/244`, mark priorities
 не подтверждены. Базовые счетчики и PID ниже относятся к старому снимку.
 
 ## Runtime-границы
+
+### Ручные SSTP Выходы: 21 Октября 2026
+
+Действующий SSTP1.1.1 расширен split data plane2.0.0. RouterOS использует
+источники10.60.65.10/.11, серверные HTTPS probes .12/.13. Узкий connector
+sstpsplit0(10.60.66.1/30) - sstprelay0(.2) существует только между namespace
+sstp-timeweb и закреплённым wg-relay. Дальше sources10.50.50.245/10.10.10.245
+направляются в существующие Cenuta/Fornex. Они зарезервированы и не выдаются
+новым WG клиентам. В root namespace новых links/routes/NAT нет.
+
+WG config/keys/peers, tables100/200/300 и Xray сохранены. Полный BTH RPDB
+contract расширен ровно priority218/from10.50.50.245/iif sstprelay0/table200;
+monitoring/recovery привязки приняты на доказанный additive diff.
+sstp-timeweb-split.service и health timer не выбирают режимы устройств.
+ip-up hook восстанавливает две alias routes после reconnect. Explicit Apply
+и Undo в controller4.0.0; никакого автоматического переключения.
+Проверены переподключение PPP и restart connector, но не полный host reboot.
+[Эксплуатация](../../operations/Nakhimova_TimeWeb_SSTP_Split.md),
+[протокол](../../history/2026-10-21-sstp-split-manual-routing.md).
 
 ### Дополнительный IP для SSTP: 20 октября 2026
 

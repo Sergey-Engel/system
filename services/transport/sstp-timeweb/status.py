@@ -37,16 +37,20 @@ def inspect():
     address_ok=valid_peer(peer)
     routes=json.loads(run(['ip','-n','sstp-timeweb','-j','route']))
     isolated=not any(r.get('dst')=='default' for r in routes)
+    defaults=[r for r in routes if r.get('dst')=='default']
+    split=manifest.get('split_enabled') is True
+    route_policy_valid=isolated or (split and len(defaults)==1 and defaults[0].get('gateway')=='10.60.66.2'
+                                   and defaults[0].get('dev')=='sstpsplit0')
     expiry=run(['openssl','x509','-in','/etc/sstp-timeweb/server.pem','-noout','-enddate']).strip()
     expires=datetime.strptime(expiry.removeprefix('notAfter='),'%b %d %H:%M:%S %Y %Z').replace(tzinfo=timezone.utc)
     remaining=(expires-datetime.now(timezone.utc)).total_seconds()
-    ready=files_ok and all(s=='active' for s in states.values()) and address_ok and isolated and remaining>0
+    ready=files_ok and all(s=='active' for s in states.values()) and address_ok and route_policy_valid and remaining>0
     return dict(ready=ready,transport='SSTP',endpoint=manifest['endpoint'],port=manifest['port'],namespace='sstp-timeweb',
                 persistent_files_valid=files_ok,units=states,peer_address_valid=address_ok,
                 no_namespace_default_route=isolated,mtu=peer.get('mtu'),counters=peer.get('stats64',{}),
                 certificate_expires_at=expires.isoformat(),certificate_days_remaining=max(0,int(remaining//86400)),
                 certificate_warning=remaining<30*86400,
-                automatic_fallback=False,production_routing_enabled=False)
+                route_policy_valid=route_policy_valid,automatic_fallback=False,production_routing_enabled=split)
 
 
 if __name__=='__main__':

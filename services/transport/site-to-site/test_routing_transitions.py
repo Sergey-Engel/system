@@ -50,7 +50,7 @@ def network(tmp_path,monkeypatch):
     n=routers['nakhimova']
     n.members=[{'.id':'*10','address':'192.168.88.101','list':'CENUTA_Devices','comment':'Neighbor','disabled':False,'dynamic':False}]
     (tmp_path/'reverse').mkdir()
-    config=dict(version=1,routing_enabled=True,reverse_enabled=True,dhcp_server='defconf',reverse_dhcp_server='defconf',
+    config=dict(version=1,routing_enabled=True,reverse_enabled=True,sstp_split_enabled=True,dhcp_server='defconf',reverse_dhcp_server='defconf',
                 endpoint='194.61.140.217',certificate_expires=4_000_000_000,
                 baseline_exports={s:r.export() for s,r in routers.items()})
     config['baseline']={s:direct.configuration_hash(e) for s,e in config['baseline_exports'].items()}
@@ -75,7 +75,9 @@ def network(tmp_path,monkeypatch):
             return [dict(gateway=policy.CLIENT if c.site=='nakhimova' else policy.SERVER)]
         if expression.startswith('[/routing route'):
             return [dict(**{'routing-table':'CENUTA-Route','gateway':'wg-cenuta'}),
-                    dict(**{'routing-table':'WG1-Route','gateway':'wg1'})]
+                    dict(**{'routing-table':'WG1-Route','gateway':'wg1'}),
+                    dict(**{'routing-table':'SSTP-CENUTA','gateway':'sstp-timeweb'}),
+                    dict(**{'routing-table':'SSTP-FORNEX','gateway':'sstp-timeweb'})]
         raise AssertionError(expression)
     def value(c,path,selector,field):
         if path.startswith('/interface '):
@@ -104,7 +106,8 @@ def network(tmp_path,monkeypatch):
         else:
             iface=policy.CLIENT if c.site=='nakhimova' else policy.SERVER
             direction='reverse' if c.site=='nakhimova' else 'forward'
-            specs=policy.client_policy(KEY,c.leases[0]['address'],direction=direction)
+            specs=policy.client_policy(KEY,c.leases[0]['address'],direction=direction,
+                                      ru_bypass=config.get('ru_bypass_enabled') is True)
             spec=next(s for s in specs if s['comment'] in command)
             disabled='disabled=yes' in command or ' disable ' in command
             c.specs[spec['comment']]=(spec,disabled)
@@ -116,6 +119,7 @@ def network(tmp_path,monkeypatch):
     monkeypatch.setattr(routing.access,'get',get)
     monkeypatch.setattr(routing.access,'value',value)
     monkeypatch.setattr(routing.access,'mutate',mutate)
+    monkeypatch.setattr(routing,'split_channels',lambda **kw:{m:dict(ready=True) for m in ('sstp_cenuta','sstp_fornex')})
     def controller():
         return routing.RoutingController(tmp_path,connector=lambda site:routers[site])
     def apply(mode,site='nakhimova'):
@@ -189,6 +193,28 @@ def test_fethiye_wifi_only_and_no_split(network):
     network['routers']['fethiye'].wifi=[{'.id':'*1','mac-address':KEY,'authorized':True}]
     assert network['apply']('local','fethiye')['success']
 
+
+@pytest.mark.parametrize('site',['nakhimova','fethiye'])
+def test_ru_enabled_direct_apply_and_remove_keep_exclusivity(network,site):
+    config=routing.access.private_json(network['directory']/'config.json')
+    config['ru_bypass_enabled']=True
+    write(network['directory']/'config.json',config)
+    # The mock writer reads this flag when choosing exact generated specs.
+    original=policy.client_policy
+    def ru_specs(mac,ip,direction='forward',ru_bypass=False):
+        return original(mac,ip,direction,ru_bypass=True)
+    from unittest.mock import patch
+    with patch.object(policy,'client_policy',ru_specs):
+        result=network['apply']('direct',site)
+        assert result['success']
+        router=network['routers'][site]
+        rules=[spec for spec,disabled in router.specs.values() if not disabled]
+        assert any(':ru-out' in spec['comment'] for spec in rules)
+        route=next(spec for spec in rules if spec['comment'].endswith(':route'))
+        assert 'dst-address=1.1.1.1/32' in route['properties']
+        assert network['apply']('local',site)['success']
+        assert all(disabled for spec,disabled in router.specs.values())
+
 def test_old_direct_writer_cannot_bypass_exclusivity(network):
     ctl=network['controller']().controller('nakhimova')
     with pytest.raises(ValueError,match='use_unified'):
@@ -228,6 +254,87 @@ def test_unavailable_split_route_never_starts_write(network,monkeypatch):
     with pytest.raises(ValueError,match='selected_route_not_ready'):
         network['apply']('fornex')
     assert not network['writes'] and network['controller']().state['pending'] is None
+
+
+def test_sstp_requires_server_egress_proof_before_any_write(network,monkeypatch):
+    monkeypatch.setattr(routing,'split_channels',lambda **kw:{})
+    with pytest.raises(ValueError,match='selected_route_not_ready'):
+        network['apply']('sstp_cenuta')
+    assert not network['writes']
+
+
+def test_manual_rollback_restores_mode_and_original_membership_comment(network):
+    network['apply']('cenuta')
+    before=copy.deepcopy(network['routers']['nakhimova'].members)
+    network['apply']('sstp_fornex')
+    item=next(d for d in network['controller']().view('nakhimova')['devices'] if d['id']==KEY)
+    assert item['can_rollback'] and item['rollback_mode']=='cenuta'
+    result=network['apply']('rollback')
+    assert result['success'] and result['operation_message']=='Previous route restored'
+    assert network['routers']['nakhimova'].members==before
+    assert not next(d for d in result['devices'] if d['id']==KEY)['can_rollback']
+
+
+def test_explicit_rollback_after_unknown_membership_ack(network):
+    network['apply']('cenuta')
+    before=copy.deepcopy(network['routers']['nakhimova'].members)
+    network['fault']['after_write']=lambda cmd:cmd.startswith(routing.MEMBER_PATH+' set ')
+    with pytest.raises(RuntimeError):network['apply']('sstp_cenuta')
+    assert network['controller']().state['pending']
+    result=network['apply']('rollback')
+    assert result['success'] and not network['controller']().state['pending']
+    assert network['routers']['nakhimova'].members==before
+
+
+def test_rollback_binding_change_never_writes(network):
+    network['apply']('sstp_cenuta')
+    network['routers']['nakhimova'].leases[0]['.id']='*92'
+    before=len(network['writes'])
+    with pytest.raises(ValueError,match='rollback_not_available'):network['apply']('rollback')
+    assert len(network['writes'])==before
+
+
+def test_rollback_restores_disabled_memberships_exactly(network):
+    router=network['routers']['nakhimova']
+    router.members.extend([
+        {'.id':'*11','address':'192.168.88.100','list':'CENUTA_Devices','comment':'Old selection','disabled':True,'dynamic':False},
+        {'.id':'*12','address':'192.168.88.100','list':'VPN_Devices','comment':'Retained note','disabled':True,'dynamic':False}])
+    config=routing.access.private_json(network['directory']/'config.json')
+    config['baseline_exports']['nakhimova']=router.export()
+    config['baseline']['nakhimova']=direct.configuration_hash(router.export())
+    write(network['directory']/'config.json',config)
+    before=routing.member_fields(router.export(),'192.168.88.100')
+    network['apply']('sstp_fornex')
+    result=network['apply']('rollback')
+    assert result['success']
+    assert routing.member_fields(router.export(),'192.168.88.100')==before
+    assert next(d for d in result['devices'] if d['id']==KEY)['mode']=='local'
+
+
+def test_sstp_write_requires_a_new_server_probe(network,monkeypatch):
+    calls=[]
+    def proof(refresh=False):
+        calls.append(refresh)
+        return {m:dict(ready=True) for m in ('sstp_cenuta','sstp_fornex')}
+    monkeypatch.setattr(routing,'split_channels',proof)
+    network['apply']('sstp_cenuta')
+    assert True in calls
+    calls.clear()
+    network['apply']('local')
+    calls.clear()
+    network['apply']('rollback')
+    assert True in calls
+
+
+def test_partial_server_proof_preserves_the_healthy_exit(monkeypatch):
+    from types import SimpleNamespace
+    def response(*args,**kwargs):
+        assert args[0][-1].endswith(' probe')
+        return SimpleNamespace(returncode=1,stdout=json.dumps(dict(automatic_fallback=False,
+            channels={'sstp_cenuta':dict(ready=False),'sstp_fornex':dict(ready=True)})).encode())
+    monkeypatch.setattr(routing.subprocess,'run',response)
+    result=routing.split_channels(refresh=True)
+    assert not result['sstp_cenuta']['ready'] and result['sstp_fornex']['ready']
 
 
 @pytest.mark.parametrize('fail_at',[1,5,13,20,26])

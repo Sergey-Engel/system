@@ -4,6 +4,7 @@ import ipaddress
 import json
 from pathlib import Path
 import secrets
+import subprocess
 import time
 
 import direct_access as access
@@ -13,11 +14,27 @@ import managed
 import sstp_direct as policy
 from controller import write
 
-RELEASE='3.0.0'
-LISTS={'cenuta':'CENUTA_Devices','fornex':'VPN_Devices'}
-MODES={'nakhimova':('local','cenuta','fornex','direct'),'fethiye':('local','direct')}
+RELEASE='4.1.1'
+LISTS={'cenuta':'CENUTA_Devices','fornex':'VPN_Devices',
+       'sstp_cenuta':'SSTP_CENUTA_Devices','sstp_fornex':'SSTP_FORNEX_Devices'}
+MODES={'nakhimova':('local','cenuta','fornex','sstp_cenuta','sstp_fornex','direct'),'fethiye':('local','direct')}
 OWNER='device-routing-v1'
 MEMBER_PATH='/ip firewall address-list'
+
+
+def split_channels(refresh=False):
+    """Read the pinned server's fresh data-plane proof; never repair it."""
+    try:
+        result=subprocess.run(['ssh','-F',str(access.ROOT/'.local/ssh/config'),'-o','BatchMode=yes',
+            '-o','ConnectTimeout=10','-o','ServerAliveInterval=10','-o','ServerAliveCountMax=2',
+            'timeweb','timeout 60 python3 -B /opt/sstp-timeweb/split_bridge.py '+('probe' if refresh else 'status')],
+            capture_output=True,timeout=75)
+        if result.returncode not in (0,1) or len(result.stdout)>20000:raise ValueError('split_status_failed')
+        value=json.loads(result.stdout)
+        if value.get('automatic_fallback') is not False:raise ValueError('unexpected_transport_policy')
+        return value['channels']
+    except (OSError,ValueError,KeyError,subprocess.SubprocessError):
+        return {}
 
 
 def catalog(site,rows,wifi,bindings):
@@ -174,7 +191,8 @@ class RoutingController:
         return rows
 
     def read_members(self,c):
-        rows=access.get(c,'[/ip firewall address-list print as-value where list="CENUTA_Devices" or list="VPN_Devices"]')
+        selector=' or '.join('list='+policy.quote(name) for name in LISTS.values())
+        rows=access.get(c,'[/ip firewall address-list print as-value where '+selector+']')
         for row in rows:
             for flag in ('disabled','dynamic'):
                 if type(row.get(flag)) is not bool:
@@ -189,7 +207,7 @@ class RoutingController:
             raise ValueError('pending_outside_scope_drift')
         if op['site']=='nakhimova':
             original=member_fields(op['before_export'],op['ip'])
-            desired=expected_members(original,op['target'],op['device'],op['ip'])
+            desired=op.get('restore_members',expected_members(original,op['target'],op['device'],op['ip']))
             allowed=original+desired
             actual=member_fields(export,op['ip'])
             if len(actual)>max(len(original),len(desired)) or any(item not in allowed for item in actual):
@@ -199,7 +217,7 @@ class RoutingController:
         ctl.config['baseline_exports'][op['site']]=export
         ctl.inspect(c)
 
-    def capture(self,site):
+    def capture(self,site,refresh_split=False):
         ctl=self.controller(site)
         raw_direct=ctl.status()
         c=self.connector(site)
@@ -221,6 +239,7 @@ class RoutingController:
             lookup=direct_names.DeviceNames()
             devices=catalog(site,rows,wifi,lookup.bindings)
             members=self.read_members(c) if site=='nakhimova' else []
+            if review:raw_direct=ctl.status()
             channels={'local':dict(ready=valid,state='ready' if valid else 'unknown'),
                       'direct':dict(ready=raw_direct['available'],state=raw_direct['tunnel']['state'],
                                     detail=raw_direct.get('error') or raw_direct['tunnel'].get('detail',''))}
@@ -229,8 +248,15 @@ class RoutingController:
                 for mode,table,iface in [('cenuta','CENUTA-Route','wg-cenuta'),('fornex','WG1-Route','wg1')]:
                     defaults=[r for r in routes if r.get('routing-table')==table]
                     running=access.value(c,'/interface wireguard','[find where name="'+iface+'"]','running') is True
-                    ready=valid and running and len(defaults)==1 and defaults[0].get('gateway')==iface
+                    ready=(valid or review) and running and len(defaults)==1 and defaults[0].get('gateway')==iface
                     channels[mode]=dict(ready=ready,state='route-ready' if ready else 'unavailable')
+                proof=(split_channels(refresh=True) if refresh_split else split_channels()) if self.config.get('sstp_split_enabled') is True else {}
+                for mode,table in [('sstp_cenuta','SSTP-CENUTA'),('sstp_fornex','SSTP-FORNEX')]:
+                    defaults=[r for r in routes if r.get('routing-table')==table]
+                    running=access.value(c,'/interface sstp-client','[find where name="sstp-timeweb"]','running') is True if proof else False
+                    ready=(valid or review) and running and proof.get(mode,{}).get('ready') is True and len(defaults)==1 and defaults[0].get('gateway')=='sstp-timeweb'
+                    channels[mode]=dict(ready=ready,state='verified-egress' if ready else 'unavailable',
+                        detail=proof.get(mode,{}).get('exit_ip') or 'SSTP egress verification unavailable')
             return dict(site=site,ctl=ctl,export=export,devices=devices,members=members,channels=channels,
                         source_valid=valid,pending_review=review,direct=raw_direct)
         finally:
@@ -263,6 +289,13 @@ class RoutingController:
                     manageable=False
             devices.append(dict(id=key,label=item['label'],ip=item['ip'],online=item['online'],mode=mode,
                 pending=is_pending,can_apply=bool(manageable),allowed_modes=allowed,revision=self.revision(site,item,raw)))
+            history=(pending if same_pending else self.state.get('history',{}).get(site+'|'+key)) or {}
+            rollback_mode=history.get('previous_mode')
+            matched=history.get('ip')==item['ip'] and history.get('lease')==item['lease']
+            matched=matched and (same_pending or history.get('after_mode')==mode)
+            devices[-1]['rollback_mode']=rollback_mode if matched and rollback_mode in MODES[site] else None
+            devices[-1]['can_rollback']=bool(manageable and matched and rollback_mode in MODES[site]
+                and (rollback_mode=='local' or raw['channels'].get(rollback_mode,{}).get('ready')))
         eligible_ips={v['ip'] for v in raw['devices'].values()}
         outsiders={r['address'] for r in raw['members'] if r.get('disabled') is False and host_address(r.get('address')) not in eligible_ips}
         outsiders.update(v['ip'] for key,v in raw['ctl'].state['clients'].items() if v['selected'] and key not in raw['devices'])
@@ -270,7 +303,7 @@ class RoutingController:
         if not raw['source_valid']:
             errors.append('Pending operation requires explicit recovery to Standard' if raw['pending_review'] else 'Source configuration unavailable or changed')
         if pending:
-            errors.append('Unconfirmed operation; only recovery to Standard is available for the affected device')
+            errors.append('Unconfirmed operation; use Standard or an available previous-route rollback for the affected device')
         if any(d['mode'] in ('shared','conflict') for d in devices):
             errors.append('Overlapping routing assignments require review')
         return dict(controller_release=RELEASE,site=site,checked_at=time.time(),devices=devices,channels=raw['channels'],
@@ -299,34 +332,49 @@ class RoutingController:
                 raise ValueError('membership_identity_changed')
         return ident
 
-    def change_members(self,c,ip,mode,key):
+    def change_members(self,c,ip,mode,key,restore=None):
         rows=exact_members(self.read_members(c),ip)
         before=member_fields(access.run(c,'/export terse').decode(),ip)
-        expected=expected_members(before,mode,key,ip)
-        if mode in LISTS and len(rows)==1:
+        expected=expected_members(before,mode,key,ip) if restore is None else restore
+        if (len(expected)>8 or any(r.get('address')!=ip or r.get('list') not in LISTS.values()
+                or r.get('disabled') not in ('yes','no') or set(r)!={'address','list','comment','disabled'} for r in expected)):
+            raise ValueError('invalid_membership_restore')
+        active=[r for r in expected if r['disabled']=='no']
+        if (mode in LISTS and (len(active)!=1 or active[0]['list']!=LISTS[mode])
+                or mode not in LISTS and active):
+            raise ValueError('invalid_membership_restore_mode')
+        if mode in LISTS and len(rows)==1 and len(expected)==1:
             ident=self.member_identity(c,rows[0])
-            access.mutate(c,MEMBER_PATH+' set '+ident+' list='+policy.quote(LISTS[mode])+' disabled=no')
+            access.mutate(c,MEMBER_PATH+' set '+ident+' list='+policy.quote(LISTS[mode])+
+                          ' disabled='+expected[0]['disabled']+' comment='+policy.quote(expected[0]['comment']))
         else:
             for row in rows:
                 access.mutate(c,MEMBER_PATH+' remove '+self.member_identity(c,row))
-            if expected:
-                fields=expected[0]
+            for fields in expected:
                 access.mutate(c,MEMBER_PATH+' add address='+ip+' list='+policy.quote(fields['list'])+
-                              ' disabled=no comment='+policy.quote(fields['comment']))
+                              ' disabled='+fields['disabled']+' comment='+policy.quote(fields['comment']))
         after=member_fields(access.run(c,'/export terse').decode(),ip)
         if after!=expected:
             raise RuntimeError('membership_readback_failed')
 
     def action(self,site,key,mode,revision):
-        if site not in MODES or mode not in MODES[site]:
+        rollback=mode=='rollback'
+        if site not in MODES or not rollback and mode not in MODES[site]:
             raise ValueError('invalid_route_mode')
         key=managed.mac(key)
-        raw=self.capture(site)
+        previous=self.state.get('pending') or self.state.get('history',{}).get(site+'|'+key) or {}
+        refresh_split=mode in ('sstp_cenuta','sstp_fornex') or rollback and previous.get('previous_mode') in ('sstp_cenuta','sstp_fornex')
+        raw=self.capture(site,refresh_split=refresh_split)
         view=self.view(site,raw)
         target=next((d for d in view['devices'] if d['id']==key),None)
         if not target or not isinstance(revision,str) or not secrets.compare_digest(revision,target['revision']):
             raise ValueError('device_changed_refresh')
-        if not target['can_apply'] or mode not in target['allowed_modes']:
+        history=None
+        if rollback:
+            if not target.get('can_rollback'):raise ValueError('rollback_not_available')
+            history=self.state.get('pending') or self.state.get('history',{}).get(site+'|'+key)
+            mode=target['rollback_mode']
+        if not target['can_apply'] or not rollback and mode not in target['allowed_modes']:
             raise ValueError('device_not_manageable')
         if mode!='local' and not raw['channels'][mode]['ready']:
             raise ValueError('selected_route_not_ready')
@@ -337,7 +385,7 @@ class RoutingController:
             ctl=self.controller(site)
             op=self.state.get('pending')
             if op:
-                if (mode!='local' or op['site']!=site or op['device']!=key or op['ip']!=target['ip']
+                if (not rollback and mode!='local' or op['site']!=site or op['device']!=key or op['ip']!=target['ip']
                         or op.get('lease')!=raw['devices'][key]['lease']):
                     raise ValueError('pending_recovery_only')
                 self.adopt_baseline(c,site,op,ctl)
@@ -354,7 +402,9 @@ class RoutingController:
             if site=='nakhimova':
                 exact_members(self.read_members(c),target['ip'])
             op=dict(site=site,device=key,ip=target['ip'],lease=fresh[key]['lease'],target=mode,
-                    before_export=export,phase='prepared',started=time.time())
+                    before_export=export,phase='prepared',started=time.time(),previous_mode=target['mode'],
+                    previous_members=member_fields(export,target['ip']) if site=='nakhimova' else [])
+            if rollback:op['restore_members']=history.get('previous_members',[])
             self.state['pending']=op
             self.save()
             saved=ctl.state['clients'].get(key)
@@ -363,7 +413,7 @@ class RoutingController:
                 ctl.change_selection(c,key,'remove',fresh[key],found,require_online=False)
             if site=='nakhimova':
                 op['phase']='split_membership';self.save()
-                self.change_members(c,target['ip'],mode,key)
+                self.change_members(c,target['ip'],mode,key,restore=op.get('restore_members'))
                 self.adopt_baseline(c,site,op,ctl)
                 ctl=self.controller(site)
             if mode=='direct':
@@ -388,11 +438,14 @@ class RoutingController:
                 from direct_private import store
                 store.write_private(master,write_payload)
                 self.checkpoint([master])
+            histories=self.state.setdefault('history',{})
+            if rollback:histories.pop(site+'|'+key,None)
+            else:histories[site+'|'+key]={k:op[k] for k in ('previous_mode','previous_members','ip','lease')}|dict(after_mode=mode)
             self.state['pending']=None
             self.save()
         finally:
             c.close()
-        return dict(self.view(site),success=True,operation_message='Routing assignment confirmed')
+        return dict(self.view(site),success=True,operation_message='Previous route restored' if rollback else 'Routing assignment confirmed')
 
 
 def execute(site='nakhimova',device=None,mode=None,revision=None,directory=access.PRIVATE):
@@ -410,6 +463,7 @@ def execute(site='nakhimova',device=None,mode=None,revision=None,directory=acces
                 'device_not_manageable':'This device cannot be changed in the current state.',
                 'selected_route_not_ready':'The selected route is not ready. No new operation was started.',
                 'invalid_route_mode':'This routing mode is not available at this site.',
+                'rollback_not_available':'The previous route is unavailable or the device changed. No new operation was started.',
             }
             write(directory/'routing-last-error.json',dict(error=str(exc)[:256],type=type(exc).__name__,timestamp=time.time()))
             ctl=RoutingController(directory)

@@ -4,7 +4,7 @@ topic: mikrotik
 system: timeweb
 status: active
 created: 2026-06-28
-updated: 2026-10-20
+updated: 2026-10-21
 provider: TimeWeb
 tags:
   - mikrotik
@@ -20,6 +20,14 @@ source:
 ---
 
 ## Подтвержденное состояние
+
+21 октября установлен ручной split data plane2.0.0 поверх прежнего SSTP1.1.1:
+SSTP-Cenuta/SSTP-Fornex, controller4.0.0. BTH и управление остаются WG;
+старые WG/Xray не перезапускались. Новый namespace connector, только
+точные source selectors, без root veth/NAT/default route. Проверены
+оба HTTPS egress, блокировка при отказе, переподключение PPP и Undo.
+Полный reboot split-топологии не выполнялся. CPU pressure остаётся высоким.
+[Протокол, резервные копии и ограничения](../../history/2026-10-21-sstp-split-manual-routing.md).
 
 Актуальное обслуживание и новый SSTP проверены 20 октября 2026:
 см. раздел «Хост и доступ» и
@@ -64,7 +72,8 @@ VLESS/REALITY с выходами Fornex, Cenuta и BTH.
 Работающий отдельный endpoint: **91.222.238.208:443/TCP**, release1.1.1.
 Backend127.0.0.1:5444 находится только внутри namespace sstp-timeweb;
 старый публичный listener94.241.171.65:5444 не включён. Новый серверный
-сертификат имеет SAN91.222.238.208. Production routing и failover выключены.
+сертификат имеет SAN91.222.238.208. На этапе 20 октября production routing
+был выключен; 21 октября добавлен ручной выбор Cenuta/Fornex. Failover выключен.
 Смена внешнего IP Нахимова требует reviewed source allowlist update.
 
 Обслуживание: 25 package upgrades, Docker29.9.1/containerd2.4.2,

@@ -1,0 +1,18 @@
+[Unit]
+Description=Owned SSTP split connector, no transport selection
+Requires=docker.service sstp-timeweb-netns.service
+After=docker.service sstp-timeweb-netns.service
+Before=timeweb-runtime-recovery.service
+BindsTo=sstp-timeweb-netns.service
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/bin/python3 -B /opt/sstp-timeweb/split_bridge.py up
+ExecStop=/usr/bin/python3 -B /opt/sstp-timeweb/split_bridge.py down
+TimeoutStartSec=90
+TimeoutStopSec=90
+UMask=0077
+NoNewPrivileges=yes
+ProtectHome=yes
+[Install]
+WantedBy=multi-user.target

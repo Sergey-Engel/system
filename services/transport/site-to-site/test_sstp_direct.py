@@ -99,6 +99,25 @@ def test_device_policy_activation_and_reversal():
     assert not any('s2s_remote' in s['properties'] for s in specs)
 
 
+@pytest.mark.parametrize('direction,ip,table',[('forward','192.168.89.197',p.TABLE),('reverse','192.168.88.100',p.REVERSE_TABLE)])
+def test_ru_policy_does_not_reapply_a_catch_all_source_route(direction,ip,table):
+    specs=p.client_policy('02:11:22:33:44:55',ip,direction,ru_bypass=True)
+    by={s['comment'].rsplit(':',1)[1]:s for s in specs}
+    assert 'dst-address=1.1.1.1/32' in by['route']['properties']
+    assert 'new-routing-mark='+table in by['main-policy']['properties']
+    assert 'dst-address-list=!RU_Networks' in by['main-policy']['properties']
+    assert 'dst-address-type=!local' in by['main-policy']['properties']
+    assert 'action=accept' in by['ru-policy']['properties']
+    assert 'dst-address-list='+p.REVERSE_OWNER+'-private' in by['private-policy']['properties']
+    assert 'out-interface=ether1 dst-address-list=RU_Networks' in by['ru-out']['properties']
+    assert 'src-address-list=RU_Networks' in by['ru-in']['properties']
+    assert 'connection-state=established,related' in by['ru-in']['properties']
+    assert all('dst-address-list=!RU_Networks' in by['dns-'+proto]['properties'] for proto in ('udp','tcp'))
+    assert specs.index(by['leak'])<specs.index(by['ru-out'])
+    assert specs.index(by['main-policy'])<specs.index(by['private-policy'])<specs.index(by['ru-policy'])
+    assert all(s['head'] for k,s in by.items() if k.endswith('-policy'))
+
+
 @pytest.mark.parametrize('mac,ip', [('AA;quit', '192.168.89.197'), ('4A:CE:4B:D0:88:E5', '192.168.68.100'), ('FF:FF:FF:FF:FF:FF', '192.168.89.2')])
 def test_no_foreign_devices(mac, ip):
     with pytest.raises(ValueError):
