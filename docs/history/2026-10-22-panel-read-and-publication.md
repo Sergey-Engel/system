@@ -71,3 +71,12 @@ PEM/WG private-key literals, приватные пути, backups, archive magic
 keys и backup artifacts; реальные paths secrets/SSH/backups проходят check-ignore.
 Секреты, binary backups, полные RouterOS exports, private evidence и локальный
 архив не включены в публикацию. Git whitespace check прошёл.
+
+## Публикация
+
+Основной коммит `a6d0c8f7d0138b4c303a655a9d64d1f1979de3c5` включает44
+публичных файла: ручные SSTP-Cenuta/Fornex, IP-based RU bypass во всех режимах,
+исправление очереди read-запросов, tests и документацию завершённых этапов.
+Push в `origin/main` выполнен; отдельный `ls-remote` вернул тот же полный SHA.
+Текущая запись о публикации сохраняется отдельным документационным коммитом.
+Она не меняет deployed code, маршруты, ключи или клиентскую приёмку.
