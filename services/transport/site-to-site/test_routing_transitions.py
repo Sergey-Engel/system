@@ -143,6 +143,22 @@ def test_all_nakhimova_mode_transitions_are_exclusive(network,old,new):
     assert all(site=='nakhimova' for site,_ in network['writes'])
     assert all('/interface ' not in cmd and 'flush' not in cmd for _,cmd in network['writes'])
 
+
+@pytest.mark.parametrize('site',['nakhimova','fethiye'])
+def test_read_progress_reports_actual_stages_without_mutation(network,site):
+    stages=[]
+    value=network['controller']().view(site,progress=stages.append)
+    assert stages==[0,1,2,3,4] and value['source_ready']
+    assert not network['writes']
+
+
+def test_source_drift_stops_progress_before_devices_and_routes(network):
+    network['routers']['nakhimova'].extra=' servers=9.9.9.9'
+    stages=[]
+    with pytest.raises(ValueError,match='configuration_drift'):
+        network['controller']().view('nakhimova',progress=stages.append)
+    assert stages==[0,1,2] and not network['writes']
+
 def test_lost_membership_ack_requires_explicit_standard_recovery(network):
     network['apply']('cenuta')
     network['fault']['after_write']=lambda cmd:cmd.startswith(routing.MEMBER_PATH+' set ')

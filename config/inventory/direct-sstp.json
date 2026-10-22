@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "controller_release": "4.1.1",
+  "controller_release": "4.2.0",
   "legacy_direct_controller_release": "3.1.0",
   "id": "fethiye-nakhimova-sstp-direct",
   "status": "installed-router-and-controller-qualified",
@@ -36,6 +36,7 @@
     "panel": "http://127.0.0.1:19118/#site-to-site",
     "writer": "services/transport/site-to-site/device_routing.py",
     "serialization": ".local/config/sstp-direct/controller.lock",
+    "poll_progress": {"endpoint":"/routing-progress/{id}","request_header":"X-Routing-Poll","stages":5,"storage":"Bounded local process memory; no network probes","completion":"Finished stages, not time estimate or tunnel health"},
     "eligible_devices": "Nakhimova: enabled permanent defconf DHCP reservations including offline; Fethiye: authorized MikroTik Wi-Fi registrations with unambiguous DHCP binding for writes",
     "routing_modes": {"nakhimova":["local","cenuta","fornex","sstp_cenuta","sstp_fornex","direct"],"fethiye":["local","direct"]},
     "routing_labels": {"cenuta":"WG-Cenuta-RU","fornex":"WG-Fornex-RU","sstp_cenuta":"SSTP-Cenuta-RU","sstp_fornex":"SSTP-Fornex-RU","direct":"Direct SSTP-RU via the other site"},

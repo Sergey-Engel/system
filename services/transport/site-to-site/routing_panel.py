@@ -1,4 +1,4 @@
-"""Unified routing view. No timers and no implicit assignment writes."""
+"""Unified routing view. Read progress timers never refresh data or write routes."""
 
 STYLE = '''<style>
 .direct-nav{display:flex;gap:1rem;padding:1rem 0;max-width:1100px;margin:auto}
@@ -23,6 +23,21 @@ STYLE = '''<style>
 .routing-row select{width:100%;height:40px;min-width:0;background:#20252c;color:inherit;border:1px solid #4e5663;border-radius:4px;padding:0 .5rem}
 .routing-current{overflow-wrap:anywhere}.routing-row-head{font-size:.85rem;color:#aab2c0;padding-bottom:.7rem}
 .routing-feedback{padding:.7rem 0}.routing-feedback[hidden]{display:none}
+#routing-poll{padding:1rem 0 .3rem;min-width:0}
+#routing-poll[hidden],.routing-poll-stage[hidden],.routing-spinner[hidden]{display:none}
+.routing-poll-summary{display:flex;justify-content:space-between;gap:1rem;color:#aab2c0;font-size:.85rem;font-variant-numeric:tabular-nums}
+#routing-poll-bar{display:block;width:100%;height:8px;margin:.6rem 0 .7rem;border:0;border-radius:2px;overflow:hidden;appearance:none;background:#303640;accent-color:#89bfff}
+#routing-poll-bar::-webkit-progress-bar{background:#303640}#routing-poll-bar::-webkit-progress-value{background:#89bfff}
+#routing-poll-bar::-moz-progress-bar{background:#89bfff}
+#routing-poll[data-state=error] #routing-poll-bar::-webkit-progress-value{background:#ff8585}
+#routing-poll[data-state=error] #routing-poll-bar::-moz-progress-bar{background:#ff8585}
+.routing-poll-stage{display:flex;align-items:center;gap:.6rem;min-height:24px;line-height:1.5}
+#routing-poll-stage-text{min-width:0;overflow-wrap:anywhere}
+.routing-spinner{display:inline-block;width:16px;height:16px;flex:0 0 16px;border:2px solid #4e5663;border-top-color:#b9d9ff;border-radius:50%;animation:routing-spin .8s linear infinite}
+#routing-poll-queue,#routing-poll-error{font-size:.9rem;overflow-wrap:anywhere;margin:.4rem 0}
+#routing-poll-queue{color:#aab2c0}#routing-poll-error{color:#ff8585}
+@keyframes routing-spin{to{transform:rotate(360deg)}}
+@media(prefers-reduced-motion:reduce){.routing-spinner{animation:none}}
 @media(max-width:650px){.routing-row{grid-template-columns:minmax(0,1fr) 88px;gap:.7rem}.routing-device{grid-column:1}.routing-current{grid-column:1;font-size:.9rem}.routing-row select{grid-column:1}.routing-actions{grid-column:2;grid-row:3}.routing-row-head{display:none}}
 </style>'''
 
@@ -40,6 +55,12 @@ SECTION = '''<section id="routing-panel" hidden>
 <button type="button" role="tab" data-site="fethiye" aria-selected="false">Fethiye</button></div>
 <div class="routing-heading"><h2 id="routing-title">Nakhimova · Device routing</h2>
 <button id="routing-refresh" class="routing-icon" title="Refresh status" aria-label="Refresh status">REFRESH_ICON</button></div>
+<div id="routing-poll" data-state="queued" hidden>
+<div class="routing-poll-summary"><span id="routing-poll-count">0 of 5 stages completed</span><span id="routing-poll-elapsed">0s elapsed</span></div>
+<progress id="routing-poll-bar" max="5" value="0" aria-label="Polling progress" aria-describedby="routing-poll-count"></progress>
+<div id="routing-poll-stage" class="routing-poll-stage" role="status" aria-live="polite" hidden><span id="routing-poll-spinner" class="routing-spinner" aria-hidden="true" hidden></span><span id="routing-poll-stage-text"></span></div>
+<p id="routing-poll-queue" role="status" hidden>Waiting for another check or operation</p>
+<p id="routing-poll-error" role="alert" hidden></p></div>
 <div id="routing-channels" aria-label="Routes"></div><p id="routing-checked"></p>
 <p id="routing-error" role="alert"></p><p id="routing-outside"></p>
 <div class="routing-row routing-row-head" aria-hidden="true"><span>Device / IP</span><span>Current route</span><span>New route</span><span></span></div>
@@ -50,11 +71,36 @@ SECTION = '''<section id="routing-panel" hidden>
 
 SCRIPT = '''<script>
 (()=>{const by=id=>document.getElementById(id),token=DIRECT_TOKEN,applyIcon=APPLY_ICON,undoIcon=UNDO_ICON;
-let site='nakhimova',data=null,busy=false,reading=false,failed=true;
+let site='nakhimova',data=null,busy=false,reading=false,failed=true,activePoll=null;
 const drafts={},feedback={};
 const names={nakhimova:'Nakhimova',fethiye:'Fethiye'};
 const label=mode=>({local:'Standard',cenuta:'WG-Cenuta-RU',fornex:'WG-Fornex-RU',sstp_cenuta:'SSTP-Cenuta-RU',sstp_fornex:'SSTP-Fornex-RU',direct:'Direct SSTP-RU via '+names[site==='nakhimova'?'fethiye':'nakhimova'],conflict:'Conflicting assignments',shared:'Shared network assignment'}[mode]||'Unavailable');
 function message(text,error=false){feedback[site]={text,error};by('routing-feedback').hidden=!text;by('routing-message').textContent=text;by('routing-message').dataset.error=String(error);}
+function pollError(text){by('routing-poll-error').textContent=text;by('routing-poll-error').hidden=!text;}
+function paintPoll(p,v){if(activePoll!==p||v.site!==site)return;
+ if(!['queued','running','complete','error'].includes(v.state)||v.total!==5||!Number.isInteger(v.completed)||v.completed<0||v.completed>5)throw Error('Invalid progress');
+ p.completed=Math.max(p.completed,v.completed);p.stage=v.stage||'';
+ by('routing-poll').dataset.state=v.state;by('routing-poll-bar').value=p.completed;
+ by('routing-poll-count').textContent=p.completed+' of 5 stages completed';
+ by('routing-poll-queue').hidden=v.state!=='queued';
+ const stage=v.state==='complete'?'Poll completed':p.stage;
+ by('routing-poll-stage').hidden=!stage;by('routing-poll-spinner').hidden=v.state!=='running';
+ if(by('routing-poll-stage-text').textContent!==stage)by('routing-poll-stage-text').textContent=stage;
+ pollError(v.state==='error'?'Status check failed. Existing assignments are retained.':'');}
+function tickPoll(p){by('routing-poll-elapsed').textContent=Math.floor(((p.ended??performance.now())-p.started)/1000)+'s elapsed';}
+async function observePoll(p){if(activePoll!==p)return;const controller=new AbortController();p.observer=controller;
+ const timeout=setTimeout(()=>controller.abort(),3000);
+ try{const r=await fetch('/routing-progress/'+p.id,{cache:'no-store',signal:controller.signal});
+  if(r.status!==404){if(!r.ok)throw Error('Progress unavailable');paintPoll(p,await r.json());}}
+ catch(e){if(activePoll===p)pollError('Progress updates unavailable; status check is still running.');}
+ finally{clearTimeout(timeout);if(activePoll===p)p.next=setTimeout(()=>observePoll(p),1000);}}
+function startPoll(){const bytes=crypto.getRandomValues(new Uint8Array(16));
+ const p=activePoll={id:Array.from(bytes,b=>b.toString(16).padStart(2,'0')).join(''),started:performance.now(),completed:0,stage:''};
+ by('routing-poll').hidden=false;paintPoll(p,{site,state:'queued',completed:0,total:5});tickPoll(p);
+ p.clock=setInterval(()=>tickPoll(p),250);p.next=setTimeout(()=>observePoll(p),250);return p;}
+function endPoll(p,success){if(activePoll!==p)return;
+ clearInterval(p.clock);clearTimeout(p.next);p.observer?.abort();p.ended=performance.now();
+ paintPoll(p,{site,state:success?'complete':'error',completed:success?5:p.completed,total:5,stage:p.stage});tickPoll(p);activePoll=null;}
 function buttons(){by('routing-refresh').disabled=busy||reading;by('routing-dismiss').disabled=busy;
  document.querySelectorAll('#routing-sites button').forEach(b=>b.disabled=busy||reading);
  document.querySelectorAll('.routing-row select').forEach(s=>{const d=data?.devices.find(d=>d.id===s.dataset.device);s.disabled=busy||reading||failed||!d?.can_apply;});
@@ -82,8 +128,11 @@ function render(v){if(v.site!==site)throw Error('Site mismatch');data=v;failed=f
  row.append(identity,current,select,actions);rows.append(row);}
  buttons();}
 async function refresh(){if(busy||reading||location.hash!=='#site-to-site')return;reading=true;buttons();
- try{const r=await fetch('/routing-state/'+site,{cache:'no-store',signal:AbortSignal.timeout(120000)});if(!r.ok)throw Error('Status unavailable');render(await r.json());}
- catch(e){failed=true;if(!data)by('routing-checked').textContent='Check failed';by('routing-error').textContent='Status unavailable. Existing assignments are retained.';by('routing-channels').replaceChildren();}finally{reading=false;buttons();}}
+ const p=startPoll();let success=false;
+ try{const r=await fetch('/routing-state/'+site,{headers:{'X-Routing-Poll':p.id},cache:'no-store',signal:AbortSignal.timeout(120000)});const v=await r.json();
+  if(v.poll_progress)paintPoll(p,v.poll_progress);if(!r.ok)throw Error('Status unavailable');render(v);
+  success=v.success!==false&&v.source_ready!==false&&(!v.poll_progress||v.poll_progress.state==='complete');if(!success)failed=true;}
+ catch(e){failed=true;if(!data)by('routing-checked').textContent='Check failed';by('routing-error').textContent='Status unavailable. Existing assignments are retained.';by('routing-channels').replaceChildren();}finally{endPoll(p,success);reading=false;buttons();}}
 async function action(d,mode){if(busy||reading||failed)return;
  if((mode.startsWith('sstp_')||mode==='rollback')&&!window.confirm(d.label+' · '+d.ip+' · '+(mode==='rollback'?'Restore '+label(d.rollback_mode):'Apply '+label(mode))+'?'))return;
  busy=true;buttons();message(mode==='rollback'?'Restoring previous route…':'Applying route…');

@@ -129,7 +129,21 @@ reverse uses `/s2s-reverse-state` and `/s2s-reverse-action`. The UI never polls
 or switches real clients automatically. See the
 [reverse acceptance boundary](../../../docs/history/2026-10-19-sstp-reverse-egress.md).
 
-## Unified Device Routing (4.1.1)
+## Unified Device Routing (4.2.0)
+
+Facade4.2.0 observes the five actual capture phases through an optional read-only
+callback. A manual GET can carry a fresh 32-hex `X-Routing-Poll` header; its
+final JSON then includes `poll_progress`. GET `/routing-progress/{id}` reads
+only local memory without the controller lock or any SSH/network probe.
+States: queued/running/complete/error; completed/total count finished phases,
+not elapsed-time estimates or healthy tunnels. Errors freeze partial completion.
+IDs are one-use, bounded to64 retained jobs and300 seconds after completion;
+unknown IDs return404, duplicate IDs409, invalid IDs400, capacity overflow429.
+The UI observes progress only during an explicit/initial/site-selection read,
+and stops both observation and elapsed timers at completion or failure. It never
+restarts a status read automatically. Read IDs, stages and errors cannot write
+device modes, credentials or transport configuration. Older headerless GETs
+and all POST validation/rollback contracts are unchanged.
 
 Local facade4.1.1 coalesces overlapping same-site GETs only when their check
 completed after request arrival. A later Refresh always starts a fresh check;
@@ -143,7 +157,7 @@ enabled permanent DHCP reservations, including offline; Standard, WG-Cenuta-RU,
 WG-Fornex-RU, SSTP-Cenuta-RU, SSTP-Fornex-RU or Direct SSTP-RU via Fethiye.
 Fethiye: authorized MikroTik Wi-Fi registrations
 only, Standard or Direct SSTP-RU via Nakhimova. Names come only from exact-MAC inventory.
-Mode selection requires an explicit Apply; no polling or automatic route changes.
+Mode selection requires an explicit Apply; no background Refresh or automatic route changes.
 
 GET `/routing-state/{nakhimova,fethiye}`, POST `/routing-action` with CSRF,
 site, device, mode and revision. Legacy Direct HTTP actions return 410; the old

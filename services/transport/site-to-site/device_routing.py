@@ -14,7 +14,7 @@ import managed
 import sstp_direct as policy
 from controller import write
 
-RELEASE='4.1.1'
+RELEASE='4.2.0'
 LISTS={'cenuta':'CENUTA_Devices','fornex':'VPN_Devices',
        'sstp_cenuta':'SSTP_CENUTA_Devices','sstp_fornex':'SSTP_FORNEX_Devices'}
 MODES={'nakhimova':('local','cenuta','fornex','sstp_cenuta','sstp_fornex','direct'),'fethiye':('local','direct')}
@@ -217,12 +217,15 @@ class RoutingController:
         ctl.config['baseline_exports'][op['site']]=export
         ctl.inspect(c)
 
-    def capture(self,site,refresh_split=False):
+    def capture(self,site,refresh_split=False,progress=None):
+        if progress:progress(0)
         ctl=self.controller(site)
         raw_direct=ctl.status()
+        if progress:progress(1)
         c=self.connector(site)
         try:
             export=access.run(c,'/export terse').decode()
+            if progress:progress(2)
             valid=False
             review=False
             try:
@@ -234,11 +237,13 @@ class RoutingController:
                     raise
                 self.validate_pending(c,op,ctl,export)
                 review=True
+            if progress:progress(3)
             rows=self.read_leases(c)
             wifi=self.read_wifi(c) if site=='fethiye' else []
             lookup=direct_names.DeviceNames()
             devices=catalog(site,rows,wifi,lookup.bindings)
             members=self.read_members(c) if site=='nakhimova' else []
+            if progress:progress(4)
             if review:raw_direct=ctl.status()
             channels={'local':dict(ready=valid,state='ready' if valid else 'unknown'),
                       'direct':dict(ready=raw_direct['available'],state=raw_direct['tunnel']['state'],
@@ -269,8 +274,8 @@ class RoutingController:
             generation=self.state['generation'],direct_generation=raw['ctl'].state['generation'],
             baseline=self.config['baseline'],members=members,selected=selected.get('selected'),pending=selected.get('pending')))
 
-    def view(self,site,raw=None):
-        raw=raw or self.capture(site)
+    def view(self,site,raw=None,progress=None):
+        raw=raw or (self.capture(site,progress=progress) if progress else self.capture(site))
         pending=self.state.get('pending')
         devices=[]
         for key,item in raw['devices'].items():
@@ -448,7 +453,7 @@ class RoutingController:
         return dict(self.view(site),success=True,operation_message='Previous route restored' if rollback else 'Routing assignment confirmed')
 
 
-def execute(site='nakhimova',device=None,mode=None,revision=None,directory=access.PRIVATE):
+def execute(site='nakhimova',device=None,mode=None,revision=None,directory=access.PRIVATE,progress=None):
     if site not in MODES:
         raise ValueError('invalid_site')
     directory=Path(directory)
@@ -456,8 +461,12 @@ def execute(site='nakhimova',device=None,mode=None,revision=None,directory=acces
         fcntl.flock(lock,fcntl.LOCK_EX)
         ctl=RoutingController(directory)
         try:
-            result=ctl.view(site) if mode is None else ctl.action(site,device,mode,revision)
+            if mode is None:
+                result=ctl.view(site,progress=progress) if progress else ctl.view(site)
+            else:
+                result=ctl.action(site,device,mode,revision)
         except (RuntimeError,ValueError,OSError,KeyError,TypeError) as exc:
+            if progress and mode is None:progress(None)
             messages={
                 'device_changed_refresh':'Device binding or assignment changed. Refresh before retrying. No new operation was started.',
                 'device_not_manageable':'This device cannot be changed in the current state.',

@@ -179,3 +179,72 @@ const input=JSON.parse(require('node:fs').readFileSync(0,'utf8'));
     result=subprocess.run(['node','-e',script],input=json.dumps(dict(html=html,directory=str(tmp_path))),
                           text=True,capture_output=True,timeout=60,env=os.environ)
     assert result.returncode==0,result.stdout+result.stderr
+
+
+def test_browser_real_stage_progress_queue_failure_and_timer_cleanup(tmp_path):
+    if not shutil.which('node'):
+        pytest.skip('Node required')
+    html=panel.inject('<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">'
+        '<style>body{background:#101317;color:white;font:16px sans-serif;padding:16px}*{box-sizing:border-box}</style>'
+        '</head><body><main>Original VPN</main></body></html>','fixture-token',unified=True)
+    script=r'''
+const {chromium}=require('playwright'),assert=require('node:assert/strict');
+const input=JSON.parse(require('node:fs').readFileSync(0,'utf8'));
+(async()=>{const browser=await chromium.launch({headless:true,channel:'chrome'});try{
+ const page=await browser.newPage({viewport:{width:1280,height:900}}),errors=[],ids=[];
+ let checks=0,observations=0,observationFail=false,release;
+ let phase={site:'nakhimova',state:'queued',completed:0,total:5,stage:null};
+ const pending=new Promise(resolve=>release=resolve);
+ page.on('pageerror',e=>errors.push(e.message));
+ const state=()=>({site:'nakhimova',source_ready:true,error:null,checked_at:Date.now()/1000,outside_assignments:0,
+  channels:{local:{ready:true}},devices:[{id:'02:11:22:33:44:55',label:'Office Laptop',ip:'192.168.88.100',online:true,
+  mode:'local',pending:false,can_apply:true,allowed_modes:['local'],revision:'revision'}]});
+ await page.route('http://127.0.0.1:19996/**',async route=>{
+  const req=route.request(),path=new URL(req.url()).pathname;assert.equal(req.method(),'GET');
+  if(path==='/')return route.fulfill({contentType:'text/html; charset=utf-8',body:input.html});
+  if(path.startsWith('/routing-progress/')){observations++;assert.equal(path.split('/').pop(),ids.at(-1));
+   return observationFail?route.fulfill({status:503,body:'Unavailable'}):route.fulfill({json:phase});}
+  assert.equal(path,'/routing-state/nakhimova');checks++;
+  const id=req.headers()['x-routing-poll'];assert.match(id,/^[0-9a-f]{32}$/);assert.ok(!ids.includes(id));ids.push(id);
+  if(checks===1){await pending;return route.fulfill({status:500,json:{error:'Status unavailable',poll_progress:phase}});}
+  return route.fulfill({json:{...state(),poll_progress:{...phase,state:'complete',completed:5}}});
+ });
+ await page.goto('http://127.0.0.1:19996/#site-to-site');
+ await page.getByText('Waiting for another check or operation',{exact:true}).waitFor();
+ assert.equal(await page.locator('#routing-poll-bar').getAttribute('value'),'0');
+ assert.equal(await page.locator('#routing-poll-spinner').isVisible(),false);
+ phase={...phase,state:'running',stage:'Checking Direct SSTP'};
+ await page.getByText('Checking Direct SSTP',{exact:true}).waitFor();
+ assert.equal(await page.locator('#routing-poll-spinner').isVisible(),true);
+ await page.waitForFunction(()=>parseInt(document.getElementById('routing-poll-elapsed').textContent)>=2);
+ assert.equal(await page.locator('#routing-poll-bar').getAttribute('value'),'0');
+ phase={...phase,completed:1,stage:'Reading router configuration'};
+ await page.waitForFunction(()=>document.getElementById('routing-poll-bar').value===1);
+ assert.equal(await page.locator('#routing-poll-count').innerText(),'1 of 5 stages completed');
+ assert.equal(await page.locator('#routing-poll-queue').isVisible(),false);
+ await page.screenshot({path:input.directory+'/progress-desktop.png'});
+ await page.setViewportSize({width:390,height:844});
+ assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
+ await page.screenshot({path:input.directory+'/progress-mobile.png'});
+ observationFail=true;await page.getByText('Progress updates unavailable; status check is still running.',{exact:true}).waitFor();
+ assert.equal(await page.locator('#routing-poll-bar').getAttribute('value'),'1');
+ observationFail=false;phase={...phase,completed:3,stage:'Reading devices and assignments'};
+ await page.waitForFunction(()=>document.getElementById('routing-poll-bar').value===3);
+ phase={...phase,state:'error'};release();
+ await page.getByText('Status check failed. Existing assignments are retained.',{exact:true}).waitFor();
+ assert.equal(await page.locator('#routing-poll-spinner').isVisible(),false);
+ assert.equal(await page.locator('#routing-poll-bar').getAttribute('value'),'3');
+ await page.waitForFunction(()=>!document.getElementById('routing-refresh').disabled);
+ const elapsed=await page.locator('#routing-poll-elapsed').innerText(),count=observations;
+ await page.clock.install();await page.clock.fastForward(60000);
+ assert.equal(await page.locator('#routing-poll-elapsed').innerText(),elapsed);assert.equal(observations,count);assert.equal(checks,1);
+ await page.click('#routing-refresh');await page.getByText('Office Laptop',{exact:true}).waitFor();
+ assert.equal(await page.locator('#routing-poll-bar').getAttribute('value'),'5');
+ assert.equal(await page.locator('#routing-poll-stage-text').innerText(),'Poll completed');
+ assert.equal(await page.locator('#routing-poll-spinner').isVisible(),false);assert.equal(checks,2);
+ assert.equal(await page.locator('#routing-poll-error').isVisible(),false);assert.deepEqual(errors,[]);
+ }finally{await browser.close();}})().catch(e=>{console.error(e);process.exitCode=1});
+'''
+    result=subprocess.run(['node','-e',script],input=json.dumps(dict(html=html,directory=str(tmp_path))),
+                          text=True,capture_output=True,timeout=60,env=os.environ)
+    assert result.returncode==0,result.stdout+result.stderr

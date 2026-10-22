@@ -16,6 +16,7 @@ import direct_access as access
 import direct_controller
 import device_routing
 import routing_panel
+from routing_progress import Polls
 
 STYLE = '''<style>
 .direct-nav{display:flex;gap:1rem;padding:1rem 0;max-width:1100px;margin:auto}
@@ -114,7 +115,7 @@ def inject(page, token, unified=False):
 
 def server(port=19118, backend='http://127.0.0.1:19119', execute=direct_controller.execute,
            unified=False, routing_execute=device_routing.execute):
-    cache, mutex = {}, threading.Lock()
+    cache, mutex, polls = {}, threading.Lock(), Polls()
 
     class Handler(BaseHTTPRequestHandler):
         def log_message(self, *_):
@@ -162,21 +163,42 @@ def server(port=19118, backend='http://127.0.0.1:19119', execute=direct_controll
                 self.reply(502, 'VPN console unavailable', 'text/plain')
 
         def do_GET(self):
+            if unified and self.path.startswith('/routing-progress/'):
+                if not self.allowed():
+                    return self.reply(404, '{}')
+                value = polls.get(self.path.removeprefix('/routing-progress/'))
+                return self.reply(200 if value is not None else 404, json.dumps(value or {}))
             routing_site=self.path.removeprefix('/routing-state/') if self.path.startswith('/routing-state/') else None
             is_routing=unified and routing_site in device_routing.MODES
             if not self.allowed() or (self.path not in ('/', '/state', '/s2s-state', '/s2s-reverse-state') and not is_routing):
                 return self.reply(404, '{}')
             if is_routing:
                 requested_at = time.monotonic()
-                with mutex:
-                    key = ('routing', routing_site)
-                    item = cache.get(key)
-                    # Reuse only a check completed after this request arrived.
-                    if item is None or item['time'] < requested_at:
-                        value = routing_execute(site=routing_site)
-                        item = dict(value=value, time=time.monotonic())
-                        cache[key] = item
-                    value = item['value']
+                token = self.headers.get('X-Routing-Poll')
+                poll = None
+                if token is not None:
+                    try:
+                        poll = polls.create(token, routing_site)
+                    except (ValueError, FileExistsError, OverflowError) as error:
+                        return self.reply(400 if isinstance(error, ValueError) else 409 if isinstance(error, FileExistsError) else 429, '{}')
+                try:
+                    with mutex:
+                        key = ('routing', routing_site)
+                        item = cache.get(key)
+                        # Reuse only a check completed after this request arrived.
+                        if item is None or item['time'] < requested_at:
+                            value = routing_execute(site=routing_site, **({'progress': poll.stage} if poll else {}))
+                            item = dict(value=value, time=time.monotonic())
+                            cache[key] = item
+                        value = item['value']
+                    if poll:
+                        poll.finish(value.get('success') is not False and value.get('source_ready') is not False)
+                        value = dict(value, poll_progress=poll.snapshot())
+                except Exception:
+                    if poll:
+                        poll.finish(False)
+                    return self.reply(500, json.dumps(dict(error='Status unavailable',
+                        **({'poll_progress': poll.snapshot()} if poll else {}))))
                 self.reply(200,json.dumps(value))
                 return
             if self.path not in ('/s2s-state', '/s2s-reverse-state'):
