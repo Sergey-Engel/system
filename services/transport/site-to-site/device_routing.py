@@ -14,7 +14,7 @@ import managed
 import sstp_direct as policy
 from controller import write
 
-RELEASE='4.2.0'
+RELEASE='4.2.2'
 LISTS={'cenuta':'CENUTA_Devices','fornex':'VPN_Devices',
        'sstp_cenuta':'SSTP_CENUTA_Devices','sstp_fornex':'SSTP_FORNEX_Devices'}
 MODES={'nakhimova':('local','cenuta','fornex','sstp_cenuta','sstp_fornex','direct'),'fethiye':('local','direct')}

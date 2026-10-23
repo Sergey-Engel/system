@@ -18,6 +18,72 @@ sys.path.insert(0,str(Path(__file__).resolve().parent))
 import direct_panel as panel
 
 
+def test_browser_completed_poll_collapses_after_twenty_seconds(tmp_path):
+    if not shutil.which('node'):
+        pytest.skip('Node required')
+    html = panel.inject('<html><head><meta name="viewport" content="width=device-width,initial-scale=1">'
+        '<style>body{font:16px sans-serif;padding:16px}*{box-sizing:border-box}</style>'
+        '</head><body><main>Original VPN</main></body></html>', 'fixture-token', unified=True)
+    script = r'''
+const {chromium}=require('playwright'),assert=require('node:assert/strict');
+const input=JSON.parse(require('node:fs').readFileSync(0,'utf8'));
+(async()=>{const browser=await chromium.launch({headless:true,channel:'chrome'});try{
+ const page=await browser.newPage({viewport:{width:1280,height:900}}),errors=[];
+ let checks=0,hold=true,release,result='ok';page.on('pageerror',e=>errors.push(e.message));
+ const checkedAt=1792648800;
+ await page.clock.install();
+ await page.route('http://127.0.0.1:19995/**',async route=>{
+  const req=route.request(),path=new URL(req.url()).pathname;assert.equal(req.method(),'GET');
+  if(path==='/')return route.fulfill({contentType:'text/html; charset=utf-8',body:input.html});
+  if(path.startsWith('/routing-progress/'))return route.fulfill({status:404,body:'Not found'});
+  assert.ok(path.startsWith('/routing-state/'));checks++;
+  if(hold)await new Promise(resolve=>release=resolve);
+  if(result==='http-error')return route.fulfill({status:503,body:'Unavailable'});
+  return route.fulfill({json:{site:path.split('/').pop(),source_ready:true,checked_at:checkedAt,
+   error:result==='status-error'?'Pending device operation':null,channels:{local:{ready:true}},devices:[]}});
+ });
+ const settled=()=>page.waitForFunction(()=>!document.getElementById('routing-refresh').disabled);
+ const good=()=>page.locator('#routing-checked').getAttribute('data-state');
+ await page.goto('http://127.0.0.1:19995/#site-to-site');
+ await page.clock.pauseAt(await page.evaluate(()=>Date.now()+1000));hold=false;release();await settled();
+ assert.equal(await good(),'success');
+ const stamp=await page.locator('#routing-checked').innerText();assert.match(stamp,/Updated/);
+ assert.ok(stamp.includes(new Date(checkedAt*1000).toLocaleTimeString()));
+ const placement=await page.locator('#routing-checked').evaluate(n=>{
+  const r=n.getBoundingClientRect(),b=document.getElementById('routing-refresh').getBoundingClientRect();
+  return r.top>=b.bottom&&r.right<=innerWidth;
+ });assert.ok(placement);
+ await page.clock.fastForward(19999);assert.equal(await page.locator('#routing-poll').isVisible(),true);
+ await page.clock.fastForward(1);assert.equal(await page.locator('#routing-poll').isVisible(),false);
+ assert.equal(await good(),'success');assert.equal(await page.locator('#routing-checked').innerText(),stamp);assert.equal(checks,1);
+ await page.screenshot({path:input.directory+'/collapsed-desktop.png'});
+ await page.setViewportSize({width:390,height:844});assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
+ await page.screenshot({path:input.directory+'/collapsed-mobile.png'});
+ await page.click('#routing-refresh');await settled();await page.clock.fastForward(10000);
+ hold=true;await page.click('#routing-refresh');await page.waitForFunction(()=>document.getElementById('routing-refresh').disabled);
+ assert.notEqual(await good(),'success');await page.clock.fastForward(20000);
+ assert.equal(await page.locator('#routing-poll').isVisible(),true);
+ result='http-error';hold=false;release();await settled();
+ assert.notEqual(await good(),'success');await page.clock.fastForward(60000);
+ assert.equal(await page.locator('#routing-poll').isVisible(),true);
+ assert.equal(await page.locator('#routing-error').isVisible(),true);
+ result='status-error';await page.click('#routing-refresh');await settled();await page.clock.fastForward(60000);
+ assert.notEqual(await good(),'success');assert.equal(await page.locator('#routing-poll').isVisible(),true);
+ assert.equal(await page.locator('#routing-error').innerText(),'Pending device operation');
+ result='ok';await page.click('#routing-refresh');await settled();await page.clock.fastForward(10000);
+ hold=true;await page.click('[data-site="fethiye"]');await page.waitForFunction(()=>document.getElementById('routing-refresh').disabled);
+ assert.notEqual(await good(),'success');await page.clock.fastForward(20000);
+ assert.equal(await page.locator('#routing-poll').isVisible(),true);
+ hold=false;release();await settled();await page.clock.fastForward(20000);
+ assert.equal(await good(),'success');assert.equal(await page.locator('#routing-poll').isVisible(),false);
+ assert.equal(checks,6);assert.deepEqual(errors,[]);
+ }finally{await browser.close();}})().catch(e=>{console.error(e);process.exitCode=1});
+'''
+    result = subprocess.run(['node', '-e', script], input=json.dumps(dict(html=html, directory=str(tmp_path))),
+                            text=True, capture_output=True, timeout=60, env=os.environ)
+    assert result.returncode == 0, result.stdout + result.stderr
+
+
 def test_overlapping_reads_share_only_inflight_site_snapshot(monkeypatch):
     started, release, queued = threading.Event(), threading.Event(), threading.Event()
     clock_calls = []

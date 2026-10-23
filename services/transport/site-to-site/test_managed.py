@@ -455,3 +455,14 @@ def test_rows_export_order_race_is_refused_before_pinning(tmp_path, moved_suffix
     assert not result["success"]
     assert not c.state["clients"][CLIENT["mac"]].get("hashes")
     assert not any(" enable " in command for r in routers.values() for command in r.commands)
+
+
+def test_warning_split_export_preserves_configuration_and_order():
+    import direct_controller
+    before = '/ip firewall filter add action=drop comment=guard in-interface=sstp-direct-out\n/ip route add dst-address=0.0.0.0/0 gateway=ether1'
+    after = '/ip firewall filter\n# sstp-direct-out not ready\nadd action=drop comment=guard in-interface=sstp-direct-out\n/ip route add dst-address=0.0.0.0/0 gateway=ether1'
+    assert managed.export_lines(before) == managed.export_lines(after)
+    assert direct_controller.configuration_hash(before) == direct_controller.configuration_hash(after)
+    assert direct_controller.configuration_hash(before) != direct_controller.configuration_hash(after.replace('action=drop', 'action=accept'))
+    assert direct_controller.configuration_hash(before) != direct_controller.configuration_hash(after.replace('add action=drop comment=guard in-interface=sstp-direct-out', ''))
+    assert direct_controller.configuration_hash(before) != direct_controller.configuration_hash('\n'.join(reversed(managed.export_lines(after))))

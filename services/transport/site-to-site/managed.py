@@ -272,7 +272,19 @@ def mode_commands(client, controls, remote):
 
 
 def export_lines(text):
-    return [line.strip() for line in text.splitlines() if line.strip() and not line.startswith("#")]
+    lines = [line.strip() for line in text.splitlines() if line.strip() and not line.lstrip().startswith("#")]
+    result, section = [], None
+    for index, line in enumerate(lines):
+        # RouterOS warnings can split a terse path from its following add command.
+        if re.fullmatch(r"/[a-z][a-z0-9-]*(?: [a-z][a-z0-9-]*)*", line) and index + 1 < len(lines) and lines[index + 1].startswith("add "):
+            section = line
+            continue
+        if section and line.startswith("add "):
+            result.append(section + " " + line)
+        else:
+            section = None
+            result.append(line)
+    return result
 
 
 def line_comment(line):

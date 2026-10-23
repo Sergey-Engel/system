@@ -129,7 +129,19 @@ reverse uses `/s2s-reverse-state` and `/s2s-reverse-action`. The UI never polls
 or switches real clients automatically. See the
 [reverse acceptance boundary](../../../docs/history/2026-10-19-sstp-reverse-egress.md).
 
-## Unified Device Routing (4.2.0)
+## Unified Device Routing (4.2.2)
+
+Facade4.2.2 canonicalizes a warning-split RouterOS terse path/add pair before
+strict comparison. No live baseline is accepted or refreshed. Rule properties,
+missing rules and order remain protected; transport readiness is separate.
+
+Facade4.2.1 hides the completed progress block20 seconds after a successful,
+error-free read. A green Updated timestamp under Refresh uses the response's
+checked_at, not the dismissal time. Failed reads/status errors remain visible
+without green confirmation. A new read/site selection cancels the old dismissal;
+neither this timer nor its completion starts a network request or changes routes.
+Individual unavailable channels do not turn a successful read into a VPN-health
+claim. Route action validation and recovery availability are unchanged.
 
 Facade4.2.0 observes the five actual capture phases through an optional read-only
 callback. A manual GET can carry a fresh 32-hex `X-Routing-Poll` header; its
