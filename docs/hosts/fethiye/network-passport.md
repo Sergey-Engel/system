@@ -1,11 +1,22 @@
 ---
 type: network-passport
 status: partial-audit
-updated: 2026-10-21
+updated: 2026-10-24
 tags: [network, fethiye, deco, mikrotik]
 ---
 
 # Паспорт сети: Фетхие
+
+## RouterOS: 24 Октября 2026
+
+По поручению владельца RouterOS и `wifi-qcom` обновлены с7.19.6 до
+**7.24.4 stable**, как на Нахимова. Serial `HM20B6QXS8H` подтвержден
+по закрепленному SSH-ключу. RouterBOOT остался7.19.6; доступный с новым
+пакетом upgrade-firmware7.24.4 не прошивался, auto-upgrade=no.
+После перезагрузки SSH, WAN DHCP, WG/IPIP и Direct SSTP восстановились;
+обе Wi-Fi radios running. VPN-настройки, маршруты и назначения не менялись.
+Свежие encrypted backups до/после VERIFIED_TRANSFER; current master обновлен.
+[Протокол, отличия экспорта и ограничения](../../history/2026-10-24-fethiye-routeros-7.24.4.md).
 
 ## RU Direct: 21 Октября
 
