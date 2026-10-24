@@ -263,20 +263,37 @@ def test_disconnected_fethiye_client_cannot_apply_stale_choice(network):
     assert not network['writes']
 
 
-def test_unavailable_split_route_never_starts_write(network,monkeypatch):
+def test_unavailable_wireguard_allows_manual_assignment_and_rollback(network,monkeypatch):
     original=routing.access.value
     monkeypatch.setattr(routing.access,'value',lambda c,path,selector,field:
                         False if path=='/interface wireguard' else original(c,path,selector,field))
-    with pytest.raises(ValueError,match='selected_route_not_ready'):
-        network['apply']('fornex')
-    assert not network['writes'] and network['controller']().state['pending'] is None
+    result=network['apply']('fornex')
+    assert result['success'] and not result['channels']['fornex']['ready']
+    assert 'availability not confirmed' in result['operation_message']
+    assert network['apply']('rollback')['success']
 
 
-def test_sstp_requires_server_egress_proof_before_any_write(network,monkeypatch):
+def test_sstp_missing_server_probe_allows_manual_assignment(network,monkeypatch):
     monkeypatch.setattr(routing,'split_channels',lambda **kw:{})
+    result=network['apply']('sstp_cenuta')
+    assert result['success'] and result['channels']['sstp_cenuta']['apply_allowed']
+    assert not result['channels']['sstp_cenuta']['ready']
+    assert network['apply']('rollback')['success']
+
+
+def test_sstp_confirmed_configuration_failure_blocks_writes(network,monkeypatch):
+    monkeypatch.setattr(routing,'split_channels',lambda **kw:{'sstp_cenuta':dict(ready=False,apply_allowed=False)})
     with pytest.raises(ValueError,match='selected_route_not_ready'):
         network['apply']('sstp_cenuta')
     assert not network['writes']
+
+
+def test_unverified_previous_route_remains_available_for_rollback(network,monkeypatch):
+    network['apply']('sstp_cenuta')
+    network['apply']('fornex')
+    monkeypatch.setattr(routing,'split_channels',lambda **kw:{})
+    result=network['apply']('rollback')
+    assert result['success'] and not result['channels']['sstp_cenuta']['ready']
 
 
 def test_manual_rollback_restores_mode_and_original_membership_comment(network):
@@ -351,6 +368,18 @@ def test_partial_server_proof_preserves_the_healthy_exit(monkeypatch):
     monkeypatch.setattr(routing.subprocess,'run',response)
     result=routing.split_channels(refresh=True)
     assert not result['sstp_cenuta']['ready'] and result['sstp_fornex']['ready']
+    assert result['sstp_cenuta']['apply_allowed']
+
+
+@pytest.mark.parametrize('payload',[
+    dict(automatic_fallback=False,error='split_connector_unavailable',channels={}),
+    dict(automatic_fallback=True,channels={'sstp_cenuta':dict(ready=True)}),
+])
+def test_server_configuration_refusal_never_becomes_manual_override(monkeypatch,payload):
+    from types import SimpleNamespace
+    monkeypatch.setattr(routing.subprocess,'run',lambda *a,**kw:SimpleNamespace(returncode=1,stdout=json.dumps(payload).encode()))
+    result=routing.split_channels()
+    assert all(not routing.selectable(result[mode]) for mode in ('sstp_cenuta','sstp_fornex'))
 
 
 @pytest.mark.parametrize('fail_at',[1,5,13,20,26])

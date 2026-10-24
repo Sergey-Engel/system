@@ -18,6 +18,52 @@ sys.path.insert(0,str(Path(__file__).resolve().parent))
 import direct_panel as panel
 
 
+def test_unconfirmed_route_is_red_selectable_and_requires_confirmation(tmp_path):
+    if not shutil.which('node'):
+        pytest.skip('Node required')
+    html=panel.inject('<html><head><meta charset="utf-8"><style>body{background:#101216;color:#eee;font:16px sans-serif}*{box-sizing:border-box}</style></head><body><main>VPN</main></body></html>', 'fixture-token', unified=True)
+    script=r'''
+const {chromium}=require('playwright'),assert=require('node:assert/strict');
+const input=JSON.parse(require('node:fs').readFileSync(0,'utf8'));
+(async()=>{const browser=await chromium.launch({headless:true,channel:'chrome'});try{
+ const page=await browser.newPage({viewport:{width:1280,height:900}});let mode='cenuta',writes=0;
+ await page.route('http://127.0.0.1:19994/**',async route=>{
+  const req=route.request(),path=new URL(req.url()).pathname;
+  if(path==='/')return route.fulfill({contentType:'text/html',body:input.html});
+  if(path.startsWith('/routing-progress/'))return route.fulfill({status:404,body:''});
+  if(req.method()==='POST'){writes++;mode=new URLSearchParams(req.postData()).get('mode');}
+  return route.fulfill({json:{site:'nakhimova',checked_at:Date.now()/1000,source_ready:true,error:null,
+   success:true,channels:{local:{ready:true},cenuta:{ready:true},fornex:{ready:true},direct:{ready:true},
+    sstp_cenuta:{ready:false,apply_allowed:true},sstp_fornex:{ready:false,apply_allowed:false}},
+   devices:[{id:'02:11:22:33:44:55',label:'Test laptop',ip:'192.168.88.100',online:true,mode,
+    pending:false,can_apply:true,can_rollback:false,revision:'fixture',
+    allowed_modes:['local','cenuta','sstp_cenuta','sstp_fornex']}]}});
+ });
+ await page.goto('http://127.0.0.1:19994/#site-to-site');
+ const select=page.locator('.routing-row select'),apply=page.locator('.routing-apply');
+ await select.waitFor();await page.waitForFunction(()=>!document.getElementById('routing-refresh').disabled);
+ assert.equal(await select.locator('option[value="sstp_cenuta"]').isEnabled(),true);
+ assert.equal(await select.locator('option[value="sstp_fornex"]').isEnabled(),false);
+ await select.selectOption('sstp_cenuta');assert.equal(await apply.isEnabled(),true);
+ assert.equal(await select.getAttribute('data-unverified'),'true');
+ assert.equal(await select.evaluate(n=>getComputedStyle(n).color),'rgb(255, 133, 133)');
+ page.once('dialog',d=>{assert.match(d.message(),/Connectivity may be lost/);d.dismiss();});
+ await apply.click();assert.equal(writes,0);
+ page.once('dialog',d=>d.accept());await apply.click();
+ await page.waitForFunction(()=>document.querySelector('.routing-current').textContent==='SSTP-Cenuta-RU');
+ assert.equal(writes,1);assert.equal(await page.locator('.routing-current').getAttribute('data-unverified'),'true');
+ assert.equal(await page.locator('.routing-current').evaluate(n=>getComputedStyle(n).color),'rgb(255, 133, 133)');
+ await page.screenshot({path:input.directory+'/unconfirmed-desktop.png'});
+ await page.setViewportSize({width:390,height:844});
+ assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
+ await page.screenshot({path:input.directory+'/unconfirmed-mobile.png'});
+ }finally{await browser.close();}})().catch(e=>{console.error(e);process.exitCode=1});
+'''
+    result=subprocess.run(['node','-e',script],input=json.dumps(dict(html=html,directory=str(tmp_path))),
+                          text=True,capture_output=True,timeout=60,env=os.environ)
+    assert result.returncode==0,result.stdout+result.stderr
+
+
 def test_browser_completed_poll_collapses_after_twenty_seconds(tmp_path):
     if not shutil.which('node'):
         pytest.skip('Node required')

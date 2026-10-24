@@ -4,7 +4,7 @@ topic: mikrotik
 system: fornex
 status: active
 created: 2026-06-28
-updated: 2026-09-13
+updated: 2026-10-23
 provider: Fornex
 tags:
   - mikrotik
@@ -19,6 +19,13 @@ source:
 ---
 
 ## Подтвержденное состояние
+
+Актуализация 2026-10-23: выполнено обслуживание Ubuntu 24.04 LTS,
+Docker `29.9.2`, containerd `2.4.2`; после reboot kernel
+`6.8.0-147-generic`. Все семь прежних контейнеров работают, DNS healthy,
+выбранные конфигурации и container/image identities не изменились.
+Подробности и ограничения: [обслуживание Fornex](<../../history/2026-10-23-fornex-maintenance.md>).
+Параметры ниже, явно относящиеся к снимку 13 сентября, сохранены как история.
 
 Снимок: live.json (source reference not migrated),
 `hosts.fornex`, 2026-09-13 14:45 UTC. Это серверный инвентарь, не приемка

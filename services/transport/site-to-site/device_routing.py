@@ -14,7 +14,7 @@ import managed
 import sstp_direct as policy
 from controller import write
 
-RELEASE='4.2.2'
+RELEASE='4.3.0'
 LISTS={'cenuta':'CENUTA_Devices','fornex':'VPN_Devices',
        'sstp_cenuta':'SSTP_CENUTA_Devices','sstp_fornex':'SSTP_FORNEX_Devices'}
 MODES={'nakhimova':('local','cenuta','fornex','sstp_cenuta','sstp_fornex','direct'),'fethiye':('local','direct')}
@@ -31,10 +31,16 @@ def split_channels(refresh=False):
             capture_output=True,timeout=75)
         if result.returncode not in (0,1) or len(result.stdout)>20000:raise ValueError('split_status_failed')
         value=json.loads(result.stdout)
-        if value.get('automatic_fallback') is not False:raise ValueError('unexpected_transport_policy')
-        return value['channels']
+        if value.get('automatic_fallback') is not False or value.get('error'):
+            return {mode:dict(ready=False,apply_allowed=False,detail='Server configuration verification failed')
+                    for mode in ('sstp_cenuta','sstp_fornex')}
+        return {mode:dict(channel,apply_allowed=True) for mode,channel in value['channels'].items()}
     except (OSError,ValueError,KeyError,subprocess.SubprocessError):
         return {}
+
+
+def selectable(channel):
+    return channel.get('apply_allowed',channel.get('ready',False)) is True
 
 
 def catalog(site,rows,wifi,bindings):
@@ -247,6 +253,7 @@ class RoutingController:
             if review:raw_direct=ctl.status()
             channels={'local':dict(ready=valid,state='ready' if valid else 'unknown'),
                       'direct':dict(ready=raw_direct['available'],state=raw_direct['tunnel']['state'],
+                                    apply_allowed=valid and raw_direct.get('apply_allowed',raw_direct['available']),
                                     detail=raw_direct.get('error') or raw_direct['tunnel'].get('detail',''))}
             if site=='nakhimova':
                 routes=access.get(c,'[/routing route print as-value where active=yes and dst-address=0.0.0.0/0]')
@@ -254,13 +261,14 @@ class RoutingController:
                     defaults=[r for r in routes if r.get('routing-table')==table]
                     running=access.value(c,'/interface wireguard','[find where name="'+iface+'"]','running') is True
                     ready=(valid or review) and running and len(defaults)==1 and defaults[0].get('gateway')==iface
-                    channels[mode]=dict(ready=ready,state='route-ready' if ready else 'unavailable')
+                    channels[mode]=dict(ready=ready,apply_allowed=valid or review,state='route-ready' if ready else 'unavailable')
                 proof=(split_channels(refresh=True) if refresh_split else split_channels()) if self.config.get('sstp_split_enabled') is True else {}
                 for mode,table in [('sstp_cenuta','SSTP-CENUTA'),('sstp_fornex','SSTP-FORNEX')]:
                     defaults=[r for r in routes if r.get('routing-table')==table]
                     running=access.value(c,'/interface sstp-client','[find where name="sstp-timeweb"]','running') is True if proof else False
                     ready=(valid or review) and running and proof.get(mode,{}).get('ready') is True and len(defaults)==1 and defaults[0].get('gateway')=='sstp-timeweb'
                     channels[mode]=dict(ready=ready,state='verified-egress' if ready else 'unavailable',
+                        apply_allowed=(valid or review) and self.config.get('sstp_split_enabled') is True and proof.get(mode,{}).get('apply_allowed',True),
                         detail=proof.get(mode,{}).get('exit_ip') or 'SSTP egress verification unavailable')
             return dict(site=site,ctl=ctl,export=export,devices=devices,members=members,channels=channels,
                         source_valid=valid,pending_review=review,direct=raw_direct)
@@ -300,7 +308,7 @@ class RoutingController:
             matched=matched and (same_pending or history.get('after_mode')==mode)
             devices[-1]['rollback_mode']=rollback_mode if matched and rollback_mode in MODES[site] else None
             devices[-1]['can_rollback']=bool(manageable and matched and rollback_mode in MODES[site]
-                and (rollback_mode=='local' or raw['channels'].get(rollback_mode,{}).get('ready')))
+                and (rollback_mode=='local' or selectable(raw['channels'].get(rollback_mode,{}))))
         eligible_ips={v['ip'] for v in raw['devices'].values()}
         outsiders={r['address'] for r in raw['members'] if r.get('disabled') is False and host_address(r.get('address')) not in eligible_ips}
         outsiders.update(v['ip'] for key,v in raw['ctl'].state['clients'].items() if v['selected'] and key not in raw['devices'])
@@ -381,7 +389,7 @@ class RoutingController:
             mode=target['rollback_mode']
         if not target['can_apply'] or not rollback and mode not in target['allowed_modes']:
             raise ValueError('device_not_manageable')
-        if mode!='local' and not raw['channels'][mode]['ready']:
+        if mode!='local' and not selectable(raw['channels'][mode]):
             raise ValueError('selected_route_not_ready')
         if mode==target['mode'] and not target['pending']:
             return dict(view,success=True,operation_message='Assignment already confirmed')
@@ -450,7 +458,11 @@ class RoutingController:
             self.save()
         finally:
             c.close()
-        return dict(self.view(site),success=True,operation_message='Previous route restored' if rollback else 'Routing assignment confirmed')
+        result=self.view(site)
+        message='Previous route restored' if rollback else 'Routing assignment confirmed'
+        if mode!='local' and not result['channels'].get(mode,{}).get('ready'):
+            message+='; tunnel availability not confirmed. Check connectivity or restore the previous route.'
+        return dict(result,success=True,operation_message=message)
 
 
 def execute(site='nakhimova',device=None,mode=None,revision=None,directory=access.PRIVATE,progress=None):

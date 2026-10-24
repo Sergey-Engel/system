@@ -14,7 +14,8 @@ STYLE = '''<style>
 .routing-icon svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 #routing-panel button:disabled,#routing-panel select:disabled{opacity:.45}
 #routing-channels{display:flex;flex-wrap:wrap;gap:.6rem 1.5rem;padding:1.2rem 0;border-bottom:1px solid #4e5663}
-.routing-channel[data-ready=true]{color:#85d47c}.routing-channel[data-ready=false]{color:#aab2c0}
+.routing-channel[data-ready=true]{color:#85d47c}.routing-channel[data-ready=false]{color:#ff8585}
+#routing-panel .routing-current[data-unverified=true],#routing-panel select[data-unverified=true],#routing-panel option[data-unverified=true]{color:#ff8585}
 #routing-panel small,#routing-checked{color:#aab2c0}#routing-checked{font-size:.8rem;margin:0;text-align:right;overflow-wrap:anywhere}
 #routing-checked[data-state=success]{color:#85d47c}#routing-checked[data-state=error]{color:#ff8585}
 #routing-error,#routing-outside,[data-error=true]{color:#ff8585}
@@ -78,6 +79,8 @@ let site='nakhimova',data=null,busy=false,reading=false,failed=true,activePoll=n
 const drafts={},feedback={};
 const names={nakhimova:'Nakhimova',fethiye:'Fethiye'};
 const label=mode=>({local:'Standard',cenuta:'WG-Cenuta-RU',fornex:'WG-Fornex-RU',sstp_cenuta:'SSTP-Cenuta-RU',sstp_fornex:'SSTP-Fornex-RU',direct:'Direct SSTP-RU via '+names[site==='nakhimova'?'fethiye':'nakhimova'],conflict:'Conflicting assignments',shared:'Shared network assignment'}[mode]||'Unavailable');
+const selectable=c=>c?.apply_allowed??c?.ready??false;
+const unverified=mode=>mode!=='local'&&data?.channels[mode]?.ready!==true;
 function message(text,error=false){feedback[site]={text,error};by('routing-feedback').hidden=!text;by('routing-message').textContent=text;by('routing-message').dataset.error=String(error);}
 function pollError(text){by('routing-poll-error').textContent=text;by('routing-poll-error').hidden=!text;}
 function checked(text,state=''){by('routing-checked').textContent=text;by('routing-checked').dataset.state=state;}
@@ -113,11 +116,11 @@ function buttons(){by('routing-refresh').disabled=busy||reading;by('routing-dism
  document.querySelectorAll('#routing-sites button').forEach(b=>b.disabled=busy||reading);
  document.querySelectorAll('.routing-row select').forEach(s=>{const d=data?.devices.find(d=>d.id===s.dataset.device);s.disabled=busy||reading||failed||!d?.can_apply;});
  document.querySelectorAll('.routing-apply').forEach(b=>{const d=data?.devices.find(d=>d.id===b.dataset.device),s=b.closest('.routing-row').querySelector('select');
- b.disabled=busy||reading||failed||!d?.can_apply||!s.value||(!d.pending&&s.value===d.mode)||(s.value!=='local'&&!data?.channels[s.value]?.ready);});
+ b.disabled=busy||reading||failed||!d?.can_apply||!s.value||(!d.pending&&s.value===d.mode)||(s.value!=='local'&&!selectable(data?.channels[s.value]));});
  document.querySelectorAll('.routing-undo').forEach(b=>{const d=data?.devices.find(d=>d.id===b.dataset.device);b.disabled=busy||reading||failed||!d?.can_rollback;});}
 function render(v){if(v.site!==site)throw Error('Site mismatch');data=v;failed=false;
  by('routing-channels').replaceChildren();
- for(const mode of (site==='nakhimova'?['local','cenuta','fornex','sstp_cenuta','sstp_fornex','direct']:['local','direct'])){const c=v.channels[mode],span=document.createElement('span');span.className='routing-channel';span.dataset.ready=String(c?.ready===true);span.title=c?.detail||label(mode);span.textContent=label(mode)+' · '+(c?.ready?(mode==='local'?'Available':'Route ready'):'Unavailable');by('routing-channels').append(span);}
+ for(const mode of (site==='nakhimova'?['local','cenuta','fornex','sstp_cenuta','sstp_fornex','direct']:['local','direct'])){const c=v.channels[mode],span=document.createElement('span');span.className='routing-channel';span.dataset.ready=String(c?.ready===true);span.title=c?.detail||label(mode);span.textContent=label(mode)+' · '+(c?.ready?(mode==='local'?'Available':'Route ready'):selectable(c)?'Availability unconfirmed':'Configuration requires review');by('routing-channels').append(span);}
  checked('Checked '+new Date(v.checked_at*1000).toLocaleTimeString());by('routing-error').textContent=v.error||'';
  by('routing-outside').textContent=v.outside_assignments?v.outside_assignments+' assignment(s) outside this device list; unchanged':'';
  const rows=by('routing-devices');rows.replaceChildren();by('routing-empty').hidden=v.devices.length>0;
@@ -125,11 +128,13 @@ function render(v){if(v.site!==site)throw Error('Site mismatch');data=v;failed=f
  const identity=document.createElement('div');identity.className='routing-device';identity.title='MAC: '+d.id;
  const strong=document.createElement('strong'),small=document.createElement('small');strong.textContent=d.label;small.textContent=(d.ip||'IP unavailable')+(d.online?'':' · Offline');identity.append(strong,small);
  const current=document.createElement('span');current.className='routing-current';current.textContent=d.pending?'Confirmation required':label(d.mode);
+ current.dataset.unverified=String(unverified(d.mode));current.title=unverified(d.mode)?(selectable(v.channels[d.mode])?'Tunnel availability not confirmed':'Configuration requires review'):'';
  const select=document.createElement('select');select.dataset.device=d.id;select.setAttribute('aria-label','Route for '+d.label);
- for(const mode of d.allowed_modes){const o=new Option(label(mode),mode);o.disabled=mode!=='local'&&!v.channels[mode]?.ready;select.add(o);}
+ for(const mode of d.allowed_modes){const o=new Option(label(mode)+(unverified(mode)?(selectable(v.channels[mode])?' · Unconfirmed':' · Review required'):''),mode);o.disabled=mode!=='local'&&!selectable(v.channels[mode]);o.dataset.unverified=String(unverified(mode));select.add(o);}
  let draft=drafts[site+'|'+d.id];if(draft?.revision!==d.revision)draft=null;
  select.value=draft?.mode||(d.pending?'local':d.mode);if(!select.value)select.selectedIndex=-1;
- select.onchange=()=>{drafts[site+'|'+d.id]={mode:select.value,revision:d.revision};buttons();};
+ select.dataset.unverified=String(unverified(select.value));
+ select.onchange=()=>{drafts[site+'|'+d.id]={mode:select.value,revision:d.revision};select.dataset.unverified=String(unverified(select.value));buttons();};
  const apply=document.createElement('button');apply.type='button';apply.className='routing-icon routing-apply';apply.dataset.device=d.id;apply.title='Apply route for '+d.label;apply.setAttribute('aria-label',apply.title);apply.innerHTML=applyIcon;apply.onclick=()=>action(d,select.value);
  const undo=document.createElement('button');undo.type='button';undo.className='routing-icon routing-undo';undo.dataset.device=d.id;undo.title='Restore previous route'+(d.rollback_mode?' · '+label(d.rollback_mode):'');undo.setAttribute('aria-label',undo.title);undo.innerHTML=undoIcon;undo.onclick=()=>action(d,'rollback');
  const actions=document.createElement('div');actions.className='routing-actions';actions.append(apply,undo);
@@ -143,7 +148,8 @@ async function refresh(){if(busy||reading||location.hash!=='#site-to-site')retur
   checkedAt=v.checked_at;success=complete&&!v.error&&Number.isFinite(checkedAt);if(!complete)failed=true;}
  catch(e){failed=true;by('routing-error').textContent='Status unavailable. Existing assignments are retained.';by('routing-channels').replaceChildren();}finally{endPoll(p,success,checkedAt);reading=false;buttons();}}
 async function action(d,mode){if(busy||reading||failed)return;
- if((mode.startsWith('sstp_')||mode==='rollback')&&!window.confirm(d.label+' · '+d.ip+' · '+(mode==='rollback'?'Restore '+label(d.rollback_mode):'Apply '+label(mode))+'?'))return;
+ const target=mode==='rollback'?d.rollback_mode:mode,warning=unverified(target);
+ if((warning||mode.startsWith('sstp_')||mode==='rollback')&&!window.confirm(d.label+' · '+d.ip+' · '+(mode==='rollback'?'Restore '+label(target):'Apply '+label(target))+'?'+(warning?'\\nTunnel availability is not confirmed. Connectivity may be lost. Apply anyway?':'')))return;
  busy=true;buttons();message(mode==='rollback'?'Restoring previous route…':'Applying route…');
  try{const r=await fetch('/routing-action',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},credentials:'same-origin',body:new URLSearchParams({csrf:token,site,device:d.id,mode,revision:d.revision}),signal:AbortSignal.timeout(240000)});
  if(!r.ok)throw Error('Request rejected');const v=await r.json();delete drafts[site+'|'+d.id];render(v);message(v.success?v.operation_message||'Change confirmed':v.operation_error||'Change not confirmed. Refresh status before retrying.',!v.success);}

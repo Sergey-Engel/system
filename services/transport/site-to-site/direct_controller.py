@@ -11,7 +11,7 @@ import managed
 import sstp_direct as policy
 from controller import write
 
-CONTROLLER_RELEASE = '3.1.0'
+CONTROLLER_RELEASE = '3.2.0'
 
 
 def configuration_hash(export, clients=(), owner=policy.OWNER):
@@ -159,6 +159,7 @@ class DirectController:
 
     def status(self):
         leases, errors, validated = {}, [], False
+        configuration_blocked = False
         tunnel_up = False
         try:
             c = self.connector(self.source)
@@ -172,10 +173,12 @@ class DirectController:
                     tunnel_up = False
                 cloud = access.get(c, '[/ip cloud get public-address]') if self.source == 'fethiye' else None
                 if cloud and cloud != self.config['endpoint']:
+                    configuration_blocked = True
                     errors.append('Public address changed; reviewed certificate renewal required')
             finally:
                 c.close()
         except (RuntimeError, ValueError, OSError, KeyError, TypeError):
+            configuration_blocked = True
             errors.append(self.source.title() + ' unavailable or configuration requires review')
         if validated:
             try:
@@ -194,17 +197,21 @@ class DirectController:
                     if self.remote == 'fethiye':
                         cloud = access.get(c, '[/ip cloud get public-address]')
                         if cloud and cloud != self.config['endpoint']:
+                            configuration_blocked = True
                             errors.append('Public address changed; reviewed certificate renewal required')
                 finally:
                     c.close()
             except access.RouterUnavailable as exc:
                 errors.append(self.remote.title() + ' management unavailable after connection retry (' + exc.reason + '); selection unchanged')
             except ValueError:
+                configuration_blocked = True
                 errors.append(self.remote.title() + ' configuration requires review')
             except (RuntimeError, OSError, KeyError, TypeError):
+                configuration_blocked = True
                 errors.append(self.remote.title() + ' management read or identity validation failed; selection unchanged')
         remaining = int((self.config['certificate_expires'] - time.time()) / 86400)
         if remaining <= 30:
+            configuration_blocked = True
             errors.append('Certificate renewal required: ' + str(remaining) + ' days remaining')
         devices, lookup = [], names.DeviceNames()
         for key in sorted(set(leases) | set(self.state['clients'])):
@@ -223,7 +230,9 @@ class DirectController:
         if pending:
             errors.append('Pending device operation; local internet may still be in use; remove after review')
         return dict(controller_release=CONTROLLER_RELEASE, direction=self.direction, source=self.source, destination=self.remote,
-                    available=validated and tunnel_up and not errors, can_remove=validated, revision=revision,
+                    available=validated and tunnel_up and not errors,
+                    apply_allowed=validated and not configuration_blocked and not pending,
+                    can_remove=validated, revision=revision,
                     checked_at=time.time(), tunnel=dict(state='unknown' if errors else 'up' if tunnel_up else 'down' if validated else 'unknown',
                         path='Direct SSTP', egress='unknown' if errors else 'route-ready' if tunnel_up and validated else 'blocked' if validated else 'unknown',
                         detail='TCP/443; no automatic fallback; certificate: ' + str(remaining) + ' days'),

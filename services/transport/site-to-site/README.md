@@ -129,7 +129,18 @@ reverse uses `/s2s-reverse-state` and `/s2s-reverse-action`. The UI never polls
 or switches real clients automatically. See the
 [reverse acceptance boundary](../../../docs/history/2026-10-19-sstp-reverse-egress.md).
 
-## Unified Device Routing (4.2.2)
+## Unified Device Routing (4.3.0)
+
+Facade4.3.0 separates `ready` (observed availability) from `apply_allowed`
+(configuration eligibility). Failed/missing probes allow explicit manual
+assignment with a red selected/current value and a connectivity warning.
+Confirmed source/remote configuration failures, changed identities, disabled
+features, stale revisions and pending-operation restrictions still block writes.
+Rollback to an unconfirmed previous route remains explicit and available.
+Successful assignment readback does not assert network availability: the result
+warns when the selected tunnel has not been verified. Direct status3.2.0 exposes
+the separate configuration eligibility; legacy Direct action guards are unchanged.
+No automatic refresh, failover, route repair or baseline adoption is added.
 
 Facade4.2.2 canonicalizes a warning-split RouterOS terse path/add pair before
 strict comparison. No live baseline is accepted or refreshed. Rule properties,
