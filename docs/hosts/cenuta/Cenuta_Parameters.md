@@ -25,6 +25,9 @@ source:
 WSTunnel и SSH active. Контрольные конфигурации, маршруты, peers и структура
 firewall до/после совпали. Копии до/после VERIFIED.
 [Отчет и границы проверки](<../../history/2026-10-24-cenuta-maintenance.md>).
+WSS reserve24 октября проверен по mTLS/WebSocket и UDP-доставке,
+без переключения рабочих WG peers;
+[протокол восстановления](<../../history/2026-10-24-cenuta-wss-recovery.md>).
 Ниже сохранен отдельно датированный исторический снимок 13 сентября.
 
 Снимок: live.json (source reference not migrated),

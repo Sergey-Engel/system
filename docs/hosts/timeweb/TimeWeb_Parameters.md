@@ -27,7 +27,10 @@ containerd2.4.2-3, Buildx0.38.1, Compose5.6.1 и исправление zlib.
 сохранены; runtime recovery восстановил WG/FLEX/BTH и SSTP split после
 перезапуска Docker. Проверенные копии до/после и границы приемки:
 [отчет обслуживания](<../../history/2026-10-24-timeweb-maintenance.md>).
-Старый отказ резервного WSS Cenuta не устранялся этим обновлением.
+Старый отказ резервного WSS Cenuta не устранялся обновлением пакетов.
+Позже24 октября WSS carrier проверен (mTLS, WebSocket, UDP), резервные
+клиенты подняты без переключения native endpoints;
+[приемка и ограничения](<../../history/2026-10-24-cenuta-wss-recovery.md>).
 
 21 октября установлен ручной split data plane2.0.0 поверх прежнего SSTP1.1.1:
 SSTP-Cenuta/SSTP-Fornex, controller4.0.0. BTH и управление остаются WG;
