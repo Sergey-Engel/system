@@ -4,7 +4,7 @@ topic: mikrotik
 system: timeweb
 status: active
 created: 2026-06-28
-updated: 2026-10-21
+updated: 2026-10-24
 provider: TimeWeb
 tags:
   - mikrotik
@@ -20,6 +20,14 @@ source:
 ---
 
 ## Подтвержденное состояние
+
+24 октября 2026 установлены 10 обновлений Ubuntu/Docker: Docker29.9.2,
+containerd2.4.2-3, Buildx0.38.1, Compose5.6.1 и исправление zlib.
+Без reboot; ядро6.8.0-147. Прежний контейнер, конфигурации и назначения
+сохранены; runtime recovery восстановил WG/FLEX/BTH и SSTP split после
+перезапуска Docker. Проверенные копии до/после и границы приемки:
+[отчет обслуживания](<../../history/2026-10-24-timeweb-maintenance.md>).
+Старый отказ резервного WSS Cenuta не устранялся этим обновлением.
 
 21 октября установлен ручной split data plane2.0.0 поверх прежнего SSTP1.1.1:
 SSTP-Cenuta/SSTP-Fornex, controller4.0.0. BTH и управление остаются WG;
