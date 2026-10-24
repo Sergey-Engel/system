@@ -4,7 +4,7 @@ topic: mikrotik
 system: cenuta
 status: active
 created: 2026-06-28
-updated: 2026-09-13
+updated: 2026-10-24
 provider: Cenuta
 tags:
   - mikrotik
@@ -19,6 +19,13 @@ source:
 ---
 
 ## Подтвержденное состояние
+
+24 октября 2026 установлены 14 обновлений Ubuntu 24.04.5 LTS, без
+перезагрузки (не требуется). Ядро `6.8.0-147-generic`; WireGuard, nftables,
+WSTunnel и SSH active. Контрольные конфигурации, маршруты, peers и структура
+firewall до/после совпали. Копии до/после VERIFIED.
+[Отчет и границы проверки](<../../history/2026-10-24-cenuta-maintenance.md>).
+Ниже сохранен отдельно датированный исторический снимок 13 сентября.
 
 Снимок: live.json (source reference not migrated),
 `hosts.cenuta`, 2026-09-13 14:45 UTC. Cenuta уже настроена как
